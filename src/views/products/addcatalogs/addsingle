@@ -1,0 +1,328 @@
+import React, { useState, useEffect } from 'react'
+import { Form, Button } from 'react-bootstrap'
+import Select from 'react-select'
+import { Container, Row, Col, Spinner } from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons'
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { CSpinner } from '@coreui/react'
+import { useNavigate } from 'react-router-dom'
+import { CFormInput,CFormTextarea } from '@coreui/react'
+import DropDown from '../productComponent/Dropdown'
+import config from 'src/config'
+import axios from 'axios'
+
+function AddSingleProduct() {
+  const [levelOneCategory, setLevelOneCategory] = useState('')
+  const [levelTwoCategory, setLevelTwoCategory] = useState('')
+  const [levelThreeCategory, setLevelThreeCategory] = useState('')
+  const [levelFourCategory, setLevelFourCategory] = useState('')
+  const [allCategories,setAllCategories] = useState([])
+
+  const token = localStorage.getItem('vendorToken')
+
+
+
+  useEffect(()=>{
+    Categories()
+  },[])
+
+
+  const Categories = async () =>{
+    try {
+      const response = await axios.get(`${config.baseURL}/admin/categories`,{
+        headers: {
+          authorization: token,
+        }
+      })
+      console.log('Categories',response.data)
+      setAllCategories(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const vehicles = [
+    {
+      category: 'Fourwheeler',
+      subcategories: [
+        {
+          name: 'Car',
+          subsubcategories: [{ name: 'SUV' }, { name: 'Sedan' }],
+        },
+        {
+          name: 'Truck',
+          subsubcategories: [{ name: 'Pickup' }, { name: 'Semi-truck' }],
+        },
+      ],
+    },
+    {
+      category: 'Twowheeler',
+      subcategories: [
+        { name: 'Bike', subsubcategories: [{ name: 'Sports Bike' }, { name: 'Cruiser' }] },
+        {
+          name: 'Scooter',
+          subsubcategories: [{ name: 'Electric Scooter' }, { name: 'Gas Scooter' }],
+        },
+      ],
+    },
+    {
+      category: 'Other',
+      subcategories: [
+        { name: 'Boat', subsubcategories: [{ name: 'Speedboat' }, { name: 'Sailboat' }] },
+        { name: 'Plane', subsubcategories: [{ name: 'Jet' }, { name: 'Propeller' }] },
+      ],
+    },
+  ]
+
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
+  //image set code
+  const [images, setImages] = useState([])
+  const handleFileUpload = (e) => {
+    const uploadedImages = Array.from(e.target.files)
+    setImages((prevImages) => [...prevImages, ...uploadedImages])
+  }
+
+  const handleImageDelete = (index) => {
+    setImages((prevImages) => prevImages.filter((image, i) => i !== index))
+  }
+
+  /****************** //image set code end***************** */
+  const categories = vehicles.map((vehicle) => vehicle.category)
+  const subcategories =
+    vehicles
+      .find((vehicle) => vehicle.category === levelOneCategory)
+      ?.subcategories.map((subcategory) => subcategory.name) || []
+      console.log('subcategories',subcategories)
+  const subsubcategories =
+    vehicles
+      .find((vehicle) => vehicle.category === levelOneCategory)
+      ?.subcategories.find((subcategory) => subcategory.name === levelTwoCategory)
+      ?.subsubcategories.map((subsubcategory) => subsubcategory.name) || []
+      console.log('subsubcategories',subsubcategories)
+
+  const handleCategoryChange = (category) => {
+    setLevelOneCategory(category)
+    setLevelTwoCategory('')
+    setLevelThreeCategory('')
+  }
+
+  const handleSubcategoryChange = (subcategory) => {
+    setLevelTwoCategory(subcategory)
+    setLevelThreeCategory('')
+  }
+
+  const handleSubsubcategoryChange = (subsubcategory) => {
+    setLevelThreeCategory(subsubcategory)
+  }
+
+  const handleSubmit = async () => {
+    setLoading(true)
+    try {
+      const response = await axios.post(
+        `${config.baseURL}/vendor/catalog`,
+        {
+          name: 'Sample Catalog',
+          levelOneCategory_id: '65dc7730f99d505da75201f8',
+          levelTwoCategory_id: '65dc7730f99d505da75201f8',
+          levelThreeCategory_id: '65dc7730f99d505da75201f8',
+          levelFourCategory_id: '65dc7730f99d505da75201f8',
+          full_details: 'Sample details of the catalog',
+          image: 'sample-image-url',
+          product_id: '65dd7a1573f60f44752155dd',
+          vendor_id: '65d4859fca3eb9522c116037',
+        },
+        {
+          headers: {
+            authorization: token,
+          },
+        },
+      )
+      console.log(response.data)
+      setLoading(false)
+      // toast.success('Product added successfully');
+      navigate('/products/all') ///add/single/product
+    } catch (error) {
+      console.error('Error while adding product:', error)
+      setLoading(false)
+      // toast.error('Error while adding product');
+    }
+  }
+
+  return (
+    <Container>
+      <Row>
+        <Col>
+          {/* <Form> */}
+          <Form.Group>
+            <Form.Label className='font-bold' >Select Catalog :</Form.Label>
+            <DropDown
+              label={'Select Level one Id'}
+              optionsData={categories}
+              value={levelOneCategory}
+              onChange={handleCategoryChange}
+            />
+            <div className='mt-2'>
+            {levelOneCategory && (
+              <DropDown
+                label={'Select Level Two Id'}
+                optionsData={subcategories}
+                value={levelTwoCategory}
+                onChange={handleSubcategoryChange}
+              />
+            )}
+            </div>
+            <div className='mt-2'>
+            {levelTwoCategory && (
+              <DropDown
+                label={'Select Level Three Id'}
+                optionsData={subsubcategories}
+                value={levelThreeCategory}
+                onChange={handleSubsubcategoryChange}
+              />
+            )}
+            </div>
+            {/* Image */}
+            {levelThreeCategory && (
+              <div className="file-upload mt-3 d-flex justify-content-center axlign-items-center">
+                <Container>
+                  <Row className="justify-content-center">
+                    <Col md={8}>
+                      <Form.Label className="text-center mb-3">Upload a file:</Form.Label>
+                      <div className="input-group">
+                        <div className="border p-3 ">
+                          <div className="text-center">
+                            <FontAwesomeIcon icon={faCloudUploadAlt} size="4x" />
+                          </div>
+                          <div className="text-center my-3">
+                            <label htmlFor="file-upload" className="btn btn-primary">
+                              Choose File
+                            </label>
+                            <input
+                              id="file-upload"
+                              type="file"
+                              multiple
+                              onChange={handleFileUpload}
+                              style={{ display: 'none' }}
+                            />
+                          </div>
+                          {images.length > 0 && (
+                            <div>
+                              <h5 className="text-center">Uploaded Images:</h5>
+                              <Row>
+                                {images.map((image, index) => (
+                                  <Col key={index} md={3} sm={6} className="mb-3">
+                                    <div className="position-relative">
+                                      <button
+                                        className="btn btn-danger btn-sm position-absolute top-0 end-0 m-1"
+                                        onClick={() => handleImageDelete(index)}
+                                      >
+                                        <FontAwesomeIcon icon={faTimesCircle} />
+                                      </button>
+                                      <img
+                                        src={URL.createObjectURL(image)}
+                                        alt={`Uploaded ${index}`}
+                                        className="img-fluid"
+                                      />
+                                    </div>
+                                  </Col>
+                                ))}
+                              </Row>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </Col>
+                  </Row>
+                </Container>
+              </div>
+            )}
+            <div className="mt-7">
+              <div className="d-flex justify-evenly">
+                <div className="d-inline-block mb-3">
+                  <span style={{ display: 'block' }}>
+                    Title<span style={{ color: 'red' }}>*</span>
+                  </span>
+                  <CFormInput style={{ width: '350px' }} type="text" />
+                </div>
+                <div className="inline-block">
+                  <span className="block">
+                    Description<span className="text-red-500">*</span>
+                  </span>
+                  <CFormTextarea className="w-64 h-24 px-3 py-2 border border-gray-300 rounded" />
+                </div>
+              </div>
+            </div>
+            {loading ? (
+              <div className="mt-5">
+                <Button onClick={handleSubmit} disabled>
+                  Submit
+                </Button>{' '}
+                {/* <CSpinner className="mt-5" type="border" color="primary" /> */}
+              </div>
+            ) : (
+              <div className="mt-5">
+                <Button className="text-blue-500" onClick={handleSubmit}>
+                  Submit
+                </Button>
+              </div>
+            )}
+          </Form.Group>
+          {/* </Form> */}
+        </Col>
+      </Row>
+    </Container>
+  )
+}
+
+export default AddSingleProduct
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+useEffect(()=>{
+  Categories()
+},[])
+
+
+const Categories = async () =>{
+  try {
+    const response = await axios.get(`${config.baseURL}/admin/categories`,{
+      headers: {
+        authorization: token,
+      }
+    })
+    console.log('Categories',response.data)
+    setAllCategories(response.data)
+  } catch (error) {
+    console.log(error)
+  }
+}
