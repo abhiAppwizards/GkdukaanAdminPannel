@@ -10,16 +10,19 @@ import MultiSelectorProductDropdown from './MultiSelectorProductDropdown'
 function Home() {
   const [loading, setLoading] = useState(false)
   const [sections, setSections] = useState([])
-  const [selectedData, setSelectedData] = useState([])
-  const [selectedProData, setSelectedProData] = useState([])
-  const [uploadedFileId, setUploadedFileId] = useState(null); // State to store fileId
+  const [topSlider, setTopSlider] = useState([{}])
+  const [topBanner, setTopBanner] = useState([{}])
+  const [categorySliderId, setCategorySliderId] = useState([{}])
+  const [secondBanner, setSecondBanner] = useState([{}])
 
+  const [uploadedFileIds, setUploadedFileIds] = useState([])
+  const [selectedProData, setSelectedProData] = useState([])
 
   const token = localStorage.getItem('adminToken')
 
   const handleSelectedDataChange = (selectedData) => {
-    setSelectedData(selectedData)
-    console.log('data',selectedData)
+    setCategorySliderId(selectedData)
+    console.log('data', selectedData)
   }
 
   const handleSelectedProductDataChange = (selectedData) => {
@@ -27,9 +30,9 @@ function Home() {
   }
 
   const handleFileUpload = (fileId) => {
-    setUploadedFileId(fileId); // Store fileId in state
-    console.log('File uploaded home. File ID:', fileId);
-  };
+    setUploadedFileIds(fileId) 
+    // console.log('File uploaded home. File ID:', fileId)
+  }
 
   const handleAddSection = (e) => {
     e.preventDefault()
@@ -48,18 +51,80 @@ function Home() {
     setSections(updatedSections)
   }
 
+  const handleTopSliderInputChange = (index, event) => {
+    const { name, value } = event.target
+    const updatedTopSlider = [...topSlider]
+    if (!updatedTopSlider[index]) {
+      updatedTopSlider[index] = {}
+    }
+    updatedTopSlider[index][name] = value
+    setTopSlider(updatedTopSlider)
+  }
+
+  const handleTopBannerInputChange = (index, event) => {
+    const { name, value } = event.target
+    const updatedTopBanner = [...topBanner]
+    if (!updatedTopBanner[index]) {
+      updatedTopBanner[index] = {}
+    }
+    updatedTopBanner[index][name] = value
+    setTopBanner(updatedTopBanner)
+  }
+
+  const handleSecondBanner = (index, event) =>{
+    const {name, value} = event.target
+    const updatedSecondBanner = [...secondBanner]
+    if(!updatedSecondBanner[index]){
+      updatedSecondBanner[index] = {}
+    }
+    updatedSecondBanner[index][name] = value;
+    setSecondBanner(updatedSecondBanner)
+  }
 
   const handleSubmit = async (event) => {
+    event.preventDefault()
+    setLoading(true)
     try {
-      const response = await axios.post(`${config.baseURL}/admin/home`, {
-        headers: {
-          authoriazation: token,
+      const formattedTopSlider = topSlider.map((item, index) => ({
+        title: item.title,
+        link: item.link,
+        media_id: uploadedFileIds, 
+      }))
+      const formattedTopBanner = topBanner.map((item, index) => ({
+        title: item.title,
+        link: item.link,
+        media_id: uploadedFileIds, 
+      }))
+      const formattedSecondBanner = secondBanner.map((item, index) => ({
+        title: item.title,
+        link: item.link,
+        media_id: uploadedFileIds, 
+      }))
+      const formattedTopProducts = sections.map((item, index) => ({
+        section_name: item.sectionName,
+        products: selectedProData,
+        url: item.link, 
+      }))
+
+      const response = await axios.post(
+        `${config.baseURL}/admin/home`,
+        {
+          top_slider: formattedTopSlider,
+          top_banner: formattedTopBanner,
+          categories_slider: categorySliderId,
+          second_banner: formattedSecondBanner, 
+          top_products : formattedTopProducts
         },
-      })
+        {
+          headers: {
+            authorization: token,
+          },
+        },
+      )
+      // console.log('top_slider', response)
       toast.success('Home Data Uploaded Successfully')
       setLoading(false)
     } catch (error) {
-      // console.error(error)
       toast.error(error.message)
       setLoading(false)
     }
@@ -73,38 +138,50 @@ function Home() {
           <h2 className=" relative text-lg font-semibold text-heading ">Top Slider Section</h2>
           <div className="mt-8 flex justify-evenly items-center">
             <h1 className="font-semibold">Image 1</h1>
-            <ImgComponent onFileUpload={handleFileUpload} name="image1" />
+            <ImgComponent onFileUpload={(fileId) => handleFileUpload(fileId, 0)} name="image1" />
             <input
               placeholder="Title"
+              onChange={(e) => handleTopSliderInputChange(0, e)}
               className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              name="title"
             />
             <input
               placeholder="Your Link"
+              onChange={(e) => handleTopSliderInputChange(0, e)}
               className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              name="link"
             />
           </div>
           <div className="mt-8 flex justify-evenly items-center">
             <h1 className="font-semibold">Image 2</h1>
-            <ImgComponent onFileUpload={handleFileUpload} name="image2" />
+            <ImgComponent onFileUpload={(fileId) => handleFileUpload(fileId, 1)} name="image2" />
             <input
               placeholder="Title"
+              onChange={(e) => handleTopSliderInputChange(1, e)}
               className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              name="title"
             />
             <input
               placeholder="Your Link"
+              onChange={(e) => handleTopSliderInputChange(1, e)}
               className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              name="link"
             />
           </div>
           <div className="mt-8 flex justify-evenly items-center">
             <h1 className="font-semibold">Image 3</h1>
-            <ImgComponent onFileUpload={handleFileUpload} name="image3" />
+            <ImgComponent onFileUpload={(fileId) => handleFileUpload(fileId, 2)} name="image3" />
             <input
               placeholder="Title"
+              onChange={(e) => handleTopSliderInputChange(2, e)}
               className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              name="title"
             />
             <input
               placeholder="Your Link"
+              onChange={(e) => handleTopSliderInputChange(2, e)}
               className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              name="link"
             />
           </div>
         </div>
@@ -116,11 +193,15 @@ function Home() {
             <ImgComponent onFileUpload={handleFileUpload} name="image1" />
             <input
               placeholder="Title"
+              onChange={(e) => handleTopBannerInputChange(0, e)}
               className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              name="title"
             />
             <input
               placeholder="Your Link"
+              onChange={(e) => handleTopBannerInputChange(0, e)}
               className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              name="link"
             />
           </div>
           <div className="mt-8 flex justify-evenly items-center">
@@ -128,10 +209,14 @@ function Home() {
             <ImgComponent onFileUpload={handleFileUpload} name="image2" />
             <input
               placeholder="Title"
+              onChange={(e) => handleTopBannerInputChange(1, e)}
               className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              name="title"
             />
             <input
               placeholder="Your Link"
+              onChange={(e) => handleTopBannerInputChange(1, e)}
+              name="link"
               className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
             />
           </div>
@@ -140,10 +225,14 @@ function Home() {
             <ImgComponent onFileUpload={handleFileUpload} name="image3" />
             <input
               placeholder="Title"
+              onChange={(e) => handleTopBannerInputChange(2, e)}
+              name="title"
               className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
             />
             <input
               placeholder="Your Link"
+              onChange={(e) => handleTopBannerInputChange(2, e)}
+              name="link"
               className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
             />
           </div>
@@ -163,10 +252,14 @@ function Home() {
             <ImgComponent onFileUpload={handleFileUpload} name="image1" />
             <input
               placeholder="Title"
+              onChange={(e) => handleSecondBanner(0, e)}
+              name='title'
               className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
             />
             <input
               placeholder="Your Link"
+              onChange={(e) => handleSecondBanner(0, e)}
+              name='link'
               className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
             />
           </div>
@@ -175,10 +268,14 @@ function Home() {
             <ImgComponent onFileUpload={handleFileUpload} name="image2" />
             <input
               placeholder="Title"
+              onChange={(e) => handleSecondBanner(1, e)}
+              name='title'
               className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
             />
             <input
               placeholder="Your Link"
+              onChange={(e) => handleSecondBanner(1, e)}
+              name='link'
               className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
             />
           </div>
@@ -187,10 +284,14 @@ function Home() {
             <ImgComponent onFileUpload={handleFileUpload} name="image3" />
             <input
               placeholder="Title"
+              onChange={(e) => handleSecondBanner(2, e)}
+              name='title'
               className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
             />
             <input
               placeholder="Your Link"
+              onChange={(e) => handleSecondBanner(2, e)}
+              name='link'
               className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
             />
           </div>

@@ -7,7 +7,7 @@ import axios from 'axios';
 
 function MultiSelectorDropdown({ onSelectData }) {
   const [options, setOptions] = useState([]);
-  const [selectedIds, setSelectedIds] = useState([]);
+  const [selectedIds, setSelectedIds] = useState([{}]);
   const token = localStorage.getItem('adminToken');
 
   useEffect(() => {
