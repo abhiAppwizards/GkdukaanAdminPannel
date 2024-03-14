@@ -35,14 +35,12 @@ const Register = () => {
   };
 
   const handleRegister = () => {
-    // You can add validation logic here
     setError(null)
     if (password !== repeatPassword) {
       setError('Passwords do not match');
     } else if (!isValidEmail(email)) {
-      setError('Invalid email address');
+      setError('Please Feel all the Fields');
     } else {
-      // Assuming the API endpoint for vendor registration is 'http://localhost:3000/vendors/auth/signup'
       fetch(`${config.baseURL}/admin/auth/signup`, {
         method: 'POST',
         headers: {
@@ -57,15 +55,13 @@ const Register = () => {
       })
         .then(async (response) => {
           const data = await response.json();
-          if (data.success === false) {
+          if (data.success != 201) {
             throw new Error(data.message || 'Registration failed. Please check your details and try again.');
           }
 
           return data;
         })
         .then((data) => {
-          // Handle the response from the server
-          console.log('submitted data',data) 
           navigate('/dashboard');
         })
         .catch((error) => {
@@ -84,7 +80,7 @@ const Register = () => {
                 <CCardBody className="p-4">
                   <CForm>
                     <h1>Register</h1>
-                    <p className="text-body-secondary">Vendor - Create your account</p>
+                    <p className="text-body-secondary">Admin - Create your account</p>
                     {error && (
                       <div className="alert alert-danger" role="alert">
                         {error}
@@ -111,7 +107,7 @@ const Register = () => {
                       />
                     </CInputGroup>
                     <CInputGroup className="mb-3">
-                      <CInputGroupText>@</CInputGroupText>
+                      <CInputGroupText>#</CInputGroupText>
                       <CFormInput
                         placeholder="Phone Number"
                         autoComplete="phoneNumber"
@@ -137,7 +133,7 @@ const Register = () => {
                       </CInputGroupText>
                       <CFormInput
                         type="password"
-                        placeholder="Repeat password"
+                        placeholder="Confirm password"
                         autoComplete="new-password"
                         value={repeatPassword}
                         onChange={(e) => setRepeatPassword(e.target.value)}
