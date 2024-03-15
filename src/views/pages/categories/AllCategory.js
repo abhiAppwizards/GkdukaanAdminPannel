@@ -10,7 +10,7 @@ const AllCategory = () => {
   const [categories, setCategories] = useState([])
   const [selectedcategoryId, setSelectedCategoryId] = useState(null)
   const [isVendorViewOpen, setIsVendorViewOpen] = useState(false)
-  const [show,setShow] = useState(false)
+  const [show, setShow] = useState(false)
 
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [editingId, setEditingId] = useState(null)
@@ -40,15 +40,14 @@ const AllCategory = () => {
     setShow(!show)
   }
 
-  const handleDelete = async(id) =>{
-    await axios.delete(`${config.baseURL}/admin/categories/${id}`,{
-      headers:{
-        authorization:token
-      }
+  const handleDelete = async (id) => {
+    await axios.delete(`${config.baseURL}/admin/categories/${id}`, {
+      headers: {
+        authorization: token,
+      },
     })
     fetchCategories()
   }
-
 
   const handleEdit = (id) => {
     setEditingId(id)
@@ -59,7 +58,7 @@ const AllCategory = () => {
     setIsPopupOpen(false)
   }
 
-  const renderCategories = (categories) => {
+  const renderCategories = (categories, parentTitle = '', depth = 0) => {
     return categories.map((category) => (
       <React.Fragment key={category._id}>
         <tr>
@@ -69,7 +68,7 @@ const AllCategory = () => {
           >
             {category._id}
           </th>
-          <td className="px-6 py-4 text-center">{category.title}</td>
+          <td className="px-6 py-4 text-center">{parentTitle ? Array(depth * 2).fill('-').join('') : ''} {category.title}</td>
           <td className="px-6 py-4 text-center">{category.path}</td>
           <td className="rc-table-cell" style={{ textAlign: 'center' }}>
             <div className="inline-flex items-center w-auto gap-3">
@@ -131,7 +130,7 @@ const AllCategory = () => {
             </div>
           </td>
         </tr>
-        {category.children && category.children.length > 0 && renderCategories(category.children)}
+        {category.children && category.children.length > 0 && renderCategories(category.children, parentTitle ? parentTitle : category.title, depth + 1)}
       </React.Fragment>
     ))
   }
@@ -197,9 +196,8 @@ const AllCategory = () => {
         </div>
       </div>
 
-      {
-        show && (<AddCategory />)
-      }
+      {show && <AddCategory />}
+      
       <div className="mb-8 rounded-lg bg-white bg-light -3 md:p-8">
         <h1 className="font-bold text-xl mb-4"> Your All categories:-</h1>
         <div className="relative overflow-x-auto">
