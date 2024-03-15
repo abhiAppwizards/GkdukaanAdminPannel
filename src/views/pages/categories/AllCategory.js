@@ -3,12 +3,14 @@ import config from 'src/config'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import PopupBox from '../attributes/Popup'
+import AddCategory from './AddCategory'
 
 const AllCategory = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [categories, setCategories] = useState([])
   const [selectedcategoryId, setSelectedCategoryId] = useState(null)
   const [isVendorViewOpen, setIsVendorViewOpen] = useState(false)
+  const [show,setShow] = useState(false)
 
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [editingId, setEditingId] = useState(null)
@@ -32,6 +34,10 @@ const AllCategory = () => {
     } catch (error) {
       console.log(error)
     }
+  }
+
+  const handleShow = () => {
+    setShow(!show)
   }
 
   const handleDelete = async(id) =>{
@@ -179,9 +185,21 @@ const AllCategory = () => {
     <div className="">
       <div className="rounded bg-white p-4 shadow md:p-8 mb-8 flex flex-row items-center justify-between">
         <div className="md:w-1/4">
-          <h2 className=" relative text-lg font-semibold text-heading ">All categories</h2>
+          <h2 className=" relative text-lg font-semibold text-heading ">All Categories</h2>
+        </div>
+        <div>
+          <button
+            onClick={handleShow}
+            className="border p-2 rounded-md bg-slate-200 hover:bg-slate-100 font-normal"
+          >
+            Add Category
+          </button>
         </div>
       </div>
+
+      {
+        show && (<AddCategory />)
+      }
       <div className="mb-8 rounded-lg bg-white bg-light -3 md:p-8">
         <h1 className="font-bold text-xl mb-4"> Your All categories:-</h1>
         <div className="relative overflow-x-auto">

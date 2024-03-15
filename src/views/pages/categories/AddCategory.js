@@ -7,7 +7,7 @@ import config from 'src/config'
 import axios from 'axios'
 
 function AddCategory() {
-  const [show, setShow] = useState(false)
+  // const [show, setShow] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [formData, setFormData] = useState({
     title: '',
@@ -19,9 +19,9 @@ function AddCategory() {
   const [categories, setCategories] = useState([])
   const token = localStorage.getItem('adminToken')
 
-  const handleShow = () => {
-    setShow(!show)
-  }
+  // const handleShow = () => {
+  //   setShow(!show)
+  // }
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -123,8 +123,8 @@ function AddCategory() {
   return (
     <>
       <div>
-        <ToastContainer />
-        <div className="rounded bg-white p-3 shadow md:p-8 mb-8 flex flex-row items-center justify-between">
+         <ToastContainer />
+        {/*<div className="rounded bg-white p-3 shadow md:p-8 mb-8 flex flex-row items-center justify-between">
           <div className="md:w-1/4">
             <h2 className="relative text-lg font-semibold text-heading">Add Categories</h2>
           </div>
@@ -133,9 +133,9 @@ function AddCategory() {
               Add Category
             </Button>
           </div>
-        </div>
+        </div> */}
 
-        {show && (
+        {/* {show && ( */}
           <div className="rounded p-4 shadow md:p-8 mb-8 bg-white justify-between">
             <div className="border w-full mt-4 p-2 rounded-md">
               <table className="table-auto">
@@ -215,7 +215,7 @@ function AddCategory() {
               {loading ? 'Submitting...' : 'Submit'}
             </button>
           </div>
-        )}
+        {/* )} */}
       </div>
     </>
   )
