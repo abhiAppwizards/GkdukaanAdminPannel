@@ -26,7 +26,7 @@ const getAllOrders = async() =>{
         "authorization": token
       }
     })
-    // console.log('All Orders get Response',response.data)
+    console.log('All Orders get Response',response.data)
     setOrdersData(response.data)
   } catch (error) {
     console.log('error',error)
@@ -155,7 +155,7 @@ const getAllOrders = async() =>{
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-6 py-3 text-center">
-                  Tracking Number
+                  Vendor Store Name
                 </th>
                 <th scope="col" className="px-6 py-3 text-center">
                   Paid/Unpaid
@@ -184,7 +184,7 @@ const getAllOrders = async() =>{
                     scope="row"
                     className="px-6 text-center py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                   >
-                    {product._id}
+                    {product && product.vendor_ids?.map((Vendor) => Vendor.store_name)}
                   </th>
                   <td className="px-6 py-4 text-center">{product.paid ? 'Paid': 'Unpaid'}</td>
                   <td className="px-6 py-4 text-center">{product.payment_method}</td>
