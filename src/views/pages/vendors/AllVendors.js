@@ -110,7 +110,7 @@ const AllVendors = ({}) => {
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-6 py-3 text-center">
-                  Vendors IDs
+                  Store Name
                 </th>
                 <th scope="col" className="px-6 py-3 text-center">
                   Account Status
@@ -120,9 +120,6 @@ const AllVendors = ({}) => {
                 </th>
                 <th scope="col" className="px-6 py-3 text-center">
                   Phone Number
-                </th>
-                <th scope="col" className="px-6 py-3 text-center">
-                  Store Name
                 </th>
                 <th scope="col" className="px-6 py-3 text-center">
                   Action
@@ -139,7 +136,7 @@ const AllVendors = ({}) => {
                     scope="row"
                     className="px-6 text-center py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                   >
-                    {vendor._id}
+                    {vendor.store_name}
                   </th>
                   <td className="text-center">
                     <div className="flex justify-center items-center rtl:space-x-reverse">
@@ -150,7 +147,6 @@ const AllVendors = ({}) => {
                   </td>
                   <td className="px-6 py-4 text-center">{vendor.email}</td>
                   <td className="px-6 py-4 text-center">{vendor.phoneNumber}</td>
-                  <td className="px-6 py-4 text-center">{vendor.store_name}</td>
                   <td className="rc-table-cell" style={{ textAlign: 'center' }}>
                     <div className="inline-flex items-center w-auto gap-3">
                       <button

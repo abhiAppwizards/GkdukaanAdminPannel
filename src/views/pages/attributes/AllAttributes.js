@@ -52,7 +52,7 @@ const AllAttributes = () => {
       })
 
       setCategories(response.data)
-      console.log('categories', response.data)
+      // console.log('categories', response.data)
     } catch (error) {
       console.log(error)
     }
@@ -66,7 +66,7 @@ const AllAttributes = () => {
         },
       })
       setAttributes(response.data)
-      // console.log('attributes',response.data)
+      console.log('attributes',response.data)
     } catch (error) {
       console.log(error)
     }
@@ -336,7 +336,7 @@ const AllAttributes = () => {
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-6 py-3 text-center">
-                  attributes IDs
+                  category ids
                 </th>
                 <th scope="col" className="px-6 py-3 text-center">
                   Attribute Name
@@ -359,7 +359,7 @@ const AllAttributes = () => {
                     scope="row"
                     className="px-6 text-center py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                   >
-                    {attribute._id}
+                    {attribute.categories_id[0]}
                   </th>
                   {/* <td className="text-center">
                     <div className="flex justify-center items-center rtl:space-x-reverse">
