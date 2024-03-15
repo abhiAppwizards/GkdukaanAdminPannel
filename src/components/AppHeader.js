@@ -74,9 +74,6 @@ const AppHeader = () => {
             <CNavLink className='cursor-pointer' onClick={handleLogout}>Logout</CNavLink>
           </CNavItem>
         </CHeaderNav>
-        <CHeaderNav className="ms-3">
-          <AppHeaderDropdown />
-        </CHeaderNav>
       </CContainer>
       <CHeaderDivider />
       <CContainer fluid>

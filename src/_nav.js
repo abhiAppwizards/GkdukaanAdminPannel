@@ -135,6 +135,12 @@ const _nav = [
   },
   {
     component: CNavItem,
+    name: 'Vendor Payments',
+    to: '/vendorpayments',
+    icon: <CIcon icon={cilCreditCard} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
     name: 'Notice',
     to: '/notice',
     icon: <CIcon icon={cilBell} customClassName="nav-icon" />,

@@ -42,12 +42,12 @@ const VendorView = React.lazy(()=> import('./views/pages/vendors/vendorView'))
 //Attributes
 const AllAttributes = React.lazy(() => import('./views/pages/attributes/AllAttributes'))
 
-//Support
-
 //rto
 const RtoOrders = React.lazy(() => import('./views/pages/rtoorders/RtoOrders'))
 //Payments
 const Payments = React.lazy(() => import('./views/pages/Payments/Payments'))
+//vendor Payments
+const VendorPayments = React.lazy(() => import('./views/pages/vendors/VendorPayment'))
 //Notice
 const Notice = React.lazy(() => import('./views/pages/notice/Notice'))
 //Settings
@@ -95,6 +95,8 @@ const routes = [
   {path: '/vendors/all/:id', name: 'vendor', element: VendorView},
   //Payments
   { path: '/payments', name: 'Payments', element: Payments },
+  //vendor Payments
+  { path: '/vendorpayments', name: 'Vendor Payments', element: VendorPayments },
   //Notice
   { path: '/notice', name: 'Notice', element: Notice },
   //Settings
