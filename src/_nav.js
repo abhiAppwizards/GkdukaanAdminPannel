@@ -151,24 +151,7 @@ const _nav = [
     to: '/support',
     icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
   },
-  {
-    component: CNavGroup,
-    name: 'Details',
-    to: '/details',
-    icon: <CIcon icon={cilFile} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'Bank Details',
-        to: '/details/bankdetails',
-      },
-      {
-        component: CNavItem,
-        name: 'Address',
-        to: '/details/address',
-      },
-    ],
-  },
+  
   // {
   //   component: CNavGroup,
   //   name: 'Pages',

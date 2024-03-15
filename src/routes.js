@@ -12,10 +12,6 @@ const Cancelled = React.lazy(() => import('./views/pages/orders/OrderCancelled')
 const AllOrders = React.lazy(() => import('./views/pages/orders/AllOrders'))
 const View = React.lazy(() => import('./views/pages/orders/View'))
 
-//Details
-const Address = React.lazy(() => import('./views/pages/details/adddress/Address'))
-const EditAddress = React.lazy(() => import('./views/pages/details/adddress/EditAddress'))
-const BankDetails = React.lazy(() => import('./views/pages/details/BankDetails'))
 
 //Verification
 const Verification = React.lazy(()=> import('./views/pages/verification/Verification'))
@@ -90,9 +86,6 @@ const routes = [
   { path: '/categories/all', name: 'All', element: AllCategories },
   { path: '/categories/add', name: 'Add', element: AddCategories },
   //Details
-  { path: '/details', name: 'details', element: Cards, exact: true },
-  { path: '/details/bankdetails', name: 'Bank Details', element: BankDetails },
-  { path: '/details/address', name: 'Address Details', element: Address },
   { path: '/categories/add', name: 'Add', element: AddCategories },
   //rto
   { path: '/rtoorders', name: 'Rto Orders', element: RtoOrders },
