@@ -76,6 +76,14 @@ function AddCategory() {
       )
 
       toast.success('Form submitted successfully')
+      AllCategory()
+      // Reset form fields after successful submission
+      setFormData({
+        title: '',
+        description: '',
+        image: '',
+        parentId: '',
+      })
     } catch (error) {
       toast.error('Failed to submit form')
       console.error(error)

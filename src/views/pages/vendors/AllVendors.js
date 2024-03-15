@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import config from 'src/config'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
 import VendorView from './vendorView'
 import VendorPopup from './vendorPopup'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const AllVendors = ({}) => {
   const [currentPage, setCurrentPage] = useState(1)
   const [vendors, setVendores] = useState([])
   const [selectedVendorId, setSelectedVendorId] = useState(null)
   const [isVendorViewOpen, setIsVendorViewOpen] = useState(false)
-  
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [editingId, setEditingId] = useState(null);
+  const [toastMessage, setToastMessage] = useState('')
+  const [isPopupOpen, setIsPopupOpen] = useState(false)
+  const [editingId, setEditingId] = useState(null)
   const vendorsPerPage = 10
 
   useEffect(() => {
@@ -30,16 +31,19 @@ const AllVendors = ({}) => {
   }
 
   const handleEdit = (id) => {
-    setEditingId(id);
-    setIsPopupOpen(true);
-  };
-  const handleClosePopup = () => {
-    setIsPopupOpen(false);
-  };
+    setEditingId(id)
+    setIsPopupOpen(true)
+  }
 
-  const handleIconClick = (vendorId) => {
-    setSelectedVendorId(vendorId)
-    setIsVendorViewOpen(true)
+  const handleToast = (message) => {
+    setToastMessage(message)
+    setTimeout(() => {
+      setToastMessage('')
+    }, 1500)
+  }
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false)
   }
 
   const totalPages = Math.ceil(vendors.length / vendorsPerPage)
@@ -89,13 +93,18 @@ const AllVendors = ({}) => {
 
   return (
     <div className="">
+      <ToastContainer />
       <div className="rounded bg-white p-4 shadow md:p-8 mb-8 flex flex-row items-center justify-between">
         <div className="md:w-1/4">
           <h2 className=" relative text-lg font-semibold text-heading ">All Vendors</h2>
         </div>
       </div>
       <div className="mb-8 rounded-lg bg-white bg-light -3 md:p-8">
-        <h1 className="font-bold text-xl mb-4"> Your All Vendors:-</h1>
+        <div className='flex justify-between'>
+          <h1 className="font-bold text-xl mb-4"> Your All Vendors:-</h1>
+          {toastMessage && <div className='px-3 rounded-full bg-green-500 text-white mb-3 border flex items-center justify-center'>{toastMessage}</div>}
+
+        </div>
         <div className="relative overflow-x-auto">
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -206,7 +215,14 @@ const AllVendors = ({}) => {
           </button>
         </div>
       </div>
-      {isPopupOpen && <VendorPopup onClose={handleClosePopup} editingId={editingId} onCall={AllVendors} />}
+      {isPopupOpen && (
+        <VendorPopup
+          onClose={handleClosePopup}
+          editingId={editingId}
+          onCall={AllVendors}
+          onToast={handleToast}
+        />
+      )}
     </div>
   )
 }

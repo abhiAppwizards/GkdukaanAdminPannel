@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import {
   CButton,
   CCard,
@@ -11,22 +11,26 @@ import {
   CInputGroupText,
   CRow,
   CCardGroup,
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { Link } from 'react-router-dom'
-import { cilLockLocked, cilUser } from '@coreui/icons'
-import { useNavigate } from 'react-router-dom'
-import config from 'src/config'
+} from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { Link } from 'react-router-dom';
+import { cilLockLocked, cilUser } from '@coreui/icons';
+import { useNavigate } from 'react-router-dom';
+import config from 'src/config';
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 
 const Register = () => {
   const navigate = useNavigate();
-  const [admin, setAdmin] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [repeatPassword, setRepeatPassword] = useState('')
-  const [phoneNumber, setPhoneNumbet] = useState('')
-  const [error, setError] = useState(null)
+  const [admin, setAdmin] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading,setLoading] = useState(false);
+  const [repeatPassword, setRepeatPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const isValidEmail = (value) => {
     // Simple email validation using a regular expression
@@ -35,11 +39,23 @@ const Register = () => {
   };
 
   const handleRegister = () => {
-    setError(null)
+    setLoading(true);
+    setError(null);
+  
+    if (
+      !admin.trim() ||
+      !email.trim() ||
+      !password.trim() ||
+      !repeatPassword.trim() ||
+      !phoneNumber.trim()
+    ) {
+      setError('Please fill all the fields.');
+      setLoading(false);
+      return;
+    }
     if (password !== repeatPassword) {
       setError('Passwords do not match');
-    } else if (!isValidEmail(email)) {
-      setError('Please Feel all the Fields');
+      setLoading(false);
     } else {
       fetch(`${config.baseURL}/admin/auth/signup`, {
         method: 'POST',
@@ -55,23 +71,27 @@ const Register = () => {
       })
         .then(async (response) => {
           const data = await response.json();
-          if (data.success != 201) {
+          if (data.success !== true) {
             throw new Error(data.message || 'Registration failed. Please check your details and try again.');
           }
-
           return data;
         })
         .then((data) => {
+          toast.success('Rgistered Successfully')
           navigate('/dashboard');
         })
         .catch((error) => {
-          setError(error.message)
+          setError(error.message);
         })
+        .finally(() => {
+          setLoading(false);
+        });
     }
-  }
+  };
 
   return (
     <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
+      <ToastContainer />
       <CContainer>
         <CRow className="justify-content-center">
           <CCol md={8}>
@@ -84,6 +104,11 @@ const Register = () => {
                     {error && (
                       <div className="alert alert-danger" role="alert">
                         {error}
+                      </div>
+                    )}
+                    {successMessage && (
+                      <div className="alert alert-success" role="alert">
+                        {successMessage}
                       </div>
                     )}
                     <CInputGroup className="mb-3">
@@ -112,7 +137,7 @@ const Register = () => {
                         placeholder="Phone Number"
                         autoComplete="phoneNumber"
                         value={phoneNumber}
-                        onChange={(e) => setPhoneNumbet(e.target.value)}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
                       />
                     </CInputGroup>
                     <CInputGroup className="mb-3">
@@ -140,8 +165,8 @@ const Register = () => {
                       />
                     </CInputGroup>
                     <div className="d-grid">
-                      <CButton color="success" onClick={handleRegister}>
-                        Create Account
+                      <CButton disabled={loading} color="success" onClick={handleRegister}>
+                        {loading ? 'Creating Account...' : 'Create Account'}
                       </CButton>
                     </div>
                   </CForm>
@@ -168,7 +193,7 @@ const Register = () => {
         </CRow>
       </CContainer>
     </div>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;

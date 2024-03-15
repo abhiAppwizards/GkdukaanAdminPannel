@@ -21,6 +21,7 @@ import config from 'src/config'
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [loading,setLoading] = useState(false)
   const [error, setError] = useState(null)
   const navigate = useNavigate()
 
@@ -31,9 +32,17 @@ const Login = () => {
   }
 
   const handleLogin = () => {
+    setLoading(true)
     setError(null)
+
+    if(!email.trim() || !password.trim()){
+      setError('Please fill all fields');
+      setLoading(false)
+      return;
+    }
     if (!isValidEmail(email)) {
       setError('Invalid email address')
+      setLoading(false)
     } else {
       fetch(`${config.baseURL}/admin/auth/login`, {
         method: 'POST',
@@ -60,7 +69,9 @@ const Login = () => {
         })
         .catch((error) => {
           setError(error.message)
-        })
+        }).finally(() => {
+          setLoading(false);
+        });
     }
   }
 
@@ -105,8 +116,8 @@ const Login = () => {
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="primary" className="px-4 text-black" onClick={handleLogin}>
-                          Login
+                        <CButton disabled={loading} color="primary" className="px-4 text-black" onClick={handleLogin}>
+                          {loading ? 'Login...' : 'Login'}
                         </CButton>  
                       </CCol>
                       <CCol xs={6} className="text-right">

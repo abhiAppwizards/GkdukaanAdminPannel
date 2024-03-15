@@ -122,7 +122,7 @@ const getAllOrders = async() =>{
               onChange={(e) => setSearchText(e.target.value)}
             />
           </form>
-          <div
+          {/* <div
             className="relative inline-block ltr:text-left rtl:text-right"
             data-headlessui-state=""
           >
@@ -145,7 +145,7 @@ const getAllOrders = async() =>{
                 <path d="m128 448c0 35.347656-28.652344 64-64 64s-64-28.652344-64-64 28.652344-64 64-64 64 28.652344 64 64zm0 0"></path>
               </svg>
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="mb-8 rounded-lg bg-white bg-light -3 md:p-8">
