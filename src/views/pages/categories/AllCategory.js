@@ -62,14 +62,8 @@ const AllCategory = () => {
     return categories.map((category) => (
       <React.Fragment key={category._id}>
         <tr>
-          <th
-            scope="row"
-            className="px-6 text-center py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-          >
-            {category._id}
-          </th>
           <td className="px-6 py-4 text-center">{parentTitle ? Array(depth * 2).fill('-').join('') : ''} {category.title}</td>
-          <td className="px-6 py-4 text-center">{category.path}</td>
+          <td className="px-6 py-4 text-center">{category.description}</td>
           <td className="rc-table-cell" style={{ textAlign: 'center' }}>
             <div className="inline-flex items-center w-auto gap-3">
               <button
@@ -205,13 +199,10 @@ const AllCategory = () => {
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-6 py-3 text-center">
-                  categories IDs
-                </th>
-                <th scope="col" className="px-6 py-3 text-center">
                   Title
                 </th>
                 <th scope="col" className="px-6 py-3 text-center">
-                  Path
+                  Description
                 </th>
                 <th scope="col" className="px-6 py-3 text-center">
                   Action
