@@ -1,23 +1,23 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
-import config from 'src/config';
-import axios from 'axios';
+import React, { useEffect, useState, useRef } from 'react'
+import { useParams } from 'react-router-dom'
+import config from 'src/config'
+import axios from 'axios'
 
 function TicketMessages() {
-  const { id } = useParams();
-  const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState('');
-  const [title, setTitle] = useState('');
-  const token = localStorage.getItem('adminToken');
-  const messagesEndRef = useRef(null);
+  const { id } = useParams()
+  const [messages, setMessages] = useState([])
+  const [input, setInput] = useState('')
+  const [title, setTitle] = useState('')
+  const token = localStorage.getItem('adminToken')
+  const messagesEndRef = useRef(null)
 
-  const handleSolved = () => {};
+  const handleSolved = () => {}
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
     }
-  };
+  }
 
   const handleSend = async () => {
     try {
@@ -30,37 +30,34 @@ function TicketMessages() {
           headers: {
             authorization: token,
           },
-        }
-      );
-      console.log('msss',response)
-      setInput('');
-      getMessages();
+        },
+      )
+      // console.log('msss',response)
+      setInput('')
+      getMessages()
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   useEffect(() => {
-    getMessages();
-  }, []);
+    getMessages()
+  }, [])
 
   const getMessages = async () => {
     try {
-      const response = await axios.get(
-        `${config.baseURL}/admin/settings/support-ticket/${id}`,
-        {
-          headers: {
-            authorization: token,
-          },
-        }
-      );
-      setTitle(response.data.title);
-      setMessages(response.data.messages);
-      scrollToBottom(); 
+      const response = await axios.get(`${config.baseURL}/admin/settings/support-ticket/${id}`, {
+        headers: {
+          authorization: token,
+        },
+      })
+      setTitle(response.data.title)
+      setMessages(response.data.messages)
+      scrollToBottom()
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   return (
     <>
@@ -83,16 +80,17 @@ function TicketMessages() {
           {messages?.map((message, index) => (
             <div
               key={index}
-              className={`p-3 mb-2 rounded ${
+              className={`px-3 py-1 mb-2 rounded ${
                 message.sender === 'vendor'
                   ? 'ml-auto bg-blue-500 w-64 text-white'
                   : 'mr-auto bg-gray-300'
               }`}
             >
-              {message.message}
+              <div className='font-bold'>{message.message}</div>
+              <span className="  text-sm text-blue-700 font-medium text-center justify-center rounded">msg- admin</span>
             </div>
           ))}
-          <div ref={messagesEndRef} /> 
+          <div ref={messagesEndRef} />
         </div>
         <div className="absolute bottom-0 left-0 w-full p-4 shadow md:p-8 bg-white">
           <div className="flex justify-between">
@@ -112,7 +110,7 @@ function TicketMessages() {
         </div>
       </div>
     </>
-  );
+  )
 }
 
-export default TicketMessages;
+export default TicketMessages

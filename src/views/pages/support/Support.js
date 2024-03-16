@@ -7,11 +7,13 @@ import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import Select from 'react-select'
 
 function Support() {
   const [show, setShow] = useState(false)
   const [loading, setLoading] = useState(false)
   const [tickets, setTickets] = useState([])
+  const [selectedVendor, setSelectedVendor] = useState('')
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -114,6 +116,31 @@ function Support() {
                       name="title"
                       value={formData.title}
                       onChange={handleChange}
+                    />
+                  </div>
+                  <div className="w-80">
+                    <span  className='mb-2' style={{ display: 'block' }}>
+                      Select Vendor<span style={{ color: 'red' }}>*</span>
+                    </span>{' '}
+                    <Select
+                      value={selectedVendor}
+                      onChange={setSelectedVendor}
+                      options={selectedVendor}
+                      isSearchable
+                      placeholder="Search..."
+                      styles={{
+                        option: (provided, state) => ({
+                          ...provided,
+                          backgroundColor: 'white',
+                          color: 'black',
+                        }),
+                        control: (provided, state) => ({
+                          ...provided,
+                        }),
+                        menu: (provided, state) => ({
+                          ...provided,
+                        }),
+                      }}
                     />
                   </div>
                   <div className="d-inline-block">
