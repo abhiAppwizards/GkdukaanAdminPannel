@@ -217,6 +217,7 @@ const AllVendors = ({}) => {
           editingId={editingId}
           onCall={AllVendors}
           onToast={handleToast}
+          component={'vendorDetails'}
         />
       )}
     </div>
