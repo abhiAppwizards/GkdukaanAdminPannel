@@ -15,24 +15,26 @@ function Home() {
   const [categorySliderId, setCategorySliderId] = useState([{}])
   const [secondBanner, setSecondBanner] = useState([{}])
 
-  const [uploadedFileIds, setUploadedFileIds] = useState([])
+  const [uploadedFileIds, setUploadedFileIds] = useState({});
   const [selectedProData, setSelectedProData] = useState([])
 
   const token = localStorage.getItem('adminToken')
 
   const handleSelectedDataChange = (selectedData) => {
     setCategorySliderId(selectedData)
-    console.log('data', selectedData)
+    // console.log('data', selectedData)
   }
 
   const handleSelectedProductDataChange = (selectedData) => {
     setSelectedProData(selectedData)
   }
 
-  const handleFileUpload = (fileId) => {
-    setUploadedFileIds(fileId) 
-    // console.log('File uploaded home. File ID:', fileId)
-  }
+  const handleFileUpload = (fileId, index) => {
+    setUploadedFileIds(prevState => ({
+      ...prevState,
+      [index]: fileId 
+    }));
+  };
 
   const handleAddSection = (e) => {
     e.preventDefault()
@@ -78,7 +80,9 @@ function Home() {
       updatedSecondBanner[index] = {}
     }
     updatedSecondBanner[index][name] = value;
+    const second_banner = updatedSecondBanner
     setSecondBanner(updatedSecondBanner)
+    console.log('updatedSecondBanner',second_banner,index)
   }
 
   const handleSubmit = async (event) => {
@@ -88,17 +92,17 @@ function Home() {
       const formattedTopSlider = topSlider.map((item, index) => ({
         title: item.title,
         link: item.link,
-        media_id: uploadedFileIds, 
+        media_id: uploadedFileIds[index], 
       }))
       const formattedTopBanner = topBanner.map((item, index) => ({
         title: item.title,
         link: item.link,
-        media_id: uploadedFileIds, 
+        media_id: uploadedFileIds[index],
       }))
       const formattedSecondBanner = secondBanner.map((item, index) => ({
         title: item.title,
         link: item.link,
-        media_id: uploadedFileIds, 
+        media_id: uploadedFileIds[index], 
       }))
       const formattedTopProducts = sections.map((item, index) => ({
         section_name: item.sectionName,
@@ -190,7 +194,7 @@ function Home() {
           <h2 className=" relative text-lg font-semibold text-heading ">Top Banner</h2>
           <div className="mt-8 flex justify-evenly items-center">
             <h1 className="font-semibold">Image 1</h1>
-            <ImgComponent onFileUpload={handleFileUpload} name="image1" />
+            <ImgComponent onFileUpload={(fileId) => handleFileUpload(fileId, 3)} name="image1" />
             <input
               placeholder="Title"
               onChange={(e) => handleTopBannerInputChange(0, e)}
@@ -206,7 +210,7 @@ function Home() {
           </div>
           <div className="mt-8 flex justify-evenly items-center">
             <h1 className="font-semibold">Image 2</h1>
-            <ImgComponent onFileUpload={handleFileUpload} name="image2" />
+            <ImgComponent onFileUpload={(fileId) => handleFileUpload(fileId, 4)} name="image1" />
             <input
               placeholder="Title"
               onChange={(e) => handleTopBannerInputChange(1, e)}
@@ -222,7 +226,7 @@ function Home() {
           </div>
           <div className="mt-8 flex justify-evenly items-center">
             <h1 className="font-semibold">Image 3</h1>
-            <ImgComponent onFileUpload={handleFileUpload} name="image3" />
+            <ImgComponent onFileUpload={(fileId) => handleFileUpload(fileId, 5)} name="image1" />
             <input
               placeholder="Title"
               onChange={(e) => handleTopBannerInputChange(2, e)}
@@ -249,7 +253,7 @@ function Home() {
           <h2 className=" relative text-lg font-semibold text-heading ">Second Banner</h2>
           <div className="mt-8 flex justify-evenly items-center">
             <h1 className="font-semibold">Image 1</h1>
-            <ImgComponent onFileUpload={handleFileUpload} name="image1" />
+            <ImgComponent onFileUpload={(fileId) => handleFileUpload(fileId, 0)} name="image1" />
             <input
               placeholder="Title"
               onChange={(e) => handleSecondBanner(0, e)}
@@ -265,7 +269,7 @@ function Home() {
           </div>
           <div className="mt-8 flex justify-evenly items-center">
             <h1 className="font-semibold">Image 2</h1>
-            <ImgComponent onFileUpload={handleFileUpload} name="image2" />
+            <ImgComponent onFileUpload={(fileId) => handleFileUpload(fileId, 1)} name="image1" />
             <input
               placeholder="Title"
               onChange={(e) => handleSecondBanner(1, e)}
@@ -281,7 +285,7 @@ function Home() {
           </div>
           <div className="mt-8 flex justify-evenly items-center">
             <h1 className="font-semibold">Image 3</h1>
-            <ImgComponent onFileUpload={handleFileUpload} name="image3" />
+            <ImgComponent onFileUpload={(fileId) => handleFileUpload(fileId, 2)} name="image1" />
             <input
               placeholder="Title"
               onChange={(e) => handleSecondBanner(2, e)}

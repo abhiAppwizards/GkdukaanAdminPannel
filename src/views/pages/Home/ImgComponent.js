@@ -16,7 +16,7 @@ function ImgComponent({ onFileUpload }) {
     try {
       const formData = new FormData();
       formData.append('upload', file);
-      const response = await axios.post(`${config.baseURL}/admin/media`, formData, {
+      const response = await axios.post(`${config.baseURL}/admin/media/single`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           authorization: token,
