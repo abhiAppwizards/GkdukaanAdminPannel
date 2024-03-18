@@ -3,8 +3,10 @@ import { Button } from 'react-bootstrap'
 import Select from 'react-select'
 import config from 'src/config'
 import axios from 'axios'
+import PropTypes from 'prop-types';
 
-function AddCategory() {
+
+function AddCategory({onCall}) {
   const [loading, setLoading] = useState(false)
   const [categories, setCategories] = useState([])
   const [selectedCategory, setSelectedCategory] = useState(null)
@@ -53,7 +55,7 @@ function AddCategory() {
         },
       })
       setMessage('Form submitted successfully')
-       
+      onCall()
 
       AllCategory()
       setTitle('')
@@ -182,5 +184,8 @@ function AddCategory() {
     </>
   )
 }
+AddCategory.propTypes = {
+  onCall: PropTypes.func.isRequired,
+};
 
 export default AddCategory

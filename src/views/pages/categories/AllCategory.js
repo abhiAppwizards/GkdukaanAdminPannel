@@ -4,6 +4,8 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import PopupBox from '../attributes/Popup'
 import AddCategory from './AddCategory'
+import PropTypes from 'prop-types';
+
 
 const AllCategory = () => {
   const [currentPage, setCurrentPage] = useState(1)
@@ -34,6 +36,10 @@ const AllCategory = () => {
     } catch (error) {
       console.log(error)
     }
+  }
+
+  const handleAddCategory = () =>{
+    fetchCategories()
   }
 
   const handleShow = () => {
@@ -190,7 +196,7 @@ const AllCategory = () => {
         </div>
       </div>
 
-      {show && <AddCategory />}
+      {show && <AddCategory onCall={handleAddCategory} />}
       
       <div className="mb-8 rounded-lg bg-white bg-light -3 md:p-8">
         <h1 className="font-bold text-xl mb-4"> Your All categories:-</h1>
