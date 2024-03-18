@@ -25,7 +25,7 @@ function ImgComponent({ onFileUpload }) {
       
       setFileId(response.data._id); 
       onFileUpload(response.data._id);
-      // console.log('File uploaded successfully. File ID:', response.data._id);
+      console.log('File uploaded successfully. File ID:', response.data._id);
     } catch (error) {
       console.log('Error uploading file:', error);
     }

@@ -80,59 +80,58 @@ function Home() {
       updatedSecondBanner[index] = {}
     }
     updatedSecondBanner[index][name] = value;
-    const second_banner = updatedSecondBanner
     setSecondBanner(updatedSecondBanner)
-    console.log('updatedSecondBanner',second_banner,index)
   }
 
   const handleSubmit = async (event) => {
-    event.preventDefault()
-    setLoading(true)
-    try {
-      const formattedTopSlider = topSlider.map((item, index) => ({
-        title: item.title,
-        link: item.link,
-        media_id: uploadedFileIds[index], 
-      }))
-      const formattedTopBanner = topBanner.map((item, index) => ({
-        title: item.title,
-        link: item.link,
-        media_id: uploadedFileIds[index],
-      }))
-      const formattedSecondBanner = secondBanner.map((item, index) => ({
-        title: item.title,
-        link: item.link,
-        media_id: uploadedFileIds[index], 
-      }))
-      const formattedTopProducts = sections.map((item, index) => ({
-        section_name: item.sectionName,
-        products: selectedProData,
-        url: item.link, 
-      }))
+  event.preventDefault();
+  setLoading(true);
+  try {
+    const formattedTopSlider = topSlider.map((item, index) => ({
+      title: item.title,
+      link: item.link,
+      media_id: uploadedFileIds[index],
+    }));
+    const formattedTopBanner = topBanner.map((item, index) => ({
+      title: item.title,
+      link: item.link,
+      media_id: uploadedFileIds[index + 3], 
+    }));
+    const formattedSecondBanner = secondBanner.map((item, index) => ({
+      title: item.title,
+      link: item.link,
+      media_id: uploadedFileIds[index + 6],
+    }));
+    const formattedTopProducts = sections.map((item, index) => ({
+      section_name: item.sectionName,
+      products: selectedProData,
+      url: item.link,
+    }));
 
-      const response = await axios.post(
-        `${config.baseURL}/admin/home`,
-        {
-          top_slider: formattedTopSlider,
-          top_banner: formattedTopBanner,
-          categories_slider: categorySliderId,
-          second_banner: formattedSecondBanner, 
-          top_products : formattedTopProducts
+    const response = await axios.post(
+      `${config.baseURL}/admin/home`,
+      {
+        top_slider: formattedTopSlider,
+        top_banner: formattedTopBanner,
+        categories_slider: categorySliderId,
+        second_banner: formattedSecondBanner,
+        top_products: formattedTopProducts,
+      },
+      {
+        headers: {
+          authorization: token,
         },
-        {
-          headers: {
-            authorization: token,
-          },
-        },
-      )
-      // console.log('top_slider', response)
-      toast.success('Home Data Uploaded Successfully')
-      setLoading(false)
-    } catch (error) {
-      toast.error(error.message)
-      setLoading(false)
-    }
+      }
+    );
+    // console.log('top_slider', response)
+    toast.success('Home Data Uploaded Successfully');
+    setLoading(false);
+  } catch (error) {
+    toast.error(error.message);
+    setLoading(false);
   }
+};
+
 
   return (
     <>
@@ -253,7 +252,7 @@ function Home() {
           <h2 className=" relative text-lg font-semibold text-heading ">Second Banner</h2>
           <div className="mt-8 flex justify-evenly items-center">
             <h1 className="font-semibold">Image 1</h1>
-            <ImgComponent onFileUpload={(fileId) => handleFileUpload(fileId, 0)} name="image1" />
+            <ImgComponent onFileUpload={(fileId) => handleFileUpload(fileId, 6)} name="image1" />
             <input
               placeholder="Title"
               onChange={(e) => handleSecondBanner(0, e)}
@@ -269,7 +268,7 @@ function Home() {
           </div>
           <div className="mt-8 flex justify-evenly items-center">
             <h1 className="font-semibold">Image 2</h1>
-            <ImgComponent onFileUpload={(fileId) => handleFileUpload(fileId, 1)} name="image1" />
+            <ImgComponent onFileUpload={(fileId) => handleFileUpload(fileId, 7)} name="image1" />
             <input
               placeholder="Title"
               onChange={(e) => handleSecondBanner(1, e)}
@@ -285,7 +284,7 @@ function Home() {
           </div>
           <div className="mt-8 flex justify-evenly items-center">
             <h1 className="font-semibold">Image 3</h1>
-            <ImgComponent onFileUpload={(fileId) => handleFileUpload(fileId, 2)} name="image1" />
+            <ImgComponent onFileUpload={(fileId) => handleFileUpload(fileId, 8)} name="image1" />
             <input
               placeholder="Title"
               onChange={(e) => handleSecondBanner(2, e)}
