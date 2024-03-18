@@ -4,20 +4,17 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import PopupBox from '../attributes/Popup'
 import AddCategory from './AddCategory'
-import PropTypes from 'prop-types';
 
 
 const AllCategory = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [categories, setCategories] = useState([])
-  const [selectedcategoryId, setSelectedCategoryId] = useState(null)
-  const [isVendorViewOpen, setIsVendorViewOpen] = useState(false)
   const [show, setShow] = useState(false)
 
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [editingId, setEditingId] = useState(null)
 
-  const categoriesPerPage = 10
+  const categoriesPerPage = 2;
   const token = localStorage.getItem('adminToken')
 
   useEffect(() => {
@@ -176,9 +173,9 @@ const AllCategory = () => {
     return pages
   }
 
-  const indexOfLastProduct = currentPage * categoriesPerPage
-  const indexOfFirstProduct = indexOfLastProduct - categoriesPerPage
-  const currentcategories = categories.slice(indexOfFirstProduct, indexOfLastProduct)
+  const indexOfLastCatagory = currentPage * categoriesPerPage
+  const indexOfFirstCatagory = indexOfLastCatagory - categoriesPerPage
+  const currentCategories = categories.slice(indexOfFirstCatagory, indexOfLastCatagory)
 
   return (
     <div className="">
@@ -215,7 +212,7 @@ const AllCategory = () => {
                 </th>
               </tr>
             </thead>
-            <tbody>{renderCategories(currentcategories)}</tbody>
+            <tbody>{renderCategories(currentCategories)}</tbody>
           </table>
         </div>
         {/* Pagination */}
