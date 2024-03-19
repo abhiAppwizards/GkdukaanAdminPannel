@@ -5,12 +5,12 @@ import PropTypes from 'prop-types';
 
 function ImgComponent({ onFileUpload }) {
   const [preview, setPreview] = useState(null);
-  const [fileId, setFileId] = useState(null);
   const token = localStorage.getItem('adminToken');
 
   const handleChange = async (event) => {
     const file = event.target.files[0];
-    const url = URL.createObjectURL(file);
+    const blob = new Blob([file], { type: file.type });
+    const url = URL.createObjectURL(blob);
     setPreview(url);
 
     try {
@@ -22,8 +22,7 @@ function ImgComponent({ onFileUpload }) {
           authorization: token,
         },
       });
-      
-      setFileId(response.data._id); 
+      console.log('fileconponent id',response.data._id)
       onFileUpload(response.data._id);
       console.log('File uploaded successfully. File ID:', response.data._id);
     } catch (error) {

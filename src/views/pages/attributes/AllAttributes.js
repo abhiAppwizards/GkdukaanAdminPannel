@@ -350,7 +350,7 @@ const AllAttributes = () => {
               </tr>
             </thead>
             <tbody>
-              {currentattributes.map((attribute) => (
+              {currentattributes?.map((attribute) => (
                 <tr
                   key={attribute._id}
                   className="hover:bg-gray-100 bg-white border-b dark:bg-gray-800  dark:border-gray-700"
@@ -359,7 +359,7 @@ const AllAttributes = () => {
                     scope="row"
                     className="px-6 text-center py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                   >
-                    {attribute.categories_id[0]}
+                    {attribute.categories_id[0].title}
                   </th>
                   {/* <td className="text-center">
                     <div className="flex justify-center items-center rtl:space-x-reverse">

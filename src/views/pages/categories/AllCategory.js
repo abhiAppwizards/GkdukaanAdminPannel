@@ -14,7 +14,7 @@ const AllCategory = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [editingId, setEditingId] = useState(null)
 
-  const categoriesPerPage = 2;
+  const categoriesPerPage = 1;
   const token = localStorage.getItem('adminToken')
 
   useEffect(() => {

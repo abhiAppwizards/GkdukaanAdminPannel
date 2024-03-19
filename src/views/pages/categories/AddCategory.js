@@ -3,19 +3,18 @@ import { Button } from 'react-bootstrap'
 import Select from 'react-select'
 import config from 'src/config'
 import axios from 'axios'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
+import ImgComponent from '../Home/ImgComponent'
 
-
-function AddCategory({onCall}) {
+function AddCategory({ onCall }) {
   const [loading, setLoading] = useState(false)
   const [categories, setCategories] = useState([])
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  const [image, setImage] = useState(null)
-  const [message,setMessage] = useState('')
+  const [message, setMessage] = useState('')
+  const [uploadedId,setUploadedId] = useState({})
   const token = localStorage.getItem('adminToken')
-  const [show,setShow] = useState(false)
 
   useEffect(() => {
     AllCategory()
@@ -28,15 +27,16 @@ function AddCategory({onCall}) {
           authorization: token,
         },
       })
+      // console.log('category',response)
       setCategories(response.data)
     } catch (error) {
       console.log(error)
     }
   }
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0]
-    setImage(file)
+  const handleFileUpload = (fileId) => {
+    console.log('fileId',fileId)
+    setUploadedId(fileId)
   }
 
   const handleSubmit = async () => {
@@ -45,7 +45,7 @@ function AddCategory({onCall}) {
       const requestData = {
         title: title,
         description: description ? description : null,
-        image: '65e06421688225912cd7ae04',
+        image: uploadedId,
         parentId: selectedCategory ? selectedCategory.value : null,
       }
 
@@ -56,17 +56,18 @@ function AddCategory({onCall}) {
       })
       setMessage('Form submitted successfully')
       onCall()
-
       AllCategory()
       setTitle('')
+      setUploadedId('')
       setDescription('')
-      setImage(null)
       setTimeout(() => {
-        setMessage('');
-        setShow(false)
-      }, 700);
+        setMessage('')
+      }, 1000)
     } catch (error) {
       setMessage('Failed to submit form')
+      setTimeout(() => {
+        setMessage('')
+      }, 1000)
     } finally {
       setLoading(false)
     }
@@ -104,7 +105,17 @@ function AddCategory({onCall}) {
     <>
       <div>
         <div className="rounded p-4 shadow md:p-8 mb-8 bg-white justify-between">
-          <div className='bg-green-500 border px-2 rounded-full text-white py-1'>{message}</div>
+          {message && (
+            <div
+              className={
+                message === 'Failed to submit form'
+                  ? 'bg-red-500 border px-2 rounded-full text-white py-1'
+                  : 'bg-green-500 border px-2 rounded-full text-white py-1'
+              }
+            >
+              {message}
+            </div>
+          )}
           <div className="border w-full mt-4 p-2 rounded-md">
             <table className="table-auto">
               <tbody>
@@ -133,10 +144,14 @@ function AddCategory({onCall}) {
                 <tr>
                   <td className="font-semibold pl-2 pr-32">Upload Image :</td>
                   <td className="pl-4">
-                    <input
+                    {/* <input
                       className="w-full lg:w-80 px-2 py-1 mt-2 border border-gray-300 rounded focus:outline-blue-400"
                       type="file"
                       onChange={handleFileChange}
+                    /> */}
+                    <ImgComponent
+                      onFileUpload={(fileId) => handleFileUpload(fileId)}
+                      name="image1"
                     />
                   </td>
                 </tr>
@@ -186,6 +201,6 @@ function AddCategory({onCall}) {
 }
 AddCategory.propTypes = {
   onCall: PropTypes.func.isRequired,
-};
+}
 
 export default AddCategory
