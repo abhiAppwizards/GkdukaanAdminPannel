@@ -2,18 +2,22 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import config from 'src/config';
 import PropTypes from 'prop-types';
+import { CSpinner } from '@coreui/react';
 
 function ImgComponent({ onFileUpload }) {
   const [preview, setPreview] = useState(null);
   const token = localStorage.getItem('adminToken');
+  const [loading,setLoading] = useState(false)
 
   const handleChange = async (event) => {
     const file = event.target.files[0];
     const blob = new Blob([file], { type: file.type });
     const url = URL.createObjectURL(blob);
+
     setPreview(url);
 
     try {
+      setLoading(true)
       const formData = new FormData();
       formData.append('upload', file);
       const response = await axios.post(`${config.baseURL}/admin/media/single`, formData, {
@@ -22,11 +26,12 @@ function ImgComponent({ onFileUpload }) {
           authorization: token,
         },
       });
-      console.log('fileconponent id',response.data._id)
+      setLoading(false)
       onFileUpload(response.data._id);
-      console.log('File uploaded successfully. File ID:', response.data._id);
+
     } catch (error) {
-      console.log('Error uploading file:', error);
+      console.log(error);
+      setLoading(false)
     }
   };
 
@@ -34,7 +39,7 @@ function ImgComponent({ onFileUpload }) {
     <>
       <div className="relative">
         <div className="flex flex-col items-center justify-center w-full h-24 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer hover:bg-gray-100">
-          {preview ? (
+          {!loading && preview ? (
             <img src={preview} alt="Preview" className="w-full h-full object-cover rounded-lg" />
           ) : (
             <div className="flex flex-col items-center justify-center">
@@ -53,7 +58,7 @@ function ImgComponent({ onFileUpload }) {
                 />
               </svg>
               <p className="text-sm text-gray-400">
-                <span className="font-semibold">Click to upload</span> or drag and drop
+                {!loading ? <span className="font-semibold">Click to upload or drag and drop</span>  : <CSpinner color="success" />}
               </p>
             </div>
           )}

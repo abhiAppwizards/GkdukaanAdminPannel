@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import config from 'src/config'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
 import PopupBox from '../attributes/Popup'
 import AddCategory from './AddCategory'
 
@@ -28,7 +27,6 @@ const AllCategory = () => {
           authorization: token,
         },
       })
-      console.log('categories get', response.data)
       setCategories(response.data)
     } catch (error) {
       console.log(error)
@@ -65,10 +63,10 @@ const AllCategory = () => {
     return categories.map((category) => (
       <React.Fragment key={category._id}>
         <tr>
-          <td className="px-6 py-4 text-center">{parentTitle ? Array(depth * 2).fill('-').join('') : ''} {category.title}</td>
-          <td className="px-6 py-4 text-center">{category.description}</td>
-          <td className="rc-table-cell" style={{ textAlign: 'center' }}>
-            <div className="inline-flex items-center w-auto gap-3">
+          <td className="px-6 py-4 text-start">{parentTitle ? Array(depth * 2).fill('-').join('') : ''} {category.title}</td>
+          <td className="px-6 py-4 text-start">{category.description}</td>
+          <td className="rc-table-cell" style={{ textAlign: 'start' }}>
+            <div className="inline-flex items-start w-auto gap-3">
               <button
                 title="Edit"
                 className="text-base transition duration-200 hover:text-heading"
@@ -201,13 +199,13 @@ const AllCategory = () => {
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
-                <th scope="col" className="px-6 py-3 text-center">
+                <th scope="col" className="px-12 py-3 text-start">
                   Title
                 </th>
-                <th scope="col" className="px-6 py-3 text-center">
+                <th scope="col" className=" py-3 text-start">
                   Description
                 </th>
-                <th scope="col" className="px-6 py-3 text-center">
+                <th scope="col" className=" py-3 text-start">
                   Action
                 </th>
               </tr>

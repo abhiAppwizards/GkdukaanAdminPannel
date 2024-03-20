@@ -110,7 +110,7 @@ const PopupBox = ({ onClose, editingId, onCall, component }) => {
   return (
     <div className="fixed top-14 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50">
       <div className="bg-white p-8 rounded shadow-md w-80">
-        <h2 className="text-lg font-semibold mb-4">Popup Box</h2>
+        <h2 className="text-lg font-semibold mb-4">Edit Your Data...</h2>
         <div className="mb-4">
           <label className="block mb-1">Title</label>
           <input
