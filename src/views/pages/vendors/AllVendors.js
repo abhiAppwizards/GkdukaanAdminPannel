@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import config from 'src/config'
 import axios from 'axios'
-import VendorView from './vendorView'
 import VendorPopup from './vendorPopup'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -9,8 +8,6 @@ import 'react-toastify/dist/ReactToastify.css'
 const AllVendors = ({}) => {
   const [currentPage, setCurrentPage] = useState(1)
   const [vendors, setVendores] = useState([])
-  const [selectedVendorId, setSelectedVendorId] = useState(null)
-  const [isVendorViewOpen, setIsVendorViewOpen] = useState(false)
   const [toastMessage, setToastMessage] = useState('')
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [editingId, setEditingId] = useState(null)
@@ -175,11 +172,6 @@ const AllVendors = ({}) => {
                   </td>
                 </tr>
               ))}
-              {/* <VendorView
-                isOpen={isVendorViewOpen}
-                onClose={() => setIsVendorViewOpen(false)}
-                vendorId={selectedVendorId}
-              /> */}
             </tbody>
           </table>
         </div>

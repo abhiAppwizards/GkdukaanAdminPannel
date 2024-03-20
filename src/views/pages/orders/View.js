@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import DropDown from './dropDown'
+// import DropDown from '../products/productComponent/Dropdown'
+
 function View() {
   const [selectedStatus, setSelectedStatus] = useState('')
 
@@ -46,12 +47,12 @@ function View() {
               Order ID - 20240207303639
             </h3>
             <div className="w-1/2 flex">
-              <DropDown
+              {/* <DropDown
                 label={'Filter by Product Type'}
                 optionsData={allStatus}
                 value={selectedStatus}
                 onChange={statusChange}
-              />
+              /> */}
               <div className="justify-center w-64 mt-7">
                 <button className="border p-2 rounded-md bg-green-500 hover:bg-gray-200 text-black">
                   Change Status

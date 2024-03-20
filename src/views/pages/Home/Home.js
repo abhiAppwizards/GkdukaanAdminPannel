@@ -22,7 +22,6 @@ function Home() {
 
   const handleSelectedDataChange = (selectedData) => {
     setCategorySliderId(selectedData)
-    // console.log('data', selectedData)
   }
 
   const handleSelectedProductDataChange = (selectedData) => {
@@ -123,7 +122,6 @@ function Home() {
         },
       }
     );
-    // console.log('top_slider', response)
     toast.success('Home Data Uploaded Successfully');
     setLoading(false);
   } catch (error) {
