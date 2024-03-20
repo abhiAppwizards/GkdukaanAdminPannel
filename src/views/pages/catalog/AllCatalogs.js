@@ -29,7 +29,6 @@ const Allcatalogs = () => {
       })
       toast.success('Product is deleted')
       getAllCatalogs()
-      // console.log('product deleted',response)
     } catch (error) {
       console.log(error)
     }
@@ -45,7 +44,6 @@ const getAllCatalogs = async() =>{
         "authorization": token
       }
     })
-    console.log('All Catalogs get Response',response.data)
     setProducts(response.data)
   } catch (error) {
     console.log('error',error)

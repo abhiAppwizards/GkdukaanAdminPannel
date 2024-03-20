@@ -147,9 +147,6 @@ function AddBulkProducts() {
 
   const handleSubmit = () => {
     const { category, subcategory, subsubcategory } = selectedValues
-    console.log('Selected category:', category?.value || category?.label)
-    console.log('Selected subcategory:', subcategory?.value || subcategory?.label)
-    console.log('Selected sub-subcategory:', subsubcategory?.value || subsubcategory?.label)
     setLoading(true)
     setTimeout(() => {
       setLoading(false)
@@ -157,10 +154,6 @@ function AddBulkProducts() {
     }, 3000)
   }
 
-  // const handleSelectChange = (selectedOption) => {
-  //   setSelectedValue(selectedOption)
-  //   console.log('Selected value:', selectedOption)
-  // }
 
   return (
     <Container>

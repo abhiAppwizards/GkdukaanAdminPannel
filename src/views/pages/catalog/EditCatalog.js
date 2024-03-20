@@ -64,8 +64,6 @@ function AddSingleCatalog() {
           authorization: token,
         },
       })
-      // console.log('CatalogOne',response.data.catalog)
-      // setOneCatalog(response.data.catalog)
       setTitle(response.data.catalog.name)
       setDescription(response.data.catalog.full_details)
     } catch (error) {
@@ -89,7 +87,6 @@ function AddSingleCatalog() {
           },
         },
       )
-      console.log(response)
       dispatch(ProductAction(response.data))
       toast.success('Catalog Updated successfully')
       if (response.status === 201) {
@@ -130,7 +127,6 @@ function AddSingleCatalog() {
 
   const handleSubsubcategoryChange = (subsubcategory) => {
     const subCategories = subsubcategories.filter((val) => val._id === subsubcategory)
-    // console.log('subCategories......',subCategories)
     setLevelThreeCategory(subsubcategory)
     setSubsubsubcategories(subCategories[0].children)
   }
@@ -138,7 +134,6 @@ function AddSingleCatalog() {
   const handleSubsubsubcategoryChange = (subsubsubcategory) => {
     const subCategories = subsubsubcategories.filter((val) => val._id === subsubsubcategory)
     setLevelFourCategory(subsubsubcategory)
-    // console.log('setLevelFourCategory',subCategories[0])
   }
 
   return (

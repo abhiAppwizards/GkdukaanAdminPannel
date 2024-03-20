@@ -32,7 +32,6 @@ function TicketMessages() {
           },
         },
       )
-      // console.log('msss',response)
       setInput('')
       getMessages()
     } catch (error) {

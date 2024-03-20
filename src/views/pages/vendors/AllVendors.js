@@ -23,7 +23,6 @@ const AllVendors = ({}) => {
   const AllVendors = async () => {
     try {
       const response = await axios.get(`${config.baseURL}/admin/vendor`)
-      console.log('vendor get', response.data)
       setVendores(response.data)
     } catch (error) {
       console.log(error)
@@ -176,11 +175,11 @@ const AllVendors = ({}) => {
                   </td>
                 </tr>
               ))}
-              <VendorView
+              {/* <VendorView
                 isOpen={isVendorViewOpen}
                 onClose={() => setIsVendorViewOpen(false)}
                 vendorId={selectedVendorId}
-              />
+              /> */}
             </tbody>
           </table>
         </div>

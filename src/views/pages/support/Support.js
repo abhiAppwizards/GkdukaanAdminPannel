@@ -139,7 +139,6 @@ function Support() {
                     <Select
                       value={selectedVendor.label}
                       onChange={(selectedOption) => {
-                        console.log(selectedOption)
                         setSelectedVendor(selectedOption.value)
                       }}
                       options={vendors.map((vendor) => ({

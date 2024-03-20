@@ -13,7 +13,6 @@ const VendorPopup = ({ onClose, editingId, onCall, onToast, component }) => {
   const [note, setNote] = useState('')
 
   const token = localStorage.getItem('adminToken')
-  console.log(component)
 
   const fetchVendorData = async () => {
     try {
@@ -86,7 +85,6 @@ const VendorPopup = ({ onClose, editingId, onCall, onToast, component }) => {
         <h2 className="text-lg font-semibold mb-4">Edit Vendor Details</h2>
         {component === 'vendorDetails' && (
           <>
-            {' '}
             <div className="mb-4">
               <label htmlFor="email" className="block mb-1">
                 Email

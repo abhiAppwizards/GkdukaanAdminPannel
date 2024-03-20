@@ -16,7 +16,7 @@ function OrdersCancelled() {
 
 
   useEffect(()=>{
-    getAllOrders()
+    // getAllOrders()
   },[])
 
 const getAllOrders = async() =>{

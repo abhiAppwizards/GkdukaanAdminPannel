@@ -26,7 +26,6 @@ const getAllOrders = async() =>{
         "authorization": token
       }
     })
-    console.log('All Orders get Response',response.data)
     setOrdersData(response.data)
   } catch (error) {
     console.log('error',error)

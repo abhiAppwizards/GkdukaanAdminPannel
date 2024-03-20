@@ -16,7 +16,7 @@ function OrdersPending() {
 
 
   useEffect(()=>{
-    getAllOrders()
+    // getAllOrders()
   },[])
 
 const getAllOrders = async() =>{
@@ -26,7 +26,7 @@ const getAllOrders = async() =>{
         "authorization": token
       }
     })
-    // console.log('All Pending Orders get Response',response.data)
+    console.log('All Pending Orders get Response',response.data)
     setOrdersData(response.data)
   } catch (error) {
     console.log('error',error)

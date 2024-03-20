@@ -27,7 +27,6 @@ function AddCategory({ onCall }) {
           authorization: token,
         },
       })
-      // console.log('category',response)
       setCategories(response.data)
     } catch (error) {
       console.log(error)
@@ -35,7 +34,6 @@ function AddCategory({ onCall }) {
   }
 
   const handleFileUpload = (fileId) => {
-    console.log('fileId',fileId)
     setUploadedId(fileId)
   }
 

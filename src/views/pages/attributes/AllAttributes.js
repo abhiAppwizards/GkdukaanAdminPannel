@@ -52,7 +52,6 @@ const AllAttributes = () => {
       })
 
       setCategories(response.data)
-      // console.log('categories', response.data)
     } catch (error) {
       console.log(error)
     }
@@ -66,7 +65,6 @@ const AllAttributes = () => {
         },
       })
       setAttributes(response.data)
-      console.log('attributes',response.data)
     } catch (error) {
       console.log(error)
     }
@@ -361,13 +359,6 @@ const AllAttributes = () => {
                   >
                     {attribute.categories_id[0].title}
                   </th>
-                  {/* <td className="text-center">
-                    <div className="flex justify-center items-center rtl:space-x-reverse">
-                      <span className="inline-block px-3 text-center py-1.5 rounded bg-red-600 text-xs whitespace-nowrap relative font-medium text-dark bg-accent bg-opacity-10 !text-accent capitalize">
-                        {attribute.account_status}
-                      </span>
-                    </div>
-                  </td> */}
                   <td className="px-6 py-4 text-center">{attribute.name}</td>
                   <td className="px-6 py-4 text-center">{attribute.type}</td>
                   <td className="rc-table-cell" style={{ textAlign: 'center' }}>
