@@ -85,7 +85,7 @@ const Login = () => {
                 <CCardBody>
                   <CForm>
                     <h1>Login</h1>
-                    <p className="text-body-secondary">Vendor Sign In to your account</p>
+                    <p className="text-body-secondary">Admin Sign In to your account</p>
                     {error && (
                       <div className="alert alert-danger" role="alert">
                         {error}
