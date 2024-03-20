@@ -18,6 +18,7 @@ function Support() {
     title: '',
     description: '',
   })
+  const [vendors, setVendors] = useState([])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -38,6 +39,9 @@ function Support() {
   useEffect(() => {
     getTickits()
   }, [])
+  useEffect(() => {
+    getVendors()
+  }, [])
 
   const getTickits = async () => {
     try {
@@ -46,8 +50,20 @@ function Support() {
           authorization: token,
         },
       })
-      // console.log('tickets..', res.data)
       setTickets(res.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const getVendors = async () => {
+    try {
+      const res = await axios.get(`${config.baseURL}/admin/vendor`, {
+        headers: {
+          authorization: token,
+        },
+      })
+      setVendors(res.data)
     } catch (error) {
       console.log(error)
     }
@@ -61,7 +77,7 @@ function Support() {
         {
           title: formData.title,
           description: formData.description,
-          vendor_id: '65ce086a43648af9cc83e96e',
+          vendor_id: selectedVendor,
         },
         {
           headers: {
@@ -69,11 +85,9 @@ function Support() {
           },
         },
       )
-      console.log('support data', response.data)
       getTickits()
       toast.success('Support added successfully')
       setLoading(false)
-      // navigate('/details/support')
     } catch (error) {
       toast.error(error.response.data.message)
       setLoading(false)
@@ -119,13 +133,19 @@ function Support() {
                     />
                   </div>
                   <div className="w-80">
-                    <span  className='mb-2' style={{ display: 'block' }}>
+                    <span className="mb-2" style={{ display: 'block' }}>
                       Select Vendor<span style={{ color: 'red' }}>*</span>
                     </span>{' '}
                     <Select
-                      value={selectedVendor}
-                      onChange={setSelectedVendor}
-                      options={selectedVendor}
+                      value={selectedVendor.label}
+                      onChange={(selectedOption) => {
+                        console.log(selectedOption)
+                        setSelectedVendor(selectedOption.value)
+                      }}
+                      options={vendors.map((vendor) => ({
+                        value: vendor._id,
+                        label: vendor.store_name,
+                      }))}
                       isSearchable
                       placeholder="Search..."
                       styles={{

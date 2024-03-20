@@ -45,7 +45,7 @@ function AddCategory({ onCall }) {
       const requestData = {
         title: title,
         description: description ? description : null,
-        image: uploadedId,
+        media_id: uploadedId,
         parentId: selectedCategory ? selectedCategory.value : null,
       }
 
