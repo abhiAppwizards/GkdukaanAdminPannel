@@ -55,7 +55,6 @@ function AddProductDetails() {
           },
         },
       )
-      console.log('product submit res', response)
       if(response.status === 201){
         navigate('/catalogs/all')
       }

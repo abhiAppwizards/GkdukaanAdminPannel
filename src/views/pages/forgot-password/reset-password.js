@@ -33,7 +33,6 @@ const ResetPassword = () => {
       return;
     }
 
-    // Assuming the API endpoint for password reset is 'http://localhost:3000/vendors/auth/reset-password/:resetToken'
     fetch(`${config.baseURL}/vendor/auth/reset-password`, {
       method: 'POST',
       headers: {
@@ -46,7 +45,6 @@ const ResetPassword = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data); 
         navigate('/login'); 
         // setLoading(false)
       })

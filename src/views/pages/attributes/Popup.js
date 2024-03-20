@@ -74,7 +74,6 @@ const PopupBox = ({ onClose, editingId, onCall, component }) => {
               },
             },
           )
-          console.log('attributes Updated successfully', response.data)
           onCall()
           onClose()
         } catch (error) {
