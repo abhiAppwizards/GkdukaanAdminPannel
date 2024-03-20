@@ -38,9 +38,6 @@ function MultiSelectorProductDropdown({ onSelectData }) {
     onSelectData(selectedList.map(item => item.id));
   };
 
-  // useEffect(() => {
-  //   console.log('data product drop', selectedIds);
-  // }, [selectedIds]); 
 
   return (
     <React.Fragment>
@@ -48,7 +45,7 @@ function MultiSelectorProductDropdown({ onSelectData }) {
         <div className="row">
           <div className="col-sm-12">
             <form className="row g-3" method="post">
-              <div className="col-md-5">
+              <div className="col-md-12">
                 <label className="form-label"> </label>
                 <div className="text-dark">
                   <Multiselect

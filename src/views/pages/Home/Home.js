@@ -6,6 +6,7 @@ import axios from 'axios'
 import config from 'src/config'
 import MultiSelectorDropdown from './MultiSelectorDropdown'
 import MultiSelectorProductDropdown from './MultiSelectorProductDropdown'
+import { CSpinner } from '@coreui/react'
 
 function Home() {
   const [loading, setLoading] = useState(false)
@@ -15,7 +16,7 @@ function Home() {
   const [categorySliderId, setCategorySliderId] = useState([{}])
   const [secondBanner, setSecondBanner] = useState([{}])
 
-  const [uploadedFileIds, setUploadedFileIds] = useState({});
+  const [uploadedFileIds, setUploadedFileIds] = useState({})
   const [selectedProData, setSelectedProData] = useState([])
 
   const token = localStorage.getItem('adminToken')
@@ -29,11 +30,12 @@ function Home() {
   }
 
   const handleFileUpload = (fileId, index) => {
-    setUploadedFileIds(prevState => ({
+    setLoading(false)
+    setUploadedFileIds((prevState) => ({
       ...prevState,
-      [index]: fileId 
-    }));
-  };
+      [index]: fileId,
+    }))
+  }
 
   const handleAddSection = (e) => {
     e.preventDefault()
@@ -53,6 +55,7 @@ function Home() {
   }
 
   const handleTopSliderInputChange = (index, event) => {
+    setLoading(false)
     const { name, value } = event.target
     const updatedTopSlider = [...topSlider]
     if (!updatedTopSlider[index]) {
@@ -63,6 +66,7 @@ function Home() {
   }
 
   const handleTopBannerInputChange = (index, event) => {
+    setLoading(false)
     const { name, value } = event.target
     const updatedTopBanner = [...topBanner]
     if (!updatedTopBanner[index]) {
@@ -72,64 +76,62 @@ function Home() {
     setTopBanner(updatedTopBanner)
   }
 
-  const handleSecondBanner = (index, event) =>{
-    const {name, value} = event.target
+  const handleSecondBanner = (index, event) => {
+    setLoading(false)
+    const { name, value } = event.target
     const updatedSecondBanner = [...secondBanner]
-    if(!updatedSecondBanner[index]){
+    if (!updatedSecondBanner[index]) {
       updatedSecondBanner[index] = {}
     }
-    updatedSecondBanner[index][name] = value;
+    updatedSecondBanner[index][name] = value
     setSecondBanner(updatedSecondBanner)
   }
 
   const handleSubmit = async (event) => {
-  event.preventDefault();
-  setLoading(true);
-  try {
-    const formattedTopSlider = topSlider.map((item, index) => ({
-      title: item.title,
-      link: item.link,
-      media_id: uploadedFileIds[index],
-    }));
-    const formattedTopBanner = topBanner.map((item, index) => ({
-      title: item.title,
-      link: item.link,
-      media_id: uploadedFileIds[index + 3], 
-    }));
-    const formattedSecondBanner = secondBanner.map((item, index) => ({
-      title: item.title,
-      link: item.link,
-      media_id: uploadedFileIds[index + 6],
-    }));
-    const formattedTopProducts = sections.map((item, index) => ({
-      section_name: item.sectionName,
-      products: selectedProData,
-      url: item.link,
-    }));
+    event.preventDefault()
+    setLoading(true)
+    try {
+      const formattedTopSlider = topSlider.map((item, index) => ({
+        title: item.title,
+        link: item.link,
+        media_id: uploadedFileIds[index],
+      }))
+      const formattedTopBanner = topBanner.map((item, index) => ({
+        title: item.title,
+        link: item.link,
+        media_id: uploadedFileIds[index + 3],
+      }))
+      const formattedSecondBanner = secondBanner.map((item, index) => ({
+        title: item.title,
+        link: item.link,
+        media_id: uploadedFileIds[index + 6],
+      }))
+      const formattedTopProducts = sections.map((item, index) => ({
+        section_name: item.sectionName,
+        products: selectedProData,
+        url: item.link,
+      }))
 
-    const response = await axios.post(
-      `${config.baseURL}/admin/home`,
-      {
-        top_slider: formattedTopSlider,
-        top_banner: formattedTopBanner,
-        categories_slider: categorySliderId,
-        second_banner: formattedSecondBanner,
-        top_products: formattedTopProducts,
-      },
-      {
-        headers: {
-          authorization: token,
+      const response = await axios.post(
+        `${config.baseURL}/admin/home`,
+        {
+          top_slider: formattedTopSlider,
+          top_banner: formattedTopBanner,
+          categories_slider: categorySliderId,
+          second_banner: formattedSecondBanner,
+          top_products: formattedTopProducts,
         },
-      }
-    );
-    toast.success('Home Data Uploaded Successfully');
-    setLoading(false);
-  } catch (error) {
-    toast.error(error.message);
-    setLoading(false);
+        {
+          headers: {
+            authorization: token,
+          },
+        },
+      )
+      toast.success('Home Data Uploaded Successfully')
+    } catch (error) {
+      toast.error(error.message)
+    }
   }
-};
-
 
   return (
     <>
@@ -254,13 +256,13 @@ function Home() {
             <input
               placeholder="Title"
               onChange={(e) => handleSecondBanner(0, e)}
-              name='title'
+              name="title"
               className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
             />
             <input
               placeholder="Your Link"
               onChange={(e) => handleSecondBanner(0, e)}
-              name='link'
+              name="link"
               className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
             />
           </div>
@@ -270,13 +272,13 @@ function Home() {
             <input
               placeholder="Title"
               onChange={(e) => handleSecondBanner(1, e)}
-              name='title'
+              name="title"
               className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
             />
             <input
               placeholder="Your Link"
               onChange={(e) => handleSecondBanner(1, e)}
-              name='link'
+              name="link"
               className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
             />
           </div>
@@ -286,13 +288,13 @@ function Home() {
             <input
               placeholder="Title"
               onChange={(e) => handleSecondBanner(2, e)}
-              name='title'
+              name="title"
               className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
             />
             <input
               placeholder="Your Link"
               onChange={(e) => handleSecondBanner(2, e)}
-              name='link'
+              name="link"
               className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
             />
           </div>
@@ -306,15 +308,18 @@ function Home() {
             <div>
               <button
                 onClick={handleAddSection}
-                className="border px-4 py-2 rounded bg-green-400 text-white hover:bg-gray-400"
+                className="border px-4 py-2 rounded bg-black text-white shadow-sm hover:bg-gray-400"
               >
                 Add Section
               </button>
             </div>
           </div>
           {sections.map((section, index) => (
-            <div key={index} className="mt-4 border rounded p-2">
+            <div key={index} className=" mt-4 border rounded p-2">
+              {/* <div className='w-full'> */}
+
               <MultiSelectorProductDropdown onSelectData={handleSelectedProductDataChange} />
+              {/* </div> */}
               <div className="flex justify-start p-2">
                 <input
                   placeholder="Section Name"
@@ -336,10 +341,12 @@ function Home() {
         </div>
         <button
           type="submit"
-          className="border px-4 py-2 mb-5 rounded bg-green-400 text-white hover:bg-gray-400"
+          className={`border px-4 py-2 mb-5 rounded bg-${
+            loading ? 'gray-500' : 'black'
+          } text-white shadow-sm e`}
           disabled={loading}
         >
-          {loading ? 'Submiting...' : 'Submit'}
+          {loading ? 'Submit' : 'Submit'}
         </button>
       </form>
     </>
