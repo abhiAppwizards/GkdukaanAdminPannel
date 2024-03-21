@@ -4,6 +4,7 @@ import axios from 'axios'
 import config from 'src/config'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import Select from 'react-select'
 
 const VendorPopup = ({ onClose, editingId, onCall, onToast, component }) => {
   const [email, setEmail] = useState('')
@@ -11,8 +12,24 @@ const VendorPopup = ({ onClose, editingId, onCall, onToast, component }) => {
   const [phoneNumber, setPhoneNumber] = useState('')
   const [transactionId, setTransactionId] = useState('')
   const [note, setNote] = useState('')
+  const [approvel, setApprovel] = useState('')
 
   const token = localStorage.getItem('adminToken')
+
+  const options = [
+    {
+      value: 'true',
+      label: 'True',
+    },
+    {
+      value: 'false',
+      label: 'False',
+    },
+  ]
+
+  const handleApprovelChange = (selectedOption) => {
+    setApprovel(selectedOption.value)
+  }
 
   const fetchVendorData = async () => {
     try {
@@ -21,6 +38,7 @@ const VendorPopup = ({ onClose, editingId, onCall, onToast, component }) => {
           authorization: token,
         },
       })
+      console.log('res...', response.data)
       const { email, store_name, phoneNumber } = response.data
       setEmail(email)
       setStoreName(store_name)
@@ -42,6 +60,7 @@ const VendorPopup = ({ onClose, editingId, onCall, onToast, component }) => {
           email: email,
           store_name: storeName,
           phoneNumber: phoneNumber,
+          approved: approvel,
         },
         {
           headers: {
@@ -71,7 +90,7 @@ const VendorPopup = ({ onClose, editingId, onCall, onToast, component }) => {
           },
         },
       )
-      onToast('Additional data saved successfully')
+      onToast('Payment data saved successfully')
       onClose()
     } catch (error) {
       console.log(error)
@@ -81,7 +100,7 @@ const VendorPopup = ({ onClose, editingId, onCall, onToast, component }) => {
   return (
     <div className="fixed top-14 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50">
       <ToastContainer />
-      <div className="bg-white p-8 rounded shadow-md w-80">
+      <div className="bg-white p-8 rounded shadow-md w-96">
         <h2 className="text-lg font-semibold mb-4">Edit Vendor Details</h2>
         {component === 'vendorDetails' && (
           <>
@@ -121,6 +140,31 @@ const VendorPopup = ({ onClose, editingId, onCall, onToast, component }) => {
                 onChange={(e) => setPhoneNumber(e.target.value)}
               />
             </div>
+            <div className="w-80 mb-3">
+              <span className="mb-2" style={{ display: 'block' }}>
+                Select Approvel<span style={{ color: 'red' }}>*</span>
+              </span>{' '}
+              <Select
+                value={options.find((option) => option.value === approvel)}
+                onChange={handleApprovelChange}
+                options={options}
+                isSearchable
+                placeholder="Search..."
+                styles={{
+                  option: (provided, state) => ({
+                    ...provided,
+                    backgroundColor: 'white',
+                    color: 'black',
+                  }),
+                  control: (provided, state) => ({
+                    ...provided,
+                  }),
+                  menu: (provided, state) => ({
+                    ...provided,
+                  }),
+                }}
+              />
+            </div>
             <button
               onClick={handleSave}
               className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
@@ -129,47 +173,47 @@ const VendorPopup = ({ onClose, editingId, onCall, onToast, component }) => {
             </button>{' '}
           </>
         )}
-          {component === 'vendorPayment' && (
-            <>
-              <div className="mb-4">
-                <label htmlFor="transactionId" className="block mb-1">
-                  Transaction ID
-                </label>
-                <input
-                  type="text"
-                  id="transactionId"
-                  className="w-full border rounded px-2 py-1"
-                  value={transactionId}
-                  onChange={(e) => setTransactionId(e.target.value)}
-                />
-              </div>
-              <div className="mb-4">
-                <label htmlFor="note" className="block mb-1">
-                  Note
-                </label>
-                <textarea
-                  id="note"
-                  className="w-full border rounded px-2 py-1"
-                  value={note}
-                  onChange={(e) => setNote(e.target.value)}
-                />
-              </div>
-            </>
-          )}
-          {component === 'vendorPayment' && (
-            <button
-              onClick={handlePayment}
-              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded ml-2"
-            >
-              Save
-            </button>
-          )}
+        {component === 'vendorPayment' && (
+          <>
+            <div className="mb-4">
+              <label htmlFor="transactionId" className="block mb-1">
+                Transaction ID
+              </label>
+              <input
+                type="text"
+                id="transactionId"
+                className="w-full border rounded px-2 py-1"
+                value={transactionId}
+                onChange={(e) => setTransactionId(e.target.value)}
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="note" className="block mb-1">
+                Note
+              </label>
+              <textarea
+                id="note"
+                className="w-full border rounded px-2 py-1"
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+              />
+            </div>
+          </>
+        )}
+        {component === 'vendorPayment' && (
           <button
-            onClick={onClose}
-            className="ml-2 bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded"
+            onClick={handlePayment}
+            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded ml-2"
           >
-            Cancel
+            Save
           </button>
+        )}
+        <button
+          onClick={onClose}
+          className="ml-2 bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded"
+        >
+          Cancel
+        </button>
       </div>
     </div>
   )

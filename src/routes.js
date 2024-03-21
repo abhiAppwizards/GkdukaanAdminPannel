@@ -31,6 +31,8 @@ const Payments = React.lazy(() => import('./views/pages/Payments/Payments'))
 const VendorPayments = React.lazy(() => import('./views/pages/vendors/VendorPayment'))
 //Notice
 const Notice = React.lazy(() => import('./views/pages/notice/Notice'))
+const Customers = React.lazy(() => import('./views/pages/notice/CustomerNotice'))
+const VendorNotice = React.lazy(() => import('./views/pages/notice/VendorNotice'))
 //Settings
 const Settings = React.lazy(() => import('./views/pages/settings/Settings'))
 //Reviews
@@ -67,8 +69,10 @@ const routes = [
   { path: '/payments', name: 'Payments', element: Payments },
   //vendor Payments
   { path: '/vendorpayments', name: 'Vendor Payments', element: VendorPayments },
-  //Notice
-  { path: '/notice', name: 'Notice', element: Notice },
+  //vendors
+  { path: '/notice', name: 'Notice', element: Cards, exact: true },
+  {path: '/notice/customers', name: 'Customers', element: Customers},
+  {path: '/notice/vendors', name: 'Vendors', element: VendorNotice},
   //Settings
   { path: '/settings', name: 'Settings', element: Settings },
   //Reviews

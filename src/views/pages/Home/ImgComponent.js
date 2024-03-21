@@ -1,46 +1,47 @@
-import axios from 'axios';
-import React, { useState } from 'react';
-import config from 'src/config';
-import PropTypes from 'prop-types';
-import { CSpinner } from '@coreui/react';
+import axios from 'axios'
+import React, { useState } from 'react'
+import config from 'src/config'
+import PropTypes from 'prop-types'
+import { CSpinner } from '@coreui/react'
 
 function ImgComponent({ onFileUpload }) {
-  const [preview, setPreview] = useState(null);
-  const token = localStorage.getItem('adminToken');
-  const [loading,setLoading] = useState(false)
+  const [preview, setPreview] = useState(null)
+  const token = localStorage.getItem('adminToken')
+  const [loading, setLoading] = useState(false)
 
   const handleChange = async (event) => {
-    const file = event.target.files[0];
-    const blob = new Blob([file], { type: file.type });
-    const url = URL.createObjectURL(blob);
+    const file = event.target.files[0]
+    const blob = new Blob([file], { type: file.type })
+    const url = URL.createObjectURL(blob)
 
-    setPreview(url);
+    setPreview(url)
 
     try {
       setLoading(true)
-      const formData = new FormData();
-      formData.append('upload', file);
+      const formData = new FormData()
+      formData.append('upload', file)
       const response = await axios.post(`${config.baseURL}/admin/media/single`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           authorization: token,
         },
-      });
+      })
       setLoading(false)
-      onFileUpload(response.data._id);
-
+      onFileUpload(response.data._id)
     } catch (error) {
-      console.log(error);
+      console.log(error)
       setLoading(false)
     }
-  };
+  }
 
   return (
     <>
       <div className="relative">
         <div className="flex flex-col items-center justify-center w-full h-24 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer hover:bg-gray-100">
           {!loading && preview ? (
-            <img src={preview} alt="Preview" className="w-full h-full object-cover rounded-lg" />
+            <div className="w-full h-full overflow-hidden rounded-lg">
+              <img src={preview} alt="Preview" className="w-full h-full object-cover" />
+            </div>
           ) : (
             <div className="flex flex-col items-center justify-center">
               <svg
@@ -58,7 +59,11 @@ function ImgComponent({ onFileUpload }) {
                 />
               </svg>
               <p className="text-sm text-gray-400">
-                {!loading ? <span className="font-semibold">Click to upload or drag and drop</span>  : <CSpinner color="success" />}
+                {!loading ? (
+                  <span className="font-semibold">Click to upload or drag and drop</span>
+                ) : (
+                  <CSpinner color="success" />
+                )}
               </p>
             </div>
           )}
@@ -71,11 +76,11 @@ function ImgComponent({ onFileUpload }) {
         </div>
       </div>
     </>
-  );
+  )
 }
 
 ImgComponent.propTypes = {
-  onFileUpload: PropTypes.func.isRequired
-};
+  onFileUpload: PropTypes.func.isRequired,
+}
 
-export default ImgComponent;
+export default ImgComponent

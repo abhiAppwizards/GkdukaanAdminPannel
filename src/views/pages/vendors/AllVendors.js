@@ -13,13 +13,19 @@ const AllVendors = ({}) => {
   const [editingId, setEditingId] = useState(null)
   const vendorsPerPage = 10
 
+  const token = localStorage.getItem('adminToken')
+
   useEffect(() => {
     AllVendors()
   }, [])
 
   const AllVendors = async () => {
     try {
-      const response = await axios.get(`${config.baseURL}/admin/vendor`)
+      const response = await axios.get(`${config.baseURL}/admin/vendor`,{
+        headers:{
+          authorization: token
+        }
+      })
       setVendores(response.data)
     } catch (error) {
       console.log(error)
@@ -96,10 +102,13 @@ const AllVendors = ({}) => {
         </div>
       </div>
       <div className="mb-8 rounded-lg bg-white bg-light -3 md:p-8">
-        <div className='flex justify-between'>
+        <div className="flex justify-between">
           <h1 className="font-bold text-xl mb-4"> Your All Vendors:-</h1>
-          {toastMessage && <div className='px-3 rounded-full bg-green-500 text-white mb-3 border flex items-center justify-center'>{toastMessage}</div>}
-
+          {toastMessage && (
+            <div className="px-3 rounded-full bg-green-500 text-white mb-3 border flex items-center justify-center">
+              {toastMessage}
+            </div>
+          )}
         </div>
         <div className="relative overflow-x-auto">
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">

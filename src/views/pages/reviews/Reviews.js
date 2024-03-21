@@ -1,183 +1,43 @@
-import React, { useState } from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import config from 'src/config'
 
 function Reviews() {
   const [currentPage, setCurrentPage] = useState(1)
   const [searchText, setSearchText] = useState('')
+  const [products, setProducts] = useState([])
   const productsPerPage = 10
 
-  const products = [
-    {
-      id: 1,
-      refund_reason: 'Hakan',
-      amount: '200',
-      created: '2',
-      method: 40,
-      total: '01/02/2024',
-      // status: 'pending',
-    },
-    {
-      id: 2,
-      refund_reason: 'John',
-      amount: '200',
-      created: '2',
-      method: 40,
-      total: '01/02/2024',
-      // status: 'pending',
-    },
-    {
-      id: 4,
-      refund_reason: 'Hakan',
-      amount: '200',
-      created: '2',
-      method: 40,
-      total: '01/02/2024',
-      // status: 'pending',
-    },
-    {
-      id: 5,
-      refund_reason: 'Hakan',
-      amount: '200',
-      created: '2',
-      method: 40,
-      total: '01/02/2024',
-      // status: 'pending',
-    },
-    {
-      id: 6,
-      refund_reason: 'Hakan',
-      amount: '200',
-      created: '2',
-      method: 40,
-      total: '01/02/2024',
-      // status: 'pending',
-    },
-    {
-      id: 7,
-      refund_reason: 'Hakan',
-      amount: '200',
-      created: '2',
-      method: 40,
-      total: '01/02/2024',
-      // status: 'pending',
-    },
-    {
-      id: 8,
-      refund_reason: 'Hakan',
-      amount: '200',
-      created: '2',
-      method: 40,
-      total: '01/02/2024',
-      // status: 'pending',
-    },
-    {
-      id: 9,
-      refund_reason: 'Hakan',
-      amount: '200',
-      created: '2',
-      method: 40,
-      total: '01/02/2024',
-      // status: 'pending',
-    },
-    {
-      id: 10,
-      refund_reason: 'Hakan',
-      amount: '200',
-      created: '2',
-      method: 40,
-      total: '01/02/2024',
-      // status: 'pending',
-    },
-    {
-      id: 11,
-      refund_reason: 'Hakan',
-      amount: '200',
-      created: '2',
-      method: 40,
-      total: '01/02/2024',
-      // status: 'pending',
-    },
-    {
-      id: 12,
-      refund_reason: 'Hakan',
-      amount: '200',
-      created: '2',
-      method: 40,
-      total: '01/02/2024',
-      // status: 'pending',
-    },
-    {
-      id: 1,
-      refund_reason: 'Hakan',
-      amount: '200',
-      created: '2',
-      method: 40,
-      total: '01/02/2024',
-      // status: 'pending',
-    },
-    {
-      id: 2,
-      refund_reason: 'John',
-      amount: '200',
-      created: '2',
-      method: 40,
-      total: '01/02/2024',
-      // status: 'pending',
-    },
-    {
-      id: 4,
-      refund_reason: 'Hakan',
-      amount: '200',
-      created: '2',
-      method: 40,
-      total: '01/02/2024',
-      // status: 'pending',
-    },
-    {
-      id: 5,
-      refund_reason: 'Hakan',
-      amount: '200',
-      created: '2',
-      method: 40,
-      total: '01/02/2024',
-      // status: 'pending',
-    },
-    {
-      id: 6,
-      refund_reason: 'Hakan',
-      amount: '200',
-      created: '2',
-      method: 40,
-      total: '01/02/2024',
-      // status: 'pending',
-    },
-    {
-      id: 7,
-      refund_reason: 'Hakan',
-      amount: '200',
-      created: '2',
-      method: 40,
-      total: '01/02/2024',
-      // status: 'pending',
-    },
-    {
-      id: 8,
-      refund_reason: 'Hakan',
-      amount: '200',
-      created: '2',
-      method: 40,
-      total: '01/02/2024',
-      // status: 'pending',
-    },
-    {
-      id: 9,
-      refund_reason: 'Hakan',
-      amount: '200',
-      created: '2',
-      method: 40,
-      total: '01/02/2024',
-      // status: 'pending',
-    },
-  ]
+  const token = localStorage.getItem('adminToken')
+
+  useEffect(() => {
+    getReviews()
+  }, [])
+
+  const getReviews = async () => {
+    try {
+      const res = await axios.get(`${config.baseURL}/admin/reviews`, {
+        headers: {
+          authorization: token,
+        },
+      })
+      console.log('getReviews', res.data)
+      setProducts(res.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`${config.baseURL}/reviews/${id}`, {
+        headers: { authorization: token },
+      })
+      getReviews()
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const totalPages = Math.ceil(products.length / productsPerPage)
   const handleClick = (type) => {
@@ -223,7 +83,6 @@ function Reviews() {
   const indexOfLastProduct = currentPage * productsPerPage
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage
   const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct)
-  // console.log('currentProducts', currentProducts)
 
   return (
     <div>
@@ -241,7 +100,7 @@ function Reviews() {
                   Id
                 </th>
                 <th scope="col" className="px-6 py-3 text-center">
-                  Product
+                  Product Name
                 </th>
                 <th scope="col" className="px-6 py-3 text-center">
                   Customer Review
@@ -250,14 +109,11 @@ function Reviews() {
                   Ratings
                 </th>
                 <th scope="col" className="px-6 py-3 text-center">
-                  Reports
+                  Status
                 </th>
                 <th scope="col" className="px-6 py-3 text-center">
-                  Date
-                </th>
-                {/* <th scope="col" className="px-6 py-3 text-center">
                   Actions
-                </th> */}
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -270,13 +126,13 @@ function Reviews() {
                     scope="row"
                     className="px-6 text-center py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                   >
-                    {product.id}
+                    {product._id}
                   </th>
                   <td className="px-6 py-4 text-center">{product.refund_reason}</td>
-                  <td className="px-6 py-4 text-center">{product.amount}</td>
-                  <td className="rc-table-cell cursor-pointer" style={{textAlign: 'center'}}>
+                  <td className="px-6 py-4 text-center">{product.comment}</td>
+                  <td className="rc-table-cell cursor-pointer" style={{ textAlign: 'center' }}>
                     <div className="inline-flex shrink-0 items-center rounded-full border border-accent px-3 py-0.5 text-base text-accent">
-                      {product.created}
+                      {product.rating}
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 25.056 24"
@@ -293,12 +149,12 @@ function Reviews() {
                       </svg>
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-center">{product.method}</td>
-                  <td className="px-6 py-4 text-center">{product.total}</td>
+                  <td className="px-6 py-4 text-center">{product.status}</td>
 
-                  {/* <td className="rc-table-cell" style={{ textAlign: 'center' }}>
+                  <td className="rc-table-cell" style={{ textAlign: 'center' }}>
                     <div className="inline-flex items-center w-auto gap-3">
-                    <button
+                      <button
+                        onClick={handleDelete(product._id)}
                         className="text-red-500 transition duration-200 hover:text-red-600 focus:outline-none"
                         title="Delete"
                       >
@@ -330,7 +186,7 @@ function Reviews() {
                         </svg>
                       </button>
                     </div>
-                  </td> */}
+                  </td>
                 </tr>
               ))}
             </tbody>

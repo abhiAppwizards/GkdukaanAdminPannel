@@ -5,40 +5,189 @@ import 'react-toastify/dist/ReactToastify.css'
 import { Form } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
-
-
 function RtoOrders() {
-
   const [currentPage, setCurrentPage] = useState(1)
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState('')
   const productsPerPage = 10
 
   const products = [
-    { id: 1, refund_reason: 'Hakan', amount: '200', created: '2 months ago', method: 40, total: 400, status: 'pending' },
-    { id: 2, refund_reason: 'John', amount: '200', created: '2 months ago', method: 40, total: 400, status: 'pending' },
-    { id: 4, refund_reason: 'Hakan', amount: '200', created: '2 months ago', method: 40, total: 400, status: 'pending' },
-    { id: 5, refund_reason: 'Hakan', amount: '200', created: '2 months ago', method: 40, total: 400, status: 'pending' },
-    { id: 6, refund_reason: 'Hakan', amount: '200', created: '2 months ago', method: 40, total: 400, status: 'pending' },
-    { id: 7, refund_reason: 'Hakan', amount: '200', created: '2 months ago', method: 40, total: 400, status: 'pending' },
-    { id: 8, refund_reason: 'Hakan', amount: '200', created: '2 months ago', method: 40, total: 400, status: 'pending' },
-    { id: 9, refund_reason: 'Hakan', amount: '200', created: '2 months ago', method: 40, total: 400, status: 'pending' },
-    { id: 10, refund_reason: 'Hakan', amount: '200', created: '2 months ago', method: 40, total: 400, status: 'pending' },
-    { id: 11, refund_reason: 'Hakan', amount: '200', created: '2 months ago', method: 40, total: 400, status: 'pending' },
-    { id: 12, refund_reason: 'Hakan', amount: '200', created: '2 months ago', method: 40, total: 400, status: 'pending' },
-    { id: 1, refund_reason: 'Hakan', amount: '200', created: '2 months ago', method: 40, total: 400, status: 'pending' },
-    { id: 2, refund_reason: 'John', amount: '200', created: '2 months ago', method: 40, total: 400, status: 'pending' },
-    { id: 4, refund_reason: 'Hakan', amount: '200', created: '2 months ago', method: 40, total: 400, status: 'pending' },
-    { id: 5, refund_reason: 'Hakan', amount: '200', created: '2 months ago', method: 40, total: 400, status: 'pending' },
-    { id: 6, refund_reason: 'Hakan', amount: '200', created: '2 months ago', method: 40, total: 400, status: 'pending' },
-    { id: 7, refund_reason: 'Hakan', amount: '200', created: '2 months ago', method: 40, total: 400, status: 'pending' },
-    { id: 8, refund_reason: 'Hakan', amount: '200', created: '2 months ago', method: 40, total: 400, status: 'pending' },
-    { id: 9, refund_reason: 'Hakan', amount: '200', created: '2 months ago', method: 40, total: 400, status: 'pending' },
+    {
+      id: 1,
+      refund_reason: 'Hakan',
+      amount: '200',
+      created: '2 months ago',
+      method: 40,
+      total: 400,
+      status: 'pending',
+    },
+    {
+      id: 2,
+      refund_reason: 'John',
+      amount: '200',
+      created: '2 months ago',
+      method: 40,
+      total: 400,
+      status: 'pending',
+    },
+    {
+      id: 4,
+      refund_reason: 'Hakan',
+      amount: '200',
+      created: '2 months ago',
+      method: 40,
+      total: 400,
+      status: 'pending',
+    },
+    {
+      id: 5,
+      refund_reason: 'Hakan',
+      amount: '200',
+      created: '2 months ago',
+      method: 40,
+      total: 400,
+      status: 'pending',
+    },
+    {
+      id: 6,
+      refund_reason: 'Hakan',
+      amount: '200',
+      created: '2 months ago',
+      method: 40,
+      total: 400,
+      status: 'pending',
+    },
+    {
+      id: 7,
+      refund_reason: 'Hakan',
+      amount: '200',
+      created: '2 months ago',
+      method: 40,
+      total: 400,
+      status: 'pending',
+    },
+    {
+      id: 8,
+      refund_reason: 'Hakan',
+      amount: '200',
+      created: '2 months ago',
+      method: 40,
+      total: 400,
+      status: 'pending',
+    },
+    {
+      id: 9,
+      refund_reason: 'Hakan',
+      amount: '200',
+      created: '2 months ago',
+      method: 40,
+      total: 400,
+      status: 'pending',
+    },
+    {
+      id: 10,
+      refund_reason: 'Hakan',
+      amount: '200',
+      created: '2 months ago',
+      method: 40,
+      total: 400,
+      status: 'pending',
+    },
+    {
+      id: 11,
+      refund_reason: 'Hakan',
+      amount: '200',
+      created: '2 months ago',
+      method: 40,
+      total: 400,
+      status: 'pending',
+    },
+    {
+      id: 12,
+      refund_reason: 'Hakan',
+      amount: '200',
+      created: '2 months ago',
+      method: 40,
+      total: 400,
+      status: 'pending',
+    },
+    {
+      id: 1,
+      refund_reason: 'Hakan',
+      amount: '200',
+      created: '2 months ago',
+      method: 40,
+      total: 400,
+      status: 'pending',
+    },
+    {
+      id: 2,
+      refund_reason: 'John',
+      amount: '200',
+      created: '2 months ago',
+      method: 40,
+      total: 400,
+      status: 'pending',
+    },
+    {
+      id: 4,
+      refund_reason: 'Hakan',
+      amount: '200',
+      created: '2 months ago',
+      method: 40,
+      total: 400,
+      status: 'pending',
+    },
+    {
+      id: 5,
+      refund_reason: 'Hakan',
+      amount: '200',
+      created: '2 months ago',
+      method: 40,
+      total: 400,
+      status: 'pending',
+    },
+    {
+      id: 6,
+      refund_reason: 'Hakan',
+      amount: '200',
+      created: '2 months ago',
+      method: 40,
+      total: 400,
+      status: 'pending',
+    },
+    {
+      id: 7,
+      refund_reason: 'Hakan',
+      amount: '200',
+      created: '2 months ago',
+      method: 40,
+      total: 400,
+      status: 'pending',
+    },
+    {
+      id: 8,
+      refund_reason: 'Hakan',
+      amount: '200',
+      created: '2 months ago',
+      method: 40,
+      total: 400,
+      status: 'pending',
+    },
+    {
+      id: 9,
+      refund_reason: 'Hakan',
+      amount: '200',
+      created: '2 months ago',
+      method: 40,
+      total: 400,
+      status: 'pending',
+    },
   ]
   const filteredProducts = searchText
-  ? products.filter(product =>
-      product.refund_reason.toLowerCase().includes(searchText.toLowerCase())
-    )
-  : products;
+    ? products.filter((product) =>
+        product.refund_reason.toLowerCase().includes(searchText.toLowerCase()),
+      )
+    : products
   // console.log('filteredProducts',filteredProducts)
 
   const totalPages = Math.ceil(products.length / productsPerPage)
@@ -108,7 +257,6 @@ function RtoOrders() {
               onChange={(e) => setSearchText(e.target.value)}
             />
           </form>
-          
         </div>
       </div>
       <div className="mb-8 rounded-lg bg-white bg-light -3 md:p-8 overflow-x-auto">
@@ -118,25 +266,25 @@ function RtoOrders() {
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-6 py-3 text-center">
-                Id
+                  Id
                 </th>
                 <th scope="col" className="px-6 py-3 text-center">
-                Refund Reason
+                  Refund Reason
                 </th>
                 <th scope="col" className="px-6 py-3 text-center">
-                Customer Email	
+                  Customer Email
                 </th>
                 <th scope="col" className="px-6 py-3 text-center">
-                Amount
+                  Amount
                 </th>
                 <th scope="col" className="px-6 py-3 text-center">
-                Tracking Number
+                  Tracking Number
                 </th>
                 <th scope="col" className="px-6 py-3 text-center">
-                Created
+                  Created
                 </th>
                 <th scope="col" className="px-6 py-3 text-center">
-                Order Date
+                  Order Date
                 </th>
                 <th scope="col" className="px-6 py-3 text-center">
                   Status
@@ -173,33 +321,62 @@ function RtoOrders() {
                   </td>
 
                   <td className="rc-table-cell" style={{ textAlign: 'center' }}>
-                    <div className="inline-flex items-center w-auto gap-3">
-                      <Link
-                        title="Preview"
-                        rel="noreferrer"
+                    <div className="inline-flex items-start w-auto gap-3">
+                      <button
+                        title="Edit"
                         className="text-base transition duration-200 hover:text-heading"
-                        to="/rtoOrders/view"
+                        // onClick={() => handleEdit(category._id)}
                       >
                         <svg
-                          xmlns="http://www.w3.org/2000/svg"x
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth="1.5"
-                          stroke="currentColor"
-                          width="18"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20.547 20.299"
+                          fill="currentColor"
+                          width="15"
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
-                          ></path>
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                          ></path>
+                          <g stroke="currentColor" strokeWidth=".4">
+                            <path
+                              data-name="Path 78"
+                              d="M18.659 12.688a.5.5 0 00-.5.5v4.423a1.5 1.5 0 01-1.494 1.494H2.691A1.5 1.5 0 011.2 17.609V4.629a1.5 1.5 0 011.494-1.494h4.419a.5.5 0 100-1H2.691A2.493 2.493 0 00.2 4.629v12.98A2.493 2.493 0 002.691 20.1h13.976a2.493 2.493 0 002.491-2.491v-4.423a.5.5 0 00-.5-.5zm0 0"
+                            ></path>
+                            <path
+                              data-name="Path 79"
+                              d="M18.96.856a2.241 2.241 0 00-3.17 0L6.899 9.739a.5.5 0 00-.128.219l-1.169 4.219a.5.5 0 00.613.613l4.219-1.169a.5.5 0 00.219-.128l8.886-8.887a2.244 2.244 0 000-3.17zm-10.971 9.21l7.273-7.273 2.346 2.346-7.273 7.273zm-.469.94l1.879 1.875-2.592.718zm11.32-7.1l-.528.528-2.346-2.345.528-.528a1.245 1.245 0 011.761 0l.585.584a1.247 1.247 0 010 1.761zm0 0"
+                            ></path>
+                          </g>
                         </svg>
-                      </Link>
+                      </button>
+                      <button
+                        className="text-red-500 transition duration-200 hover:text-red-600 focus:outline-none"
+                        // onClick={() => handleDelete(category._id)}
+                        title="Delete"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 19.4 22.169"
+                          fill="currentColor"
+                          width="14"
+                        >
+                          <g
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.4"
+                          >
+                            <path
+                              data-name="Rectangle 2"
+                              d="M8.238.7h2.923a2 2 0 012 2v.769h0-6.923 0V2.7a2 2 0 012-2z"
+                            ></path>
+                            <path data-name="Line 1" d="M.7 3.469h18"></path>
+                            <path
+                              data-name="Path 77"
+                              d="M14.649 21.469h-9.9a1.385 1.385 0 01-1.38-1.279L2.085 3.469h15.231L16.029 20.19a1.385 1.385 0 01-1.38 1.279z"
+                            ></path>
+                            <path data-name="Line 2" d="M7.623 6.238V18.7"></path>
+                            <path data-name="Line 3" d="M11.777 6.238V18.7"></path>
+                          </g>
+                        </svg>
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -238,4 +415,4 @@ function RtoOrders() {
   )
 }
 
-export default RtoOrders;
+export default RtoOrders
