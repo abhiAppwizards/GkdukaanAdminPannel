@@ -12,19 +12,19 @@ function Dashboard() {
         <div className="w-96">
           <div className="flex justify-between items-center">
             <h2 className="font-mono">Total Sales</h2>
-            <input readOnly  placeholder="in Rs" className="border shadow-sm px-2 py-1 rounded" />
+            <input readOnly  placeholder="in Rs" className="border shadow-sm px-2 py-1 rounded focus:outline-blue-500" />
           </div>
           <div className="flex justify-between mt-2 items-center">
             <h2 className="font-mono">Total Vendors</h2>
-            <input  readOnly className="border shadow-sm px-2 py-1 rounded" />
+            <input  readOnly className="border shadow-sm px-2 py-1 rounded focus:outline-blue-500" />
           </div>
           <div className="flex justify-between mt-2 items-center">
             <h2 className="font-mono">Total Products</h2>
-            <input readOnly  className="border shadow-sm px-2 py-1 rounded" />
+            <input readOnly  className="border shadow-sm px-2 py-1 rounded focus:outline-blue-500" />
           </div>
           <div className="flex justify-between mt-2 items-center">
             <h2 className="font-mono">Total Orders</h2>
-            <input readOnly  className="border shadow-sm px-2 py-1 rounded" />
+            <input readOnly  className="border shadow-sm px-2 py-1 rounded focus:outline-blue-500" />
           </div>
         </div>
       </div>
@@ -39,7 +39,6 @@ function Dashboard() {
               <th className="px-6 py-3 text-center">SKU</th>
               <th className="px-6 py-3 text-center">Product Weight</th>
               <th className="px-6 py-3 text-center">In stock</th>
-              {/* <th className='px-6 py-3 text-center'>Actions</th> */}
             </tr>
           </thead>
           <tbody>
@@ -76,7 +75,6 @@ function Dashboard() {
               <th className="px-6 py-3 text-center">SKU</th>
               <th className="px-6 py-3 text-center">Product Weight</th>
               <th className="px-6 py-3 text-center">In stock</th>
-              {/* <th className='px-6 py-3 text-center'>Actions</th> */}
             </tr>
           </thead>
           <tbody>
