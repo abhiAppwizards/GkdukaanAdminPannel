@@ -142,15 +142,12 @@ function AddCategory({ onCall }) {
                 <tr>
                   <td className="font-semibold pl-2 pr-32">Upload Image :</td>
                   <td className="pl-4">
-                    {/* <input
-                      className="w-full lg:w-80 px-2 py-1 mt-2 border border-gray-300 rounded focus:outline-blue-400"
-                      type="file"
-                      onChange={handleFileChange}
-                    /> */}
+                    <div className='flex'>
                     <ImgComponent
                       onFileUpload={(fileId) => handleFileUpload(fileId)}
                       name="image1"
                     />
+                    </div>
                   </td>
                 </tr>
                 <tr>

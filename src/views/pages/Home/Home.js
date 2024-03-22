@@ -145,13 +145,13 @@ function Home() {
             <input
               placeholder="Title"
               onChange={(e) => handleTopSliderInputChange(0, e)}
-              className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              className="w-full lg:w-80 px-2 h-10 py-1 mt-2 border border-gray-300 rounded focus:outline-blue-400"
               name="title"
             />
             <input
               placeholder="Your Link"
               onChange={(e) => handleTopSliderInputChange(0, e)}
-              className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              className="w-full lg:w-80 px-2 h-10 py-1 mt-2 border border-gray-300 rounded focus:outline-blue-400"
               name="link"
             />
           </div>
@@ -161,13 +161,13 @@ function Home() {
             <input
               placeholder="Title"
               onChange={(e) => handleTopSliderInputChange(1, e)}
-              className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              className="w-full lg:w-80 px-2 h-10 py-1 mt-2 border border-gray-300 rounded focus:outline-blue-400"
               name="title"
             />
             <input
               placeholder="Your Link"
               onChange={(e) => handleTopSliderInputChange(1, e)}
-              className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              className="w-full lg:w-80 px-2 h-10 py-1 mt-2 border border-gray-300 rounded focus:outline-blue-400"
               name="link"
             />
           </div>
@@ -177,13 +177,13 @@ function Home() {
             <input
               placeholder="Title"
               onChange={(e) => handleTopSliderInputChange(2, e)}
-              className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              className="w-full lg:w-80 px-2 h-10 py-1 mt-2 border border-gray-300 rounded focus:outline-blue-400"
               name="title"
             />
             <input
               placeholder="Your Link"
               onChange={(e) => handleTopSliderInputChange(2, e)}
-              className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              className="w-full lg:w-80 px-2 h-10 py-1 mt-2 border border-gray-300 rounded focus:outline-blue-400"
               name="link"
             />
           </div>
@@ -197,13 +197,13 @@ function Home() {
             <input
               placeholder="Title"
               onChange={(e) => handleTopBannerInputChange(0, e)}
-              className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              className="w-full lg:w-80 px-2 h-10 py-1 mt-2 border border-gray-300 rounded focus:outline-blue-400"
               name="title"
             />
             <input
               placeholder="Your Link"
               onChange={(e) => handleTopBannerInputChange(0, e)}
-              className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              className="w-full lg:w-80 px-2 h-10 py-1 mt-2 border border-gray-300 rounded focus:outline-blue-400"
               name="link"
             />
           </div>
@@ -213,14 +213,14 @@ function Home() {
             <input
               placeholder="Title"
               onChange={(e) => handleTopBannerInputChange(1, e)}
-              className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              className="w-full lg:w-80 px-2 h-10 py-1 mt-2 border border-gray-300 rounded focus:outline-blue-400"
               name="title"
             />
             <input
               placeholder="Your Link"
               onChange={(e) => handleTopBannerInputChange(1, e)}
               name="link"
-              className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              className="w-full lg:w-80 px-2 h-10 py-1 mt-2 border border-gray-300 rounded focus:outline-blue-400"
             />
           </div>
           <div className="mt-8 flex justify-evenly items-center">
@@ -230,13 +230,13 @@ function Home() {
               placeholder="Title"
               onChange={(e) => handleTopBannerInputChange(2, e)}
               name="title"
-              className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              className="w-full lg:w-80 px-2 h-10 py-1 mt-2 border border-gray-300 rounded focus:outline-blue-400"
             />
             <input
               placeholder="Your Link"
               onChange={(e) => handleTopBannerInputChange(2, e)}
               name="link"
-              className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              className="w-full lg:w-80 px-2 h-10 py-1 mt-2 border border-gray-300 rounded focus:outline-blue-400"
             />
           </div>
         </div>
@@ -257,13 +257,13 @@ function Home() {
               placeholder="Title"
               onChange={(e) => handleSecondBanner(0, e)}
               name="title"
-              className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              className="w-full lg:w-80 px-2 h-10 py-1 mt-2 border border-gray-300 rounded focus:outline-blue-400"
             />
             <input
               placeholder="Your Link"
               onChange={(e) => handleSecondBanner(0, e)}
               name="link"
-              className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              className="w-full lg:w-80 px-2 h-10 py-1 mt-2 border border-gray-300 rounded focus:outline-blue-400"
             />
           </div>
           <div className="mt-8 flex justify-evenly items-center">
@@ -273,13 +273,13 @@ function Home() {
               placeholder="Title"
               onChange={(e) => handleSecondBanner(1, e)}
               name="title"
-              className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              className="w-full lg:w-80 px-2 h-10 py-1 mt-2 border border-gray-300 rounded focus:outline-blue-400"
             />
             <input
               placeholder="Your Link"
               onChange={(e) => handleSecondBanner(1, e)}
               name="link"
-              className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              className="w-full lg:w-80 px-2 h-10 py-1 mt-2 border border-gray-300 rounded focus:outline-blue-400"
             />
           </div>
           <div className="mt-8 flex justify-evenly items-center">
@@ -289,13 +289,13 @@ function Home() {
               placeholder="Title"
               onChange={(e) => handleSecondBanner(2, e)}
               name="title"
-              className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              className="w-full lg:w-80 px-2 h-10 py-1 mt-2 border border-gray-300 rounded focus:outline-blue-400"
             />
             <input
               placeholder="Your Link"
               onChange={(e) => handleSecondBanner(2, e)}
               name="link"
-              className="border-2 border-gray-400 outline-none  w-96 h-10 rounded-md px-2"
+              className="w-full lg:w-80 px-2 h-10 py-1 mt-2 border border-gray-300 rounded focus:outline-blue-400"
             />
           </div>
         </div>
@@ -315,28 +315,32 @@ function Home() {
             </div>
           </div>
           {sections.map((section, index) => (
+            <>
             <div key={index} className=" mt-4 border rounded p-2">
               {/* <div className='w-full'> */}
 
               <MultiSelectorProductDropdown onSelectData={handleSelectedProductDataChange} />
               {/* </div> */}
-              <div className="flex justify-start p-2">
+              <div className="flex justify-start gap-5 p-2">
                 <input
                   placeholder="Section Name"
-                  className="border-2 px-2 mr-4 border-gray-400 outline-none w-80 mt-2 h-10 rounded-md"
+                  className="w-full ml-1 lg:w-80 px-2 h-10 py-1 mt-2 border border-gray-300 rounded focus:outline-blue-400"
                   name="sectionName"
                   value={section.sectionName}
                   onChange={(e) => handleInputChange(index, e)}
                 />
                 <input
                   placeholder="Link"
-                  className="border-2 px-2 border-gray-400 outline-none w-80 mt-2 h-10 rounded-md"
+                  className="w-full lg:w-80 px-2 h-10 py-1 mt-2 border border-gray-300 rounded focus:outline-blue-400"
                   name="link"
                   value={section.link}
                   onChange={(e) => handleInputChange(index, e)}
                 />
               </div>
             </div>
+            <hr className='rounded p-2 border-t-4 border-green-500'></hr>
+
+            </>
           ))}
         </div>
         <button

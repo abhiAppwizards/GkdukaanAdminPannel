@@ -1,6 +1,8 @@
-import React, {useState} from 'react'
-import { TECollapse } from "tw-elements-react";
-
+import React, { useState } from 'react'
+import { TECollapse } from 'tw-elements-react'
+import Select from 'react-select'
+import ImgComponent from '../Home/ImgComponent'
+import DropDown from '../orders/dropDown'
 
 function Notice() {
   const [show, setShow] = useState({
@@ -9,13 +11,117 @@ function Notice() {
     collapse3: false,
   })
 
+  const [title, setTitle] = useState()
+  const [description, setDescription] = useState()
+  const [notice, setNotice] = useState()
+  const [fileId,setFileId] = useState()
+
   const toggleShow = (value) => {
     setShow({ ...show, ...value })
   }
 
+  const options = [
+    {
+      value: 'customer',
+      label: 'Customer',
+    },
+    {
+      value: 'vendor',
+      label: 'Vendor',
+    },
+  ]
+
+  const handleOptionChange = (selectedOption) => {
+    setNotice(selectedOption.value)
+  }
+
+  const handleFileUpload = (fileId) => {
+    setFileId(fileId)
+  }
+  
+
   return (
     <>
-      <div id="accordionExample">
+      <div className="bg-white w-full rounded p-4">
+        <h1 className="font-semibold text-lg">Notice</h1>
+      </div>
+      <div className="flex mt-4 border border-white bg-slate-200 rounded px-32  flex-col lg:flex-col lg:justify-around">
+        <div className="flex mt-4 flex-col lg:flex-row lg:justify-between">
+          <div className="mb-3 lg:mr-3">
+            <label className="block">
+              <span className="block">
+                Title<span className="text-red-500">*</span>
+              </span>
+            </label>
+            <input
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full lg:w-80 px-3 py-2 border border-gray-300 rounded focus:outline-blue-400"
+              type="text"
+            />
+          </div>
+          <div>
+            <label className="block">
+              <span className="block">
+                Description<span className="text-red-500">*</span>
+              </span>
+            </label>
+            <textarea
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full lg:w-80 px-3 py-2 border border-gray-300 rounded focus:outline-blue-400"
+              rows="4"
+            ></textarea>
+          </div>
+        </div>
+        <div className="flex mt-4 flex-col mb-4 lg:flex-row lg:justify-between">
+          <div className="mb-3 lg:mr-3 ">
+            <label className="block">
+              <span className="block">
+                Upload Image <span className="text-red-500">*</span>
+              </span>
+            </label>
+            <div className="bg-white rounded w-96">
+              <ImgComponent onFileUpload={(fileId) => handleFileUpload(fileId)} name="image2" />
+            </div>
+          </div>
+          <div>
+            <div className="w-80 mb-3">
+              <label className="block">
+                <span className="block">
+                  Send To <span className="text-red-500">*</span>
+                </span>
+              </label>
+              <Select
+                value={options.find((option) => option.value === notice)}
+                onChange={handleOptionChange}
+                options={options}
+                isSearchable
+                placeholder="Search..."
+                styles={{
+                  option: (provided, state) => ({
+                    ...provided,
+                    backgroundColor: 'white',
+                    color: 'black',
+                  }),
+                  control: (provided, state) => ({
+                    ...provided,
+                  }),
+                  menu: (provided, state) => ({
+                    ...provided,
+                  }),
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+export default Notice
+
+{
+  /* <div id="accordionExample">
         <div className="rounded-t-lg border border-neutral-200 bg-white dark:border-neutral-600 dark:bg-neutral-800">
           <h2 className="mb-0" id="headingOne">
             <button
@@ -159,9 +265,5 @@ function Notice() {
             malesuada vitae pretium et, laoreet at lorem. Curabitur non sollicitudin neque.
           </div>
         </TECollapse>
-      </div>
-    </>
-  )
+      </div> */
 }
-
-export default Notice

@@ -3,17 +3,17 @@ import config from 'src/config'
 import axios from 'axios'
 import PopupBox from '../attributes/Popup'
 import AddCategory from './AddCategory'
-
+import { CSpinner } from '@coreui/react'
 
 const AllCategory = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [categories, setCategories] = useState([])
   const [show, setShow] = useState(false)
-
+  const [isFetching, setIsFetching] = useState(true)
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [editingId, setEditingId] = useState(null)
 
-  const categoriesPerPage = 1;
+  const categoriesPerPage = 1
   const token = localStorage.getItem('adminToken')
 
   useEffect(() => {
@@ -28,12 +28,13 @@ const AllCategory = () => {
         },
       })
       setCategories(response.data)
+      setIsFetching(false)
     } catch (error) {
       console.log(error)
     }
   }
 
-  const handleAddCategory = () =>{
+  const handleAddCategory = () => {
     fetchCategories()
   }
 
@@ -63,7 +64,14 @@ const AllCategory = () => {
     return categories.map((category) => (
       <React.Fragment key={category._id}>
         <tr>
-          <td className="px-6 py-4 text-start">{parentTitle ? Array(depth * 2).fill('-').join('') : ''} {category.title}</td>
+          <td className="px-6 py-4 text-start">
+            {parentTitle
+              ? Array(depth * 2)
+                  .fill('-')
+                  .join('')
+              : ''}{' '}
+            {category.title}
+          </td>
           <td className="px-6 py-4 text-start">{category.description}</td>
           <td className="rc-table-cell" style={{ textAlign: 'start' }}>
             <div className="inline-flex items-start w-auto gap-3">
@@ -125,7 +133,13 @@ const AllCategory = () => {
             </div>
           </td>
         </tr>
-        {category.children && category.children.length > 0 && renderCategories(category.children, parentTitle ? parentTitle : category.title, depth + 1)}
+        {category.children &&
+          category.children.length > 0 &&
+          renderCategories(
+            category.children,
+            parentTitle ? parentTitle : category.title,
+            depth + 1,
+          )}
       </React.Fragment>
     ))
   }
@@ -192,27 +206,33 @@ const AllCategory = () => {
       </div>
 
       {show && <AddCategory onCall={handleAddCategory} />}
-      
+
       <div className="mb-8 rounded-lg bg-white bg-light -3 md:p-8">
         <h1 className="font-bold text-xl mb-4"> Your All categories:-</h1>
-        <div className="relative overflow-x-auto">
-          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                <th scope="col" className="px-12 py-3 text-start">
-                  Title
-                </th>
-                <th scope="col" className=" py-3 text-start">
-                  Description
-                </th>
-                <th scope="col" className=" py-3 text-start">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>{renderCategories(currentCategories)}</tbody>
-          </table>
-        </div>
+        {isFetching ? (
+          <div className="flex justify-center my-8">
+            <CSpinner color="primary" />
+          </div>
+        ) : (
+          <div className="relative overflow-x-auto">
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" className="px-12 py-3 text-start">
+                    Title
+                  </th>
+                  <th scope="col" className=" py-3 text-start">
+                    Description
+                  </th>
+                  <th scope="col" className=" py-3 text-start">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>{renderCategories(currentCategories)}</tbody>
+            </table>
+          </div>
+        )}
         {/* Pagination */}
         <div className="flex justify-center mt-4">
           <button

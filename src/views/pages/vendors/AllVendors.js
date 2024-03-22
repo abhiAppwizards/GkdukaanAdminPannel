@@ -4,12 +4,14 @@ import axios from 'axios'
 import VendorPopup from './vendorPopup'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { CSpinner } from '@coreui/react'
 
 const AllVendors = ({}) => {
   const [currentPage, setCurrentPage] = useState(1)
   const [vendors, setVendores] = useState([])
   const [toastMessage, setToastMessage] = useState('')
   const [isPopupOpen, setIsPopupOpen] = useState(false)
+  const [isFetching, setIsFetching] = useState(true)
   const [editingId, setEditingId] = useState(null)
   const vendorsPerPage = 10
 
@@ -27,6 +29,7 @@ const AllVendors = ({}) => {
         }
       })
       setVendores(response.data)
+      setIsFetching(false)
     } catch (error) {
       console.log(error)
     }
@@ -110,7 +113,9 @@ const AllVendors = ({}) => {
             </div>
           )}
         </div>
-        <div className="relative overflow-x-auto">
+        {isFetching ? <div className="flex justify-center my-8">
+            <CSpinner color="primary" />
+          </div> : (<div className="relative overflow-x-auto">
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
@@ -183,7 +188,7 @@ const AllVendors = ({}) => {
               ))}
             </tbody>
           </table>
-        </div>
+        </div>)}
         {/* Pagination */}
         <div className="flex justify-center mt-4">
           <button

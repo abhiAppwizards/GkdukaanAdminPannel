@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-// import DropDown from '../products/productComponent/Dropdown'
+import { useParams } from 'react-router-dom'
 
 function View() {
   const [selectedStatus, setSelectedStatus] = useState('')
@@ -10,9 +10,15 @@ function View() {
     { status: 'order at localfacility' },
   ]
   const allStatus = status.map((data) => data.status)
+  const {id} = useParams();
 
   const statusChange = (status) => {
     setSelectedStatus(status)
+  }
+
+
+  const getDetails = () => {
+    
   }
   return (
     <>

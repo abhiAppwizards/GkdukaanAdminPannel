@@ -6,11 +6,13 @@ import 'react-toastify/dist/ReactToastify.css'
 import { Link } from 'react-router-dom'
 import config from 'src/config'
 import axios from 'axios'
+import { CSpinner } from '@coreui/react'
 
 function AllOrders() {
   const [searchText,setSearchText] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
   const [ordersData, setOrdersData] = useState([])
+  const [isFetching,setIsFetching] = useState(true)
   const ordersDataPerPage = 10
   const token = localStorage.getItem('adminToken')
 
@@ -26,6 +28,8 @@ const getAllOrders = async() =>{
         "authorization": token
       }
     })
+    setIsFetching(false)
+    console.log(response.data)
     setOrdersData(response.data)
   } catch (error) {
     console.log('error',error)
@@ -149,7 +153,9 @@ const getAllOrders = async() =>{
       </div>
       <div className="mb-8 rounded-lg bg-white bg-light -3 md:p-8">
         <h1 className="font-bold text-xl mb-4"> Your All Orders :-</h1>
-        <div className="relative overflow-x-auto">
+        {isFetching ? <div className="flex justify-center my-8">
+            <CSpinner color="primary" />
+          </div> : (<div className="relative overflow-x-auto">
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
@@ -230,7 +236,7 @@ const getAllOrders = async() =>{
               ))}
             </tbody>
           </table>
-        </div>
+        </div>)}
         {/* Pagination */}
         <div className="flex justify-center mt-4">
           <button
