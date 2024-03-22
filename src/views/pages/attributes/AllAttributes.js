@@ -73,13 +73,21 @@ const AllAttributes = () => {
   }
 
   const handleDelete = async (id) => {
-    await axios.delete(`${config.baseURL}/admin/attributes/${id}`, {
-      headers: {
-        authorization: token,
-      },
-    })
-    AllAttributes()
-  }
+    if (window.confirm('Are you sure you want to delete this attribute?')) {
+      try {
+        await axios.delete(`${config.baseURL}/admin/attributes/${id}`, {
+          headers: {
+            authorization: token,
+          },
+        });
+        AllAttributes();
+        toast.success('Attribute deleted successfully');
+      } catch (error) {
+        // console.error('Error deleting attribute:', error);
+        toast.error('Failed to delete attribute');
+      }
+    }
+  };
 
   const handleSubmit = async () => {
     setLoading(true)
@@ -330,7 +338,10 @@ const AllAttributes = () => {
       )}
 
       <div className="mb-8 rounded-lg bg-white bg-light -3 md:p-8">
-        <h1 className="font-bold text-xl mb-4"> Your All attributes:-</h1>
+        <div className="flex justify-between">
+          <h1 className="font-bold text-xl mb-4 "> Your All attributes:-</h1>
+          {/* <span className='bg-red-400 px-28 h-8 flex rounded text-white items-center'>deleted</span> */}
+        </div>
         {isFetching ? (
           <div className="flex justify-center my-8">
             <CSpinner color="primary" />

@@ -43,12 +43,14 @@ const AllCategory = () => {
   }
 
   const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this Category?')) {
     await axios.delete(`${config.baseURL}/admin/categories/${id}`, {
       headers: {
         authorization: token,
       },
     })
     fetchCategories()
+  }
   }
 
   const handleEdit = (id) => {
