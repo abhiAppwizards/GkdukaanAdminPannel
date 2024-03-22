@@ -5,18 +5,16 @@ import config from 'src/config'
 
 function Reviews() {
   const [currentPage, setCurrentPage] = useState(1)
-  const [searchText, setSearchText] = useState('')
   const [products, setProducts] = useState([])
-  const [selectedStatus, setSelectedStatus] = useState()
   const [isFetching, setIsFetching] = useState(true)
-  const [status, setStatus] = useState()
+  const [productStatuses, setProductStatuses] = useState({});
+
   const productsPerPage = 10
 
   const token = localStorage.getItem('adminToken')
 
   const handleStatusChange = async (e, id) => {
     const newStatus = e.target.value
-    setSelectedStatus(newStatus)
 
     try {
       const response = await axios.put(
@@ -29,7 +27,11 @@ function Reviews() {
             authorization: token,
           },
         },
-      )
+      );
+      setProductStatuses(prevState => ({
+        ...prevState,
+        [id]: newStatus
+      }));
     } catch (error) {
       console.error('Error:', error)
     }
@@ -188,12 +190,9 @@ function Reviews() {
                     <td className="px-6 py-4 text-center">
                       <select
                         className="outline-none text-center"
-                        value={selectedStatus}
+                        value={productStatuses[product._id] || product.status}
                         onChange={(e) => handleStatusChange(e, product._id)}
                       >
-                        <option value={status} disabled hidden>
-                          {product.status}
-                        </option>
                         <option value="Approved">Approved</option>
                         <option value="Rejected">Rejected</option>
                       </select>
