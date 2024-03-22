@@ -364,7 +364,7 @@ const AllAttributes = () => {
                       scope="row"
                       className="px-6 text-center py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                     >
-                      {attribute.categories_id[0].title}
+                      {attribute.categories_id[0]?.title}
                     </th>
                     <td className="px-6 py-4 text-center">{attribute.name}</td>
                     <td className="px-6 py-4 text-center">{attribute.type}</td>
