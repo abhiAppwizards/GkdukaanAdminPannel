@@ -70,7 +70,7 @@ const ResetPassword = () => {
                       <CIcon icon={cilLockLocked} />
                     </CInputGroupText>
                     <CFormInput
-                      type="number"
+                      type="text"
                       placeholder="OTP"
                       value={otp}
                       onChange={(e) => setOtp(e.target.value)}

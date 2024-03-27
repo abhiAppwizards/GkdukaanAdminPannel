@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
   CButton,
   CCard,
@@ -11,37 +11,39 @@ import {
   CInputGroupText,
   CRow,
   CCardGroup,
-} from '@coreui/react';
-import CIcon from '@coreui/icons-react';
-import { Link } from 'react-router-dom';
-import { cilLockLocked, cilUser } from '@coreui/icons';
-import { useNavigate } from 'react-router-dom';
-import config from 'src/config';
+} from '@coreui/react'
+import CIcon from '@coreui/icons-react'
+import { Link } from 'react-router-dom'
+import { cilLockLocked, cilUser } from '@coreui/icons'
+import { useNavigate } from 'react-router-dom'
+import config from 'src/config'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-
 const Register = () => {
-  const navigate = useNavigate();
-  const [admin, setAdmin] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading,setLoading] = useState(false);
-  const [repeatPassword, setRepeatPassword] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [error, setError] = useState(null);
-  const [successMessage, setSuccessMessage] = useState('');
+  const navigate = useNavigate()
+  const [admin, setAdmin] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [repeatPassword, setRepeatPassword] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [error, setError] = useState(null)
+  const [successMessage, setSuccessMessage] = useState('')
 
   const isValidEmail = (value) => {
     // Simple email validation using a regular expression
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(value);
-  };
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(value)
+  }
 
   const handleRegister = () => {
-    setLoading(true);
-    setError(null);
-  
+    setLoading(true)
+    setError(null)
+
+    // Regular expression to allow only letters and spaces
+    const nameRegex = /^[a-zA-Z\s]*$/
+
     if (
       !admin.trim() ||
       !email.trim() ||
@@ -49,13 +51,18 @@ const Register = () => {
       !repeatPassword.trim() ||
       !phoneNumber.trim()
     ) {
-      setError('Please fill all the fields.');
-      setLoading(false);
-      return;
+      setError('Please fill all the fields.')
+      setLoading(false)
+      return
+    } else if (!nameRegex.test(admin.trim())) {
+      setError('Name field should contain only letters and spaces.')
+      setLoading(false)
+      return
     }
+
     if (password !== repeatPassword) {
-      setError('Passwords do not match');
-      setLoading(false);
+      setError('Passwords do not match')
+      setLoading(false)
     } else {
       fetch(`${config.baseURL}/admin/auth/signup`, {
         method: 'POST',
@@ -63,35 +70,57 @@ const Register = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          adminName: admin, 
-          email: email, 
+          adminName: admin,
+          email: email,
           password: password,
-          phoneNumber:phoneNumber
+          phoneNumber: phoneNumber,
         }),
       })
         .then(async (response) => {
-          const data = await response.json();
+          const data = await response.json()
           if (data.success !== true) {
-            throw new Error(data.message || 'Registration failed. Please check your details and try again.');
+            throw new Error(
+              data.message || 'Registration failed. Please check your details and try again.',
+            )
           }
-          return data;
+          return data
         })
         .then((data) => {
-          toast.success('Rgistered Successfully')
-          navigate('/dashboard');
+          toast.success('Registration successful!', {
+            position: 'top-center',
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          setTimeout(() => {
+            navigate('/dashboard');
+          }, 1000);
         })
         .catch((error) => {
-          setError(error.message);
+          setError(error.message)
         })
         .finally(() => {
-          setLoading(false);
-        });
+          setLoading(false)
+        })
     }
-  };
+  }
 
   return (
     <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
-      <ToastContainer />
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <CContainer>
         <CRow className="justify-content-center">
           <CCol md={8}>
@@ -116,7 +145,7 @@ const Register = () => {
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
                       <CFormInput
-                        placeholder="Your Name" 
+                        placeholder="Your Name"
                         autoComplete="name"
                         value={admin}
                         onChange={(e) => setAdmin(e.target.value)}
@@ -172,7 +201,7 @@ const Register = () => {
                   </CForm>
                 </CCardBody>
               </CCard>
-              <CCard className="text-white bg-primary py-5" >
+              <CCard className="text-white bg-primary py-5">
                 <CCardBody className="p-4">
                   <div>
                     <h2>Log In</h2>
@@ -193,7 +222,7 @@ const Register = () => {
         </CRow>
       </CContainer>
     </div>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register
