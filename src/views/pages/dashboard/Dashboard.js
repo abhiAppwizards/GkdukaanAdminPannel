@@ -19,7 +19,6 @@ function Dashboard() {
         authorization: token,
       },
     })
-    console.log('res', res.data)
     setData(res.data)
   }
 
