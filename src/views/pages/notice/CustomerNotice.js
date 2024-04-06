@@ -6,11 +6,6 @@ import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 function CustomerNotice() {
-  //     const [show, setShow] = useState({
-  //     collapse1: false,
-  //     collapse2: false,
-  //     collapse3: false,
-  //   })
 
   const [addNotice, setAddNotice] = useState(false)
   const [getAllNotice, setGetAllNotice] = useState([])
@@ -65,7 +60,7 @@ function CustomerNotice() {
           authorization: token,
         },
       })
-      setGetAllNotice(res.data)
+      setGetAllNotice(res.data.customerNotices)
       setLoading(false)
     } catch (error) {
       console.log(error)

@@ -33,7 +33,7 @@ const ResetPassword = () => {
       return;
     }
 
-    fetch(`${config.baseURL}/vendor/auth/reset-password`, {
+    fetch(`${config.baseURL}/admin/auth/reset-password`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

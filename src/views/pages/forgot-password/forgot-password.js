@@ -18,12 +18,13 @@ import { useNavigate } from 'react-router-dom';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
-  const [loading, setLoading] = useState(false); // Fix here
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleForgotPassword = () => {
     setLoading(true);
-    fetch(`${config.baseURL}/vendor/auth/forgot-password`, {
+    fetch(`${config.baseURL}/admin/auth/forgot-password`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -32,7 +33,13 @@ const ForgotPassword = () => {
         email: email,
       }),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Failed to reset password');
+        }
+      })
       .then((data) => {
         console.log(data);
         setLoading(false);
@@ -41,6 +48,7 @@ const ForgotPassword = () => {
       .catch((error) => {
         console.error('Forgot password error:', error);
         setLoading(false);
+        setError(error.message);
       });
   };
 
@@ -52,7 +60,7 @@ const ForgotPassword = () => {
             <CCard className="p-4">
               <CCardBody>
                 <CForm>
-                  <h1 className='mb-3'>Forgot Password</h1>
+                  <h1 className="mb-3">Forgot Password</h1>
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
                       <CIcon icon={cilUser} />
@@ -65,6 +73,7 @@ const ForgotPassword = () => {
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </CInputGroup>
+                  {error && <p className="text-danger">{error}</p>}
                   <CRow>
                     <CCol xs={6}>
                       <CButton
@@ -85,6 +94,6 @@ const ForgotPassword = () => {
       </CContainer>
     </div>
   );
-}
+};
 
 export default ForgotPassword;
