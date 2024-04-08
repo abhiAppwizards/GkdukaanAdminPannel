@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import config from 'src/config'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
 import Select from 'react-select'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import PopupBox from './Popup'
 import { Button } from 'react-bootstrap'
 import { CSpinner } from '@coreui/react'
+import useApi from 'src/api'
 
 const AllAttributes = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [attributes, setAttributes] = useState([])
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [categories, setCategories] = useState([])
-  const [loading, setLoading] = useState(false)
+  // const [loading, setLoading] = useState(false)
   const [isFetching, setIsFetching] = useState(true)
 
   const [isPopupOpen, setIsPopupOpen] = useState(false)
@@ -24,13 +22,14 @@ const AllAttributes = () => {
   const [show, setShow] = useState(false)
   const [showInput, setShowInput] = useState(false)
   const attributesPerPage = 10
-  const token = localStorage.getItem('adminToken')
   const [formData, setFormData] = useState({
     title: '',
     type: '',
     values: [],
     categories_id: [],
   })
+
+  const { fetchData, loading, setLoading } = useApi()
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -47,12 +46,8 @@ const AllAttributes = () => {
 
   const AllCategory = async () => {
     try {
-      const response = await axios.get(`${config.baseURL}/admin/categories`, {
-        headers: {
-          authorization: token,
-        },
-      })
-      setCategories(response.data)
+      const response = await fetchData(`/admin/categories`, 'get')
+      setCategories(response)
       setIsFetching(false)
     } catch (error) {
       console.log(error)
@@ -61,12 +56,8 @@ const AllAttributes = () => {
 
   const AllAttributes = async () => {
     try {
-      const response = await axios.get(`${config.baseURL}/admin/attributes`, {
-        headers: {
-          authorization: token,
-        },
-      })
-      setAttributes(response.data)
+      const response = await fetchData(`/admin/attributes`, 'get')
+      setAttributes(response)
     } catch (error) {
       console.log(error)
     }
@@ -75,38 +66,26 @@ const AllAttributes = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this attribute?')) {
       try {
-        await axios.delete(`${config.baseURL}/admin/attributes/${id}`, {
-          headers: {
-            authorization: token,
-          },
-        });
-        AllAttributes();
-        toast.success('Attribute deleted successfully');
+        await fetchData(`/admin/attributes/${id}`, 'delete')
+        AllAttributes()
+        toast.success('Attribute deleted successfully')
       } catch (error) {
-        // console.error('Error deleting attribute:', error);
-        toast.error('Failed to delete attribute');
+        toast.error('Failed to delete attribute')
       }
     }
-  };
+  }
 
   const handleSubmit = async () => {
     setLoading(true)
     try {
-      const res = await axios.post(
-        `${config.baseURL}/admin/attributes`,
-        {
-          name: formData.title,
-          type: selectedType.value,
-          values: formData.values,
-          categories_id: selectedCategory.value,
-        },
-        {
-          headers: { authorization: token },
-        },
-      )
+      const res = await fetchData(`/admin/attributes`, 'post', {
+        name: formData.title,
+        type: selectedType.value,
+        values: formData.values,
+        categories_id: selectedCategory.value,
+      })
       AllAttributes()
       toast.success('Attribute is Created')
-      // Reset form fields after successful submission
       setFormData({
         title: '',
         type: '',

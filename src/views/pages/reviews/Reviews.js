@@ -1,7 +1,6 @@
 import { CSpinner } from '@coreui/react'
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import config from 'src/config'
+import useApi from 'src/api'
 
 function Reviews() {
   const [currentPage, setCurrentPage] = useState(1)
@@ -11,22 +10,17 @@ function Reviews() {
 
   const productsPerPage = 10
 
-  const token = localStorage.getItem('adminToken')
+  const {fetchData} = useApi()
 
   const handleStatusChange = async (e, id) => {
     const newStatus = e.target.value
 
     try {
-      const response = await axios.put(
-        `${config.baseURL}/reviews/${id}`,
+      const response = await fetchData(
+        `/reviews/${id}`,'put',
         {
           status: newStatus,
-        },
-        {
-          headers: {
-            authorization: token,
-          },
-        },
+        }
       );
       setProductStatuses(prevState => ({
         ...prevState,
@@ -43,15 +37,9 @@ function Reviews() {
 
   const getReviews = async () => {
     try {
-      const res = await axios.get(`${config.baseURL}/admin/reviews`, {
-        headers: {
-          authorization: token,
-        },
-      })
+      const res = await fetchData(`/admin/reviews`,'get')
       setIsFetching(false)
-      console.log('recies',res.data)
-
-      setProducts(res.data)
+      setProducts(res)
     } catch (error) {
       console.log(error)
     }
@@ -59,9 +47,7 @@ function Reviews() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${config.baseURL}/reviews/${id}`, {
-        headers: { authorization: token },
-      })
+      await fetchData(`/reviews/${id}`,'delete')
       getReviews()
     } catch (error) {
       console.log(error)

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Button } from 'react-bootstrap'
 import Select from 'react-select'
-import config from 'src/config'
-import axios from 'axios'
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import PropTypes from 'prop-types'
 import ImgComponent from '../Home/ImgComponent'
+import useApi from 'src/api'
 
-function AddCategory({ onCall }) {
+function AddCategory({ onCall, setShow }) {
   const [loading, setLoading] = useState(false)
   const [categories, setCategories] = useState([])
   const [selectedCategory, setSelectedCategory] = useState(null)
@@ -14,7 +14,8 @@ function AddCategory({ onCall }) {
   const [description, setDescription] = useState('')
   const [message, setMessage] = useState('')
   const [uploadedId,setUploadedId] = useState({})
-  const token = localStorage.getItem('adminToken')
+
+  const {fetchData} = useApi()
 
   useEffect(() => {
     AllCategory()
@@ -22,12 +23,8 @@ function AddCategory({ onCall }) {
 
   const AllCategory = async () => {
     try {
-      const response = await axios.get(`${config.baseURL}/admin/categories`, {
-        headers: {
-          authorization: token,
-        },
-      })
-      setCategories(response.data)
+      const response = await fetchData(`/admin/categories`, 'get')
+      setCategories(response)
     } catch (error) {
       console.log(error)
     }
@@ -47,11 +44,9 @@ function AddCategory({ onCall }) {
         parentId: selectedCategory ? selectedCategory.value : null,
       }
 
-      const response = await axios.post(`${config.baseURL}/admin/categories`, requestData, {
-        headers: {
-          authorization: token,
-        },
-      })
+      const response = await fetchData(`/admin/categories`,'post', requestData)
+      setShow(false)
+      toast.success('Form submitted successfully')
       setMessage('Form submitted successfully')
       onCall()
       AllCategory()
@@ -62,6 +57,7 @@ function AddCategory({ onCall }) {
         setMessage('')
       }, 1000)
     } catch (error) {
+      toast.error('Failed to submit form')
       setMessage('Failed to submit form')
       setTimeout(() => {
         setMessage('')
@@ -101,6 +97,7 @@ function AddCategory({ onCall }) {
 
   return (
     <>
+      <ToastContainer />
       <div>
         <div className="rounded p-4 shadow md:p-8 mb-8 bg-white justify-between">
           {message && (
@@ -196,6 +193,8 @@ function AddCategory({ onCall }) {
 }
 AddCategory.propTypes = {
   onCall: PropTypes.func.isRequired,
+  setShow: PropTypes.bool.isRequired,
+  
 }
 
 export default AddCategory

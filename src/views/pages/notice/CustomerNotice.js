@@ -1,43 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import ImgComponent from '../Home/ImgComponent'
-import axios from 'axios'
-import config from 'src/config'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import useApi from 'src/api'
+import { CSpinner } from '@coreui/react'
 
 function CustomerNotice() {
-
   const [addNotice, setAddNotice] = useState(false)
   const [getAllNotice, setGetAllNotice] = useState([])
-
+  const [isFetching, setIsFetching] = useState(true)
   const [title, setTitle] = useState()
   const [description, setDescription] = useState()
   const [loading, setLoading] = useState(false)
   const [fileId, setFileId] = useState()
   const [isAccordionOpen, setIsAccordionOpen] = useState(false)
 
-  const token = localStorage.getItem('adminToken')
-
-  //   const toggleShow = (value) => {
-  //     setShow({ ...show, ...value })
-  //   }
+  const { fetchData } = useApi()
 
   const handleAddNotice = async () => {
     setLoading(true)
     try {
-      const res = await axios.post(
-        `${config.baseURL}/notice`,
-        {
-          title: title,
-          description: description,
-          media_id: fileId,
-        },
-        {
-          headers: {
-            authorization: token,
-          },
-        },
-      )
+      const res = await fetchData(`/notice`, 'post', {
+        title: title,
+        description: description,
+        media_id: fileId,
+      })
       setLoading(false)
       setAddNotice(false)
       toast.success('Data submitted successfully')
@@ -55,12 +42,9 @@ function CustomerNotice() {
   const getNotices = async () => {
     setLoading(true)
     try {
-      const res = await axios.get(`${config.baseURL}/notice`, {
-        headers: {
-          authorization: token,
-        },
-      })
-      setGetAllNotice(res.data.customerNotices)
+      const res = await fetchData(`/notice`, 'get')
+      setGetAllNotice(res.customerNotices)
+      setIsFetching(false)
       setLoading(false)
     } catch (error) {
       console.log(error)
@@ -70,25 +54,21 @@ function CustomerNotice() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${config.baseURL}/notice/${id}`,{
-        headers:{
-          authorization:token,
-        }
-      });
-      getNotices(); 
-      toast.success('Notice deleted successfully');
+      await fetchData(`/notice/${id}`, 'delete')
+      getNotices()
+      toast.success('Notice deleted successfully')
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   const handleShow = () => {
     setAddNotice(!addNotice)
   }
 
   const toggleAccordion = (id) => {
-    setIsAccordionOpen(id === isAccordionOpen ? null : id);
-  };
+    setIsAccordionOpen(id === isAccordionOpen ? null : id)
+  }
 
   const handleFileUpload = (fileId) => {
     setFileId(fileId)
@@ -154,56 +134,66 @@ function CustomerNotice() {
           </button>
         </div>
       )}
-      {getAllNotice?.map((notice) => (
-        <div key={notice._id} className="bg-slate-500 w-full mt-3  rounded px-4 py-2">
-          <div
-            className="cursor-pointer flex items-center  justify-between"
-            onClick={() => toggleAccordion(notice._id)}
-          >
-            <h3 className="text-lg font-semibold text-white">{notice.title}</h3>
-            <div className="bg-white p-2 flex rounded-full items-center">
-              <button
-                onClick={() => handleDelete(notice._id)}
-                className="text-red-600 transition duration-200 hover:text-red-300 focus:outline-none"
-                title="Delete"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 19.4 22.169"
-                  fill="currentColor"
-                  width="14"
-                >
-                  <g
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.4"
-                  >
-                    <path
-                      data-name="Rectangle 2"
-                      d="M8.238.7h2.923a2 2 0 012 2v.769h0-6.923 0V2.7a2 2 0 012-2z"
-                    ></path>
-                    <path data-name="Line 1" d="M.7 3.469h18"></path>
-                    <path
-                      data-name="Path 77"
-                      d="M14.649 21.469h-9.9a1.385 1.385 0 01-1.38-1.279L2.085 3.469h15.231L16.029 20.19a1.385 1.385 0 01-1.38 1.279z"
-                    ></path>
-                    <path data-name="Line 2" d="M7.623 6.238V18.7"></path>
-                    <path data-name="Line 3" d="M11.777 6.238V18.7"></path>
-                  </g>
-                </svg>
-              </button>
-            </div>
-          </div>
-          {isAccordionOpen === notice._id && (
-            <div className="mt-3 bg-white rounded p-2">
-              <h2 className="font-semibold mr-2">Description : </h2>
-              <p>{notice.description}</p>
-            </div>
-          )}
+      {isFetching ? (
+        <div className="flex justify-center my-8">
+          <CSpinner color="primary" />
         </div>
-      ))}
+      ) : (
+        <div>
+          {getAllNotice?.map((notice) => (
+            <>
+              <div key={notice._id} className="bg-white w-full mt-3 shadow-md  rounded px-4 py-2">
+                <div
+                  className="cursor-pointer flex items-center  justify-between"
+                  onClick={() => toggleAccordion(notice._id)}
+                >
+                  <h3 className="text-lg font-bold ">{notice.title}</h3>
+                  <div className=" p-2 flex border hover:bg-red-300 rounded-full items-center">
+                    <button
+                      onClick={() => handleDelete(notice._id)}
+                      className="text-red-600 transition duration-200 focus:outline-none"
+                      title="Delete"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 19.4 22.169"
+                        fill="currentColor"
+                        width="14"
+                      >
+                        <g
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="1.4"
+                        >
+                          <path
+                            data-name="Rectangle 2"
+                            d="M8.238.7h2.923a2 2 0 012 2v.769h0-6.923 0V2.7a2 2 0 012-2z"
+                          ></path>
+                          <path data-name="Line 1" d="M.7 3.469h18"></path>
+                          <path
+                            data-name="Path 77"
+                            d="M14.649 21.469h-9.9a1.385 1.385 0 01-1.38-1.279L2.085 3.469h15.231L16.029 20.19a1.385 1.385 0 01-1.38 1.279z"
+                          ></path>
+                          <path data-name="Line 2" d="M7.623 6.238V18.7"></path>
+                          <path data-name="Line 3" d="M11.777 6.238V18.7"></path>
+                        </g>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                {isAccordionOpen === notice._id && (
+                  <div className="mt-3 bg-white rounded p-2">
+                    <h2 className="font-semibold mr-2">Description : </h2>
+                    <p>{notice.description}</p>
+                  </div>
+                )}
+              </div>
+            </>
+          ))}
+        </div>
+      )}
     </>
   )
 }

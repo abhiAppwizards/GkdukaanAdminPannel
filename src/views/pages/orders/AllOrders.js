@@ -4,9 +4,8 @@ import { useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Link } from 'react-router-dom'
-import config from 'src/config'
-import axios from 'axios'
 import { CSpinner } from '@coreui/react'
+import useApi from 'src/api'
 
 function AllOrders() {
   const [searchText,setSearchText] = useState('')
@@ -14,8 +13,8 @@ function AllOrders() {
   const [ordersData, setOrdersData] = useState([])
   const [isFetching,setIsFetching] = useState(true)
   const ordersDataPerPage = 10
-  const token = localStorage.getItem('adminToken')
 
+const {fetchData} = useApi()
 
   useEffect(()=>{
     getAllOrders()
@@ -23,14 +22,10 @@ function AllOrders() {
 
 const getAllOrders = async() =>{
   try {
-    const response = await axios.get(`${config.baseURL}/admin/order`,{
-      "headers": {
-        "authorization": token
-      }
-    })
+    const response = await fetchData(`/admin/order`,'get')
     setIsFetching(false)
-    console.log(response.data)
-    setOrdersData(response.data)
+    console.log(response)
+    setOrdersData(response)
   } catch (error) {
     console.log('error',error)
   }

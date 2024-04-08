@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { CSpinner } from '@coreui/react'
 import { Button } from 'react-bootstrap'
-import config from 'src/config'
-import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import Select from 'react-select'
-
+import useApi from 'src/api'
 function Support() {
   const [show, setShow] = useState(false)
   const [loading, setLoading] = useState(false)
   const [tickets, setTickets] = useState([])
+  const [isFetching, setIsFetching] = useState(true)
   const [selectedVendor, setSelectedVendor] = useState('')
   const [formData, setFormData] = useState({
     title: '',
@@ -28,9 +27,18 @@ function Support() {
     }))
   }
 
+  const handleDelete = async (id) => {
+    try {
+      // await fetchData(`/reviews/${id}`,'delete')
+      // getReviews()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const navigate = useNavigate()
 
-  const token = localStorage.getItem('adminToken')
+  const { fetchData } = useApi()
 
   const handleShow = () => {
     setShow(!show)
@@ -45,12 +53,9 @@ function Support() {
 
   const getTickits = async () => {
     try {
-      const res = await axios.get(`${config.baseURL}/admin/settings/support-ticket`, {
-        headers: {
-          authorization: token,
-        },
-      })
-      setTickets(res.data)
+      const res = await fetchData(`/admin/settings/support-ticket`, 'get')
+      setIsFetching(false)
+      setTickets(res)
     } catch (error) {
       console.log(error)
     }
@@ -58,12 +63,8 @@ function Support() {
 
   const getVendors = async () => {
     try {
-      const res = await axios.get(`${config.baseURL}/admin/vendor`, {
-        headers: {
-          authorization: token,
-        },
-      })
-      setVendors(res.data)
+      const res = await fetchData(`/admin/vendor`, 'get')
+      setVendors(res)
     } catch (error) {
       console.log(error)
     }
@@ -72,19 +73,11 @@ function Support() {
   const handleSubmit = async () => {
     setLoading(true)
     try {
-      const response = await axios.post(
-        `${config.baseURL}/admin/settings/support-ticket`,
-        {
-          title: formData.title,
-          description: formData.description,
-          vendor_id: selectedVendor,
-        },
-        {
-          headers: {
-            authorization: token,
-          },
-        },
-      )
+      const response = await fetchData(`/admin/settings/support-ticket`, 'post', {
+        title: formData.title,
+        description: formData.description,
+        vendor_id: selectedVendor,
+      })
       getTickits()
       toast.success('Support added successfully')
       setLoading(false)
@@ -186,14 +179,58 @@ function Support() {
           )}
           <div className="rounded bg-white p-4 shadow md:p-8 mb-8">
             <h2 className="text-lg font-semibold mb-4">All Ticket IDs</h2>
-            <div>
-              {tickets &&
-                tickets.map((ticket) => (
-                  <Link to={`/support/messages/${ticket._id}`} key={ticket._id}>
-                    <div className="rounded bg-white p-3 shadow md:p-4 mb-2">{ticket._id}</div>
-                  </Link>
-                ))}
-            </div>
+            {isFetching ? (
+              <div className="flex justify-center my-8">
+                <CSpinner color="primary" />
+              </div>
+            ) : (
+              <div>
+                {tickets &&
+                  tickets.map((ticket) => (
+                    <div key={ticket._id} className="mb-2 flex justify-between gap-3 ">
+                      <div className=' w-full '>
+                      <Link to={`/support/messages/${ticket._id}`}>
+                        <div className="rounded bg-white p-3 shadow w-full md:p-4"><span>{ticket._id}</span></div>
+                      </Link>
+                      </div>
+                      <div className="inline-flex min-w-14 justify-center rounded-full border shadow-md hover:bg-red-300">
+                        <button
+                          onClick={() => handleDelete(ticket._id)} 
+                          className="text-red-500 transition duration-200 hover:text-red-600 focus:outline-none"
+                          title="Delete"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 19.4 22.169"
+                            fill="currentColor"
+                            width="14"
+                          >
+                            <g
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="1.4"
+                            >
+                              <path
+                                data-name="Rectangle 2"
+                                d="M8.238.7h2.923a2 2 0 012 2v.769h0-6.923 0V2.7a2 2 0 012-2z"
+                              ></path>
+                              <path data-name="Line 1" d="M.7 3.469h18"></path>
+                              <path
+                                data-name="Path 77"
+                                d="M14.649 21.469h-9.9a1.385 1.385 0 01-1.38-1.279L2.085 3.469h15.231L16.029 20.19a1.385 1.385 0 01-1.38 1.279z"
+                              ></path>
+                              <path data-name="Line 2" d="M7.623 6.238V18.7"></path>
+                              <path data-name="Line 3" d="M11.777 6.238V18.7"></path>
+                            </g>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            )}
           </div>
         </div>
       )}

@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
-import config from 'src/config'
-import axios from 'axios'
+import useApi from 'src/api'
 
 function TicketMessages() {
   const { id } = useParams()
@@ -10,6 +9,8 @@ function TicketMessages() {
   const [title, setTitle] = useState('')
   const token = localStorage.getItem('adminToken')
   const messagesEndRef = useRef(null)
+
+  const { fetchData, loading, setLoading } = useApi()
 
   const handleSolved = () => {}
 
@@ -21,17 +22,9 @@ function TicketMessages() {
 
   const handleSend = async () => {
     try {
-      const response = await axios.post(
-        `${config.baseURL}/admin/settings/support-ticket/messages/${id}`,
-        {
-          message: input,
-        },
-        {
-          headers: {
-            authorization: token,
-          },
-        },
-      )
+      const response = await fetchData(`/admin/settings/support-ticket/messages/${id}`, 'post', {
+        message: input,
+      })
       setInput('')
       getMessages()
     } catch (error) {
@@ -45,13 +38,9 @@ function TicketMessages() {
 
   const getMessages = async () => {
     try {
-      const response = await axios.get(`${config.baseURL}/admin/settings/support-ticket/${id}`, {
-        headers: {
-          authorization: token,
-        },
-      })
-      setTitle(response.data.title)
-      setMessages(response.data.messages)
+      const response = await fetchData(`/admin/settings/support-ticket/${id}`, 'get')
+      setTitle(response.title)
+      setMessages(response.messages)
       scrollToBottom()
     } catch (error) {
       console.log(error)
@@ -85,8 +74,10 @@ function TicketMessages() {
                   : 'mr-auto bg-gray-300'
               }`}
             >
-              <div className='font-bold'>{message.message}</div>
-              <span className="  text-sm text-blue-700 font-medium text-center justify-center rounded">msg- admin</span>
+              <div className="font-bold">{message.message}</div>
+              <span className="  text-sm text-blue-700 font-medium text-center justify-center rounded">
+                msg- admin
+              </span>
             </div>
           ))}
           <div ref={messagesEndRef} />

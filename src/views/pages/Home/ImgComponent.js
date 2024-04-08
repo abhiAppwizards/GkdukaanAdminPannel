@@ -1,13 +1,12 @@
-import axios from 'axios'
 import React, { useState } from 'react'
-import config from 'src/config'
 import PropTypes from 'prop-types'
 import { CSpinner } from '@coreui/react'
+import useApi from 'src/api'
 
 function ImgComponent({ onFileUpload }) {
   const [preview, setPreview] = useState(null)
-  const token = localStorage.getItem('adminToken')
-  const [loading, setLoading] = useState(false)
+
+  const {loading, setLoading,fetchData} = useApi()
 
   const handleChange = async (event) => {
     const file = event.target.files[0]
@@ -20,14 +19,9 @@ function ImgComponent({ onFileUpload }) {
       setLoading(true)
       const formData = new FormData()
       formData.append('upload', file)
-      const response = await axios.post(`${config.baseURL}/admin/media/single`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          authorization: token,
-        },
-      })
+      const response = await fetchData(`/admin/media/single`,'post', formData)
       setLoading(false)
-      onFileUpload(response.data._id)
+      onFileUpload(response._id)
     } catch (error) {
       console.log(error)
       setLoading(false)

@@ -4,6 +4,7 @@ import axios from 'axios'
 import PopupBox from '../attributes/Popup'
 import AddCategory from './AddCategory'
 import { CSpinner } from '@coreui/react'
+import useApi from 'src/api'
 
 const AllCategory = () => {
   const [currentPage, setCurrentPage] = useState(1)
@@ -13,8 +14,9 @@ const AllCategory = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [editingId, setEditingId] = useState(null)
 
+  const { fetchData } = useApi()
+
   const categoriesPerPage = 1
-  const token = localStorage.getItem('adminToken')
 
   useEffect(() => {
     fetchCategories()
@@ -22,12 +24,8 @@ const AllCategory = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get(`${config.baseURL}/admin/categories`, {
-        headers: {
-          authorization: token,
-        },
-      })
-      setCategories(response.data)
+      const response = await fetchData(`/admin/categories`, 'get')
+      setCategories(response)
       setIsFetching(false)
     } catch (error) {
       console.log(error)
@@ -44,13 +42,9 @@ const AllCategory = () => {
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this Category?')) {
-    await axios.delete(`${config.baseURL}/admin/categories/${id}`, {
-      headers: {
-        authorization: token,
-      },
-    })
-    fetchCategories()
-  }
+      await fetchData(`/admin/categories/${id}`, 'delete')
+      fetchCategories()
+    }
   }
 
   const handleEdit = (id) => {
@@ -207,7 +201,7 @@ const AllCategory = () => {
         </div>
       </div>
 
-      {show && <AddCategory onCall={handleAddCategory} />}
+      {show && <AddCategory onCall={handleAddCategory} setShow={setShow}/>}
 
       <div className="mb-8 rounded-lg bg-white bg-light -3 md:p-8">
         <h1 className="font-bold text-xl mb-4"> Your All categories:-</h1>

@@ -120,11 +120,11 @@ const _nav = [
         name: 'All Vendors',
         to: '/vendors/all',
       },
-      {
-        component: CNavItem,
-        name: 'Add Vendor',
-        to: '/vendors/add',
-      },
+      // {
+      //   component: CNavItem,
+      //   name: 'Add Vendor',
+      //   to: '/vendors/add',
+      // },
     ],
   },
   {

@@ -1,29 +1,32 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import config from 'src/config'
+import useApi from 'src/api'
+import { CSpinner } from '@coreui/react'
+
 
 function Dashboard() {
-  const [products, setProducts] = useState([])
-  const [vendors, setVendors] = useState([])
   const [data, setData] = useState({})
+  const [isFetching, setIsFetching] = useState(true)
 
-  const token = localStorage.getItem('adminToken')
+  const { fetchData } = useApi();
+
 
   useEffect(() => {
     getData()
   }, [])
 
   const getData = async () => {
-    const res = await axios.get(`${config.baseURL}/admin/dashboard`, {
-      headers: {
-        authorization: token,
-      },
-    })
-    setData(res.data)
+    const res = await fetchData(`/admin/dashboard`, 'get');
+    setIsFetching(false)
+    setData(res)
   }
 
   return (
     <>
+     {isFetching ? (
+          <div className="flex justify-center my-8">
+            <CSpinner color="primary" />
+          </div>
+        ) : ((<div>
       <div className="bg-white rounded-md p-3 shadow-md">
         <h1 className="font-semibold text-lg">Dashboard</h1>
       </div>
@@ -134,6 +137,7 @@ function Dashboard() {
           </tbody>
         </table>
       </div>
+      </div>))}
     </>
   )
 }

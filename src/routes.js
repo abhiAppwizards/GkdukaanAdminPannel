@@ -30,7 +30,6 @@ const Payments = React.lazy(() => import('./views/pages/Payments/Payments'))
 //vendor Payments
 const VendorPayments = React.lazy(() => import('./views/pages/vendors/VendorPayment'))
 //Notice
-const Notice = React.lazy(() => import('./views/pages/notice/Notice'))
 const Customers = React.lazy(() => import('./views/pages/notice/CustomerNotice'))
 const VendorNotice = React.lazy(() => import('./views/pages/notice/VendorNotice'))
 //Settings

@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import axios from 'axios'
-import config from 'src/config'
 import Select from 'react-select'
+import useApi from 'src/api'
 
 const PopupBox = ({ onClose, editingId, onCall, component }) => {
   const [title, setTitle] = useState()
@@ -13,7 +12,7 @@ const PopupBox = ({ onClose, editingId, onCall, component }) => {
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [categories, setCategories] = useState([])
 
-  const token = localStorage.getItem('adminToken')
+  const { fetchData } = useApi()
 
   const handleChange = (e) => {
     setTitle(e.target.value)
@@ -22,18 +21,14 @@ const PopupBox = ({ onClose, editingId, onCall, component }) => {
     setDescription(e.target.value)
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     AllCategory()
-  },[])
+  }, [])
 
   const AllCategory = async () => {
     try {
-      const response = await axios.get(`${config.baseURL}/admin/categories`, {
-        headers: {
-          authorization: token,
-        },
-      })
-      setCategories(response.data)
+      const response = await fetchData(`/admin/categories`, 'get')
+      setCategories(response)
     } catch (error) {
       console.log(error)
     }
@@ -67,16 +62,11 @@ const PopupBox = ({ onClose, editingId, onCall, component }) => {
     return options
   }
 
-  const fetchData = async () => {
+  const getData = async () => {
     try {
-      const response = await axios.get(`${config.baseURL}/admin/attributes/${editingId}`, {
-        headers: {
-          authorization: token,
-        },
-      })
-      console.log('attributeData', response.data)
-      setAttributeData(response.data)
-      setTitle(response.data.name)
+      const response = await fetchData(`/admin/attributes/${editingId}`, 'get')
+      setAttributeData(response)
+      setTitle(response.name)
     } catch (error) {
       console.log(error)
     }
@@ -84,15 +74,10 @@ const PopupBox = ({ onClose, editingId, onCall, component }) => {
 
   const fetchCategoryData = async () => {
     try {
-      const response = await axios.get(`${config.baseURL}/admin/categories/${editingId}`, {
-        headers: {
-          authorization: token,
-        },
-      })
-      console.log('category',response.data)
-      setCategoryData(response.data)
-      setTitle(response.data.title)
-      setDescription(response.data.description)
+      const response = await fetchData(`/admin/categories/${editingId}`, 'get')
+      setCategoryData(response)
+      setTitle(response.title)
+      setDescription(response.description)
     } catch (error) {
       console.log(error)
     }
@@ -100,7 +85,7 @@ const PopupBox = ({ onClose, editingId, onCall, component }) => {
 
   useEffect(() => {
     if (component === 'attribute') {
-      fetchData()
+      getData()
     } else {
       fetchCategoryData()
     }
@@ -113,50 +98,33 @@ const PopupBox = ({ onClose, editingId, onCall, component }) => {
           name: title,
           type: attributeData.type,
           values: attributeData.values,
-          categories_id: attributeData.categories_id, 
-        };
-  
-        if (selectedCategory) {
-          payload.categories_id = selectedCategory.value;
+          categories_id: attributeData.categories_id,
         }
-  
-        const response = await axios.put(
-          `${config.baseURL}/admin/attributes/${editingId}`,
-          payload,
-          {
-            headers: {
-              authorization: token,
-            },
-          }
-        );
-  
-        console.log(response.data);
-        onCall();
-        onClose();
-        setSelectedCategory('');
+
+        if (selectedCategory) {
+          payload.categories_id = selectedCategory.value
+        }
+
+        const response = await fetchData(`/admin/attributes/${editingId}`, 'put', payload)
+        onCall()
+        onClose()
+        setSelectedCategory('')
       } else {
-        const response = await axios.put(
-          `${config.baseURL}/admin/categories/${editingId}`,
+        const response = await fetchData(
+          `/admin/categories/${editingId}`,'put',
           {
             title: title,
             description: description,
-          },
-          {
-            headers: {
-              authorization: token,
-            },
           }
-        );
-        console.log(response.data);
-        onCall();
-        onClose();
-        setSelectedCategory('');
+        )
+        onCall()
+        onClose()
+        setSelectedCategory('')
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
-  
+  }
 
   return (
     <div className="fixed top-14 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50">

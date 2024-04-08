@@ -1,43 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import Multiselect from 'multiselect-react-dropdown';
-import config from 'src/config';
-import axios from 'axios';
 import PropTypes from 'prop-types'; 
+import useApi from 'src/api';
 
 function MultiSelectorProductDropdown({ onSelectData }) {
   const [options, setOptions] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
-  const token = localStorage.getItem('adminToken');
+
+  const { loading, error, fetchData, token } = useApi();
+
 
   useEffect(() => {
-    const fetchData = async () => {
+    const getData = async () => {
       try {
-        const res = await axios.get(`${config.baseURL}/admin/product`, {
-          headers: {
-            authorization: token
-          }
-        });
-
-        const productNames = res.data.map(product => ({
-          name: product.name,
-          id: product._id
-        }));
-
-        setOptions(productNames);
+        const res =await fetchData('/admin/product','get');
+        if (Array.isArray(res)) {
+          const productNames = res.map(product => ({
+            name: product.name || '', 
+            id: product._id
+          }));
+          setOptions(productNames);
+        } else {
+          console.error('Error: Data received is not an array');
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
-    fetchData();
+    if (token) {
+      getData();
+    }
   }, [token]);
 
   const handleSelect = (selectedList, selectedItem) => {
     setSelectedIds(selectedList.map(item => item.id));
     onSelectData(selectedList.map(item => item.id));
   };
-
 
   return (
     <React.Fragment>
@@ -69,3 +69,5 @@ MultiSelectorProductDropdown.propTypes = {
 };
 
 export default MultiSelectorProductDropdown;
+
+

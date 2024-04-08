@@ -1,35 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import Multiselect from 'multiselect-react-dropdown';
-import PropTypes from 'prop-types'; // Import PropTypes
-import config from 'src/config';
-import axios from 'axios';
+import PropTypes from 'prop-types'; 
+import useApi from 'src/api';
 
 function MultiSelectorDropdown({ onSelectData }) {
   const [options, setOptions] = useState([]);
   const [selectedIds, setSelectedIds] = useState([{}]);
-  const token = localStorage.getItem('adminToken');
+
+  const { loading, error, fetchData, token } = useApi();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const getData = async () => {
       try {
-        const res = await axios.get(`${config.baseURL}/admin/categories`, {
-          headers: {
-            authorization: token
-          }
-        });
-
-        // Format the fetched data for Multiselect component
-        const formattedOptions = formatOptions(res.data);
-
+        const res = await fetchData(`/admin/categories`,'get');
+        const formattedOptions = formatOptions(res);
         setOptions(formattedOptions);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
-    fetchData();
-  }, [token]); // Add token to dependency array
+    getData();
+  }, [token]); 
 
   // Function to recursively format options
   const formatOptions = (categories, level = 0) => {

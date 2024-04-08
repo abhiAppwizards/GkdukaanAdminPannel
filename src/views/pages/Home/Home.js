@@ -2,30 +2,30 @@ import React, { useState } from 'react'
 import ImgComponent from './ImgComponent'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import axios from 'axios'
-import config from 'src/config'
 import MultiSelectorDropdown from './MultiSelectorDropdown'
 import MultiSelectorProductDropdown from './MultiSelectorProductDropdown'
-import { CSpinner } from '@coreui/react'
+import useApi from 'src/api'
 
 function Home() {
-  const [loading, setLoading] = useState(false)
+  // const [loading, setLoading] = useState(false)
   const [sections, setSections] = useState([])
   const [topSlider, setTopSlider] = useState([{}])
   const [topBanner, setTopBanner] = useState([{}])
   const [categorySliderId, setCategorySliderId] = useState([{}])
   const [secondBanner, setSecondBanner] = useState([{}])
-
   const [uploadedFileIds, setUploadedFileIds] = useState({})
   const [selectedProData, setSelectedProData] = useState([])
 
-  const token = localStorage.getItem('adminToken')
+  const { loading,setLoading, error, fetchData } = useApi();
+
 
   const handleSelectedDataChange = (selectedData) => {
+    console.log('selectedData',selectedData)
     setCategorySliderId(selectedData)
   }
 
   const handleSelectedProductDataChange = (selectedData) => {
+    console.log('selectedProductData',selectedData)
     setSelectedProData(selectedData)
   }
 
@@ -112,20 +112,15 @@ function Home() {
         url: item.link,
       }))
 
-      const response = await axios.post(
-        `${config.baseURL}/admin/home`,
+      const response = await fetchData(
+        `/admin/home`,'post',
         {
           top_slider: formattedTopSlider,
           top_banner: formattedTopBanner,
           categories_slider: categorySliderId,
           second_banner: formattedSecondBanner,
           top_products: formattedTopProducts,
-        },
-        {
-          headers: {
-            authorization: token,
-          },
-        },
+        }
       )
       toast.success('Home Data Uploaded Successfully')
     } catch (error) {

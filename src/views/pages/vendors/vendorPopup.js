@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import axios from 'axios'
-import config from 'src/config'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Select from 'react-select'
+import useApi from 'src/api'
 
 const VendorPopup = ({ onClose, editingId, onCall, onToast, component }) => {
   const [email, setEmail] = useState('')
@@ -14,7 +13,7 @@ const VendorPopup = ({ onClose, editingId, onCall, onToast, component }) => {
   const [note, setNote] = useState('')
   const [approvel, setApprovel] = useState('')
 
-  const token = localStorage.getItem('adminToken')
+  const { fetchData, token } = useApi()
 
   const options = [
     {
@@ -33,13 +32,8 @@ const VendorPopup = ({ onClose, editingId, onCall, onToast, component }) => {
 
   const fetchVendorData = async () => {
     try {
-      const response = await axios.get(`${config.baseURL}/admin/vendor/${editingId}`, {
-        headers: {
-          authorization: token,
-        },
-      })
-      console.log('res...', response.data)
-      const { email, store_name, phoneNumber } = response.data
+      const response = await fetchData(`/admin/vendor/${editingId}`, 'get')
+      const { email, store_name, phoneNumber } = response
       setEmail(email)
       setStoreName(store_name)
       setPhoneNumber(phoneNumber)
@@ -54,19 +48,14 @@ const VendorPopup = ({ onClose, editingId, onCall, onToast, component }) => {
 
   const handleSave = async () => {
     try {
-      const response = await axios.put(
-        `${config.baseURL}/admin/vendor/${editingId}`,
+      const response = await fetchData(
+        `/admin/vendor/${editingId}`,'put',
         {
           email: email,
           store_name: storeName,
           phoneNumber: phoneNumber,
           approved: approvel,
-        },
-        {
-          headers: {
-            authorization: token,
-          },
-        },
+        }
       )
       onToast('Data edited successfully')
       onCall()
@@ -78,8 +67,8 @@ const VendorPopup = ({ onClose, editingId, onCall, onToast, component }) => {
 
   const handlePayment = async () => {
     try {
-      const response = await axios.post(
-        `${config.baseURL}/api/saveAdditionalData`,
+      const response = await fetchData(
+        `/api/saveAdditionalData`,'post',
         {
           transactionId: transactionId,
           note: note,
