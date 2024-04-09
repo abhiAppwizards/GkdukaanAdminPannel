@@ -151,14 +151,14 @@ const Home = () => {
       // console.log('formattedSecondBanner... ', formattedSecondBanner)
       console.log('formattedTopProducts... ', formattedTopProducts)
 
-      // const response = await fetchData(`/admin/home`, 'post', {
-      //   top_slider: formattedTopSlider,
-      //   top_banner: formattedTopBanner,
-      //   categories_slider: categorySliderId,
-      //   second_banner: formattedSecondBanner,
-      //   top_products: formattedTopProducts,
-      // })
-      // toast.success('Home Data Uploaded Successfully')
+      const response = await fetchData(`/admin/home`, 'post', {
+        top_slider: formattedTopSlider,
+        top_banner: formattedTopBanner,
+        categories_slider: categorySliderId,
+        second_banner: formattedSecondBanner,
+        top_products: formattedTopProducts,
+      })
+      toast.success('Home Data Uploaded Successfully')
     } catch (error) {
       toast.error(error.message)
     }
