@@ -47,7 +47,7 @@ const AppHeader = () => {
             </CNavLink> */}
           </CNavItem>
           <CNavItem>
-            <CNavLink href="">Admin</CNavLink>
+            <CNavLink className='font-semibold text-lg'>Admin Pannel</CNavLink>
           </CNavItem>
           
           {/* <CNavItem>
@@ -71,7 +71,7 @@ const AppHeader = () => {
             </CNavLink> */}
           </CNavItem>
           <CNavItem>
-            <CNavLink className='cursor-pointer' onClick={handleLogout}>Logout</CNavLink>
+            <CNavLink className='cursor-pointer font-semibold text-lg underline' onClick={handleLogout}>Logout</CNavLink>
           </CNavItem>
         </CHeaderNav>
       </CContainer>

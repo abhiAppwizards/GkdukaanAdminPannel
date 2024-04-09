@@ -33,7 +33,7 @@ function ImgComponent({ onFileUpload, imageUrl }) {
       <div className="flex flex-col items-center justify-center w-full h-24 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer hover:bg-gray-100">
         {!loading && preview ? (
           <div className="w-full h-full overflow-hidden rounded-lg">
-            <img src={preview} alt="Preview" className="w-full h-full object-cover" />
+            <img src={preview} alt="Preview" className="w-60 h-full object-cover" />
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center">
@@ -64,7 +64,7 @@ function ImgComponent({ onFileUpload, imageUrl }) {
           type="file"
           name="image"
           onChange={handleChange}
-          className="absolute inset-0 opacity-0 cursor-pointer"
+          className="absolute inset-0 opacity-0 cursor-pointer "
         />
       </div>
     </div>

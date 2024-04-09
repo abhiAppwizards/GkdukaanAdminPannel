@@ -17,7 +17,7 @@ function MultiSelectorProductDropdown({ onSelectData, products,index }) {
     if (products?.length > 0) {
       let newProducts = products.map(product => ({
         name: product.name,
-        id: product._id,
+        _id: product._id,
       }))
       setSelectedProducts(newProducts)
     }
@@ -46,9 +46,13 @@ function MultiSelectorProductDropdown({ onSelectData, products,index }) {
   }, [token])
 
   const handleSelect = (selectedList, selectedItem) => {
-    // console.log('selectedList', selectedItem)
-    // setSelectedIds(selectedList.map((item) => item.id))
     onSelectData(selectedList, index)
+  }
+
+  const handleRemove = (idToRemove) => {
+    const updatedSelectedProducts = idToRemove
+    setSelectedProducts(updatedSelectedProducts)
+    onSelectData(updatedSelectedProducts, index)
   }
 
   return (
@@ -66,6 +70,7 @@ function MultiSelectorProductDropdown({ onSelectData, products,index }) {
                     showCheckbox
                     onSelect={handleSelect}
                     selectedValues={selectedProducts}
+                    onRemove={handleRemove}
                   />
                 </div>
               </div>

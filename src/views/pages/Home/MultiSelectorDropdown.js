@@ -63,7 +63,6 @@ function MultiSelectorDropdown({ onSelectData }) {
 
   // Function to handle selection/deselection of options
   const handleSelect = (selectedList, selectedItem) => {
-    console.log('selectedList',selectedList)
     setSelectedIds(selectedList.map(item => item.id));
     onSelectData(selectedList.map(item => item.id)); 
   };
@@ -78,6 +77,11 @@ function MultiSelectorDropdown({ onSelectData }) {
       return acc;
     }, []);
   };
+
+  const handleRemove = (removedItem) =>{
+    setSelectedIds(removedItem.map(item => item.id));
+    onSelectData(removedItem.map(item => item.id))
+  }
 
  
 
@@ -96,6 +100,7 @@ function MultiSelectorDropdown({ onSelectData }) {
                     showCheckbox
                     onSelect={handleSelect}
                     selectedValues={getSelectedCat}
+                    onRemove={handleRemove}
                   />
                 </div>
               </div>

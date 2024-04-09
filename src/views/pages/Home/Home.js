@@ -13,30 +13,27 @@ const Home = () => {
   const [topBanner, setTopBanner] = useState([{}])
   const [categorySliderId, setCategorySliderId] = useState([{}])
   const [secondBanner, setSecondBanner] = useState([{}])
-  const [uploadedFileIds, setUploadedFileIds] = useState({})
   const [topSliderUploadFileIds, setTopSliderUploadedFileIds] = useState({})
   const [topBannerUploadFileIds, setTopBannerUploadedFileIds] = useState({})
   const [secondBannerUploadFileIds, setSecondBannerUploadedFileIds] = useState({})
   const [selectedProData, setSelectedProData] = useState([])
-  // const [getHomePageData, setHomePageData] = useState([])
   const { loading, setLoading, error, fetchData } = useApi()
 
-  console.log('sections...sections..', sections)
+  // console.log('sections...sections..', sections)
 
   useEffect(() => {
     getAllData()
   }, [])
 
   const handleSelectedDataChange = (selectedData) => {
-    console.log('selectedData', selectedData)
     setCategorySliderId(selectedData)
   }
 
   const handleSelectedProductDataChange = (selectedData, index) => {
-    console.log('selectedProductData', selectedData)
-    console.log('sectionsdddddd..... ', sections[index].products)
+    // console.log('selectedProductData', selectedData)
+    // console.log('sectionsdddddd..... ', sections[index].products)
     sections[index].products = selectedData
-    console.log('sections..... ', sections)
+    console.log('sections..... ', selectedData)
     
     // setSelectedProData(selectedData)
   }
@@ -139,7 +136,7 @@ const Home = () => {
       }))
       const formattedTopProducts = sections.map((item, index) => ({
         section_name: item.section_name,
-        products: item.products,
+        products: item.products.map((product) =>product._id),
         url: item.url,
       }))
       // console.log('categorySliderId... ',categorySliderId)
@@ -149,7 +146,7 @@ const Home = () => {
       // console.log('formattedTopSlider... ', formattedTopSlider)
       // console.log('formattedTopBanner... ', formattedTopBanner)
       // console.log('formattedSecondBanner... ', formattedSecondBanner)
-      console.log('formattedTopProducts... ', formattedTopProducts)
+      // console.log('formattedTopProducts... ', formattedTopProducts)
 
       const response = await fetchData(`/admin/home`, 'post', {
         top_slider: formattedTopSlider,
@@ -167,11 +164,10 @@ const Home = () => {
   const getAllData = async () => {
     try {
       const res = await fetchData('/admin/home', 'get')
-      console.log('home....', res[0])
-      // Initialize state variables with data from the API
+      // console.log('home....', res[0])
       if (res && res.length > 0) {
         const { top_slider, top_banner, categories_slider, second_banner, top_products } = res[0]
-        // console.log('top_slider', top_slider)
+        console.log('top_products', top_products)
         setTopSlider(top_slider || [])
         setTopBanner(top_banner || [])
         setCategorySliderId(categories_slider || [])
@@ -191,7 +187,7 @@ const Home = () => {
         <div className="rounded bg-white p-4 shadow md:p-8 mb-8 ">
           <h2 className=" relative text-lg font-semibold text-heading ">Top Slider Section</h2>
           {topSlider.map((item, index) => {
-            console.log('item....',item)
+            // console.log('item....',item)
             return (
              
               <div key={index} className="mt-8 flex justify-evenly items-center">
@@ -311,14 +307,11 @@ const Home = () => {
           {sections.map((section, index) => (
             <>
               <div key={index} className=" mt-4 border rounded p-2">
-                {/* <div className='w-full'> */}
-
                 <MultiSelectorProductDropdown
                   products={section.products}
                   onSelectData={handleSelectedProductDataChange}
                   index={index}
                 />
-                {/* </div> */}
                 <div className="flex justify-start gap-5 p-2">
                   <input
                     placeholder="Section Name"
