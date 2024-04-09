@@ -7,8 +7,9 @@ import useApi from 'src/api';
 function MultiSelectorDropdown({ onSelectData }) {
   const [options, setOptions] = useState([]);
   const [selectedIds, setSelectedIds] = useState([{}]);
+  const [getSelectedCat,setGetCatSelected] = useState([]);
 
-  const { loading, error, fetchData, token } = useApi();
+  const { fetchData, token } = useApi();
 
   useEffect(() => {
     const getData = async () => {
@@ -24,11 +25,29 @@ function MultiSelectorDropdown({ onSelectData }) {
     getData();
   }, [token]); 
 
+
+    
+  useEffect(() => {
+    const getAllData = async () => {
+      try {
+        const res = await fetchData('/admin/home', 'get')
+        // console.log('category data', res[0].categories_slider)
+        const formattedOptions = formatOptions(res[0].categories_slider);
+        setGetCatSelected(formattedOptions)
+      } catch (error) {
+        console.error(error.message)
+      }
+    }
+    getAllData();
+  }, [token]); 
+
+
+
   // Function to recursively format options
   const formatOptions = (categories, level = 0) => {
     return categories.map(category => {
       const option = {
-        name: `${'\xA0'.repeat(level * 4)}${category.title}`, // Using non-breaking space for indentation
+        name: `${'\xA0'.repeat(level * 4)}${category.title}`, 
         id: category._id,
         children: []
       };
@@ -44,6 +63,7 @@ function MultiSelectorDropdown({ onSelectData }) {
 
   // Function to handle selection/deselection of options
   const handleSelect = (selectedList, selectedItem) => {
+    console.log('selectedList',selectedList)
     setSelectedIds(selectedList.map(item => item.id));
     onSelectData(selectedList.map(item => item.id)); 
   };
@@ -75,6 +95,7 @@ function MultiSelectorDropdown({ onSelectData }) {
                     displayValue="name"
                     showCheckbox
                     onSelect={handleSelect}
+                    selectedValues={getSelectedCat}
                   />
                 </div>
               </div>

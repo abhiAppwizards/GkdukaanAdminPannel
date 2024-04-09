@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import ImgComponent from './ImgComponent'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import MultiSelectorDropdown from './MultiSelectorDropdown'
-import MultiSelectorProductDropdown from './MultiSelectorProductDropdown'
 import useApi from 'src/api'
+import ImgComponent from '../Home/ImgComponent'
+import MultiSelectorDropdown from '../Home/MultiSelectorDropdown'
+import MultiSelectorProductDropdown from '../Home/MultiSelectorProductDropdown'
 
-const Home = () => {
+function MobileHome() {
   // const [loading, setLoading] = useState(false)
   const [sections, setSections] = useState([])
   const [topSlider, setTopSlider] = useState([{}])
@@ -19,26 +19,17 @@ const Home = () => {
   const [secondBannerUploadFileIds, setSecondBannerUploadedFileIds] = useState({})
   const [selectedProData, setSelectedProData] = useState([])
   // const [getHomePageData, setHomePageData] = useState([])
+
   const { loading, setLoading, error, fetchData } = useApi()
-
-  console.log('sections...sections..', sections)
-
-  useEffect(() => {
-    getAllData()
-  }, [])
 
   const handleSelectedDataChange = (selectedData) => {
     console.log('selectedData', selectedData)
     setCategorySliderId(selectedData)
   }
 
-  const handleSelectedProductDataChange = (selectedData, index) => {
+  const handleSelectedProductDataChange = (selectedData) => {
     console.log('selectedProductData', selectedData)
-    console.log('sectionsdddddd..... ', sections[index].products)
-    sections[index].products = selectedData
-    console.log('sections..... ', sections)
-    
-    // setSelectedProData(selectedData)
+    setSelectedProData(selectedData)
   }
 
   const handleTopSliderFileUpload = (fileId, index) => {
@@ -139,38 +130,42 @@ const Home = () => {
       }))
       const formattedTopProducts = sections.map((item, index) => ({
         section_name: item.section_name,
-        products: item.products,
+        products: selectedProData,
         url: item.url,
       }))
-      // console.log('categorySliderId... ',categorySliderId)
+// console.log('categorySliderId... ',categorySliderId)
       // console.log('topSliderUploadFileIds... ', topSliderUploadFileIds)
       // console.log('topBannerUploadFileIds... ', topBannerUploadFileIds)
       // console.log('secondBannerUploadFileIds... ', secondBannerUploadFileIds)
       // console.log('formattedTopSlider... ', formattedTopSlider)
       // console.log('formattedTopBanner... ', formattedTopBanner)
       // console.log('formattedSecondBanner... ', formattedSecondBanner)
-      console.log('formattedTopProducts... ', formattedTopProducts)
+      // console.log('formattedTopProducts... ', formattedTopProducts)
 
-      // const response = await fetchData(`/admin/home`, 'post', {
-      //   top_slider: formattedTopSlider,
-      //   top_banner: formattedTopBanner,
-      //   categories_slider: categorySliderId,
-      //   second_banner: formattedSecondBanner,
-      //   top_products: formattedTopProducts,
-      // })
-      // toast.success('Home Data Uploaded Successfully')
+      const response = await fetchData(`/admin/home`, 'post', {
+        top_slider: formattedTopSlider,
+        top_banner: formattedTopBanner,
+        categories_slider: categorySliderId,
+        second_banner: formattedSecondBanner,
+        top_products: formattedTopProducts,
+      })
+      toast.success('Home Data Uploaded Successfully')
     } catch (error) {
       toast.error(error.message)
     }
   }
 
+  useEffect(() => {
+    getAllData()
+  }, [])
+
   const getAllData = async () => {
     try {
       const res = await fetchData('/admin/home', 'get')
-      console.log('home....', res[0])
+
       // Initialize state variables with data from the API
       if (res && res.length > 0) {
-        const { top_slider, top_banner, categories_slider, second_banner, top_products } = res[0]
+        const { top_slider, top_banner, categories_slider, second_banner,top_products } = res[0]
         // console.log('top_slider', top_slider)
         setTopSlider(top_slider || [])
         setTopBanner(top_banner || [])
@@ -191,14 +186,12 @@ const Home = () => {
         <div className="rounded bg-white p-4 shadow md:p-8 mb-8 ">
           <h2 className=" relative text-lg font-semibold text-heading ">Top Slider Section</h2>
           {topSlider.map((item, index) => {
-            console.log('item....',item)
             return (
-             
               <div key={index} className="mt-8 flex justify-evenly items-center">
                 <h1 className="font-semibold">Image 1</h1>
                 {item.media_id && item.media_id.url && (
                   <ImgComponent
-                    imageUrl={item.media_id?.url}
+                    imageUrl={item.media_id.url}
                     onFileUpload={(fileId) => handleTopSliderFileUpload(fileId, index)}
                     name="image1"
                   />
@@ -313,11 +306,7 @@ const Home = () => {
               <div key={index} className=" mt-4 border rounded p-2">
                 {/* <div className='w-full'> */}
 
-                <MultiSelectorProductDropdown
-                  products={section.products}
-                  onSelectData={handleSelectedProductDataChange}
-                  index={index}
-                />
+                <MultiSelectorProductDropdown onSelectData={handleSelectedProductDataChange} />
                 {/* </div> */}
                 <div className="flex justify-start gap-5 p-2">
                   <input
@@ -354,4 +343,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default MobileHome

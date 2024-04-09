@@ -1,43 +1,55 @@
-import React, { useState, useEffect } from 'react';
-import { Container } from 'react-bootstrap';
-import Multiselect from 'multiselect-react-dropdown';
-import PropTypes from 'prop-types'; 
-import useApi from 'src/api';
+import React, { useState, useEffect } from 'react'
+import { Container } from 'react-bootstrap'
+import Multiselect from 'multiselect-react-dropdown'
+import PropTypes from 'prop-types'
+import useApi from 'src/api'
 
-function MultiSelectorProductDropdown({ onSelectData }) {
-  const [options, setOptions] = useState([]);
-  const [selectedIds, setSelectedIds] = useState([]);
+function MultiSelectorProductDropdown({ onSelectData, products,index }) {
+  const [options, setOptions] = useState([])
+  const [selectedIds, setSelectedIds] = useState([])
+  const [topProducts, setTopProducts] = useState([])
+  const [selectedProducts, setSelectedProducts] = useState([])
 
-  const { loading, error, fetchData, token } = useApi();
-
+  // console.log('products..... ', products)
+  const { loading, error, fetchData, token } = useApi()
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const res =await fetchData('/admin/product','get');
-        if (Array.isArray(res)) {
-          const productNames = res.map(product => ({
-            name: product.name || '', 
-            id: product._id
-          }));
-          setOptions(productNames);
-        } else {
-          console.error('Error: Data received is not an array');
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    if (token) {
-      getData();
+    if (products?.length > 0) {
+      let newProducts = products.map(product => ({
+        name: product.name,
+        id: product._id,
+      }))
+      setSelectedProducts(newProducts)
     }
-  }, [token]);
+  }, [products])
+
+  useEffect(() => {
+    if (token) {
+      const getData = async () => {
+        try {
+          const res = await fetchData('/admin/product', 'get')
+          if (Array.isArray(res)) {
+            const productNames = res.map((product) => ({
+              name: product.name || '',
+              id: product._id,
+            }))
+            setOptions(productNames)
+          } else {
+            console.error('Error: Data received is not an array')
+          }
+        } catch (error) {
+          console.error('Error fetching data:', error)
+        }
+      }
+      getData()
+    }
+  }, [token])
 
   const handleSelect = (selectedList, selectedItem) => {
-    setSelectedIds(selectedList.map(item => item.id));
-    onSelectData(selectedList.map(item => item.id));
-  };
+    // console.log('selectedList', selectedItem)
+    // setSelectedIds(selectedList.map((item) => item.id))
+    onSelectData(selectedList, index)
+  }
 
   return (
     <React.Fragment>
@@ -53,6 +65,7 @@ function MultiSelectorProductDropdown({ onSelectData }) {
                     displayValue="name"
                     showCheckbox
                     onSelect={handleSelect}
+                    selectedValues={selectedProducts}
                   />
                 </div>
               </div>
@@ -61,13 +74,13 @@ function MultiSelectorProductDropdown({ onSelectData }) {
         </div>
       </Container>
     </React.Fragment>
-  );
+  )
 }
 
 MultiSelectorProductDropdown.propTypes = {
-  onSelectData: PropTypes.func.isRequired
-};
+  onSelectData: PropTypes.func.isRequired,
+  products: PropTypes.array.isRequired,
+  index: PropTypes.number.isRequired,
+}
 
-export default MultiSelectorProductDropdown;
-
-
+export default MultiSelectorProductDropdown

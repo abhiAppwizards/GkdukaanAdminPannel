@@ -26,6 +26,12 @@ const _nav = [
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
   },
   {
+    component: CNavItem,
+    name: 'Mobile Home Page',
+    to: '/mobilehome',
+    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+  },
+  {
     component: CNavGroup,
     name: 'Orders',
     to: '/orders',
