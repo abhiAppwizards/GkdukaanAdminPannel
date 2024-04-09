@@ -24,7 +24,6 @@ const getAllOrders = async() =>{
   try {
     const response = await fetchData(`/admin/order`,'get')
     setIsFetching(false)
-    console.log(response)
     setOrdersData(response)
   } catch (error) {
     console.log('error',error)

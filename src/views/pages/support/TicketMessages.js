@@ -7,7 +7,6 @@ function TicketMessages() {
   const [messages, setMessages] = useState([])
   const [input, setInput] = useState('')
   const [title, setTitle] = useState('')
-  const token = localStorage.getItem('adminToken')
   const messagesEndRef = useRef(null)
 
   const { fetchData, loading, setLoading } = useApi()

@@ -73,7 +73,7 @@ function ImgComponent({ onFileUpload, imageUrl }) {
 
 ImgComponent.propTypes = {
   onFileUpload: PropTypes.func.isRequired,
-  imageUrl: PropTypes.string, // imageUrl is now optional
+  imageUrl: PropTypes.string, 
 };
 
 export default ImgComponent;
