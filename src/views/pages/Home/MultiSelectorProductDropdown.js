@@ -31,7 +31,7 @@ function MultiSelectorProductDropdown({ onSelectData, products,index }) {
           if (Array.isArray(res)) {
             const productNames = res.map((product) => ({
               name: product.name || '',
-              id: product._id,
+              _id: product._id,
             }))
             setOptions(productNames)
           } else {

@@ -12,7 +12,9 @@ const Cancelled = React.lazy(() => import('./views/pages/orders/OrderCancelled')
 const AllOrders = React.lazy(() => import('./views/pages/orders/AllOrders'))
 const View = React.lazy(() => import('./views/pages/orders/View'))
 
-
+//Notifications
+const CustomerNotification = React.lazy(() => import('./views/pages/notification/CustomerNotification'))
+const VendorNotification = React.lazy(() => import('./views/pages/notification/VendorNotification'))
 
 //Categories
 const AllCategories = React.lazy(() => import('./views/pages/categories/AllCategory'))
@@ -55,6 +57,12 @@ const routes = [
   { path: '/orders/cancelled', name: 'Cancelled', element: Cancelled },
   { path: '/orders/all', name: 'AllOrders', element: AllOrders },
   { path: '/orders/all/views/:id', name: 'View', element: View },
+
+  //Notifications
+  { path: '/notification', name: 'Notifications', element: Cards, exact: true },
+  { path: '/notification/customer', name: 'Customer Notification', element: CustomerNotification },
+  { path: '/notification/vendor', name: 'Vendor Notification', element:VendorNotification  },
+
   //Categories
   { path: '/categories', name: 'Categories', element: Cards, exact: true },
   { path: '/categories/all', name: 'All', element: AllCategories },

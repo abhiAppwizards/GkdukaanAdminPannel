@@ -6,6 +6,7 @@ import MultiSelectorDropdown from './MultiSelectorDropdown'
 import MultiSelectorProductDropdown from './MultiSelectorProductDropdown'
 import useApi from 'src/api'
 import { CSpinner } from '@coreui/react'
+import { FaTimes } from 'react-icons/fa'
 
 const Home = () => {
   const [sections, setSections] = useState([])
@@ -30,7 +31,7 @@ const Home = () => {
 
   const handleSelectedProductDataChange = (selectedData, index) => {
     sections[index].products = selectedData
-    console.log('sections..... ', selectedData)
+    // console.log('sections..... ', selectedData)
   }
 
   const handleTopSliderFileUpload = (fileId, index) => {
@@ -63,6 +64,10 @@ const Home = () => {
       selectedValues: [],
     }
     setSections([...sections, newSection])
+  }
+
+  const handleRemoveSection = (indexToRemove) => {
+    setSections(sections.filter((_, index) => index !== indexToRemove))
   }
 
   const handleInputChange = (index, event) => {
@@ -132,6 +137,8 @@ const Home = () => {
         url: item.url,
       }))
 
+      // console.log('formattedTopProducts',formattedTopProducts)
+
       const response = await fetchData(`/admin/home`, 'post', {
         top_slider: formattedTopSlider,
         top_banner: formattedTopBanner,
@@ -139,7 +146,7 @@ const Home = () => {
         second_banner: formattedSecondBanner,
         top_products: formattedTopProducts,
       })
-      getAllData()
+      // console.log('res...',response)
       toast.success('Home Data Uploaded Successfully')
     } catch (error) {
       toast.error(error.message)
@@ -295,11 +302,13 @@ const Home = () => {
             </div>
             {sections.map((section, index) => (
               <>
-                <div key={index} className=" mt-4 border rounded p-2">
+                <div className=" mt-4 border rounded p-2 relative">
+                  <button className='border rounded bg-red-500 absolute top-0 right-0 hover:bg-red-300 p-1' onClick={() => handleRemoveSection(index)}>
+                    <FaTimes />
+                  </button>
                   <MultiSelectorProductDropdown
                     products={section.products}
                     onSelectData={handleSelectedProductDataChange}
-                    key={`dropdown_${index}`}
                     index={index}
                   />
                   <div className="flex justify-start gap-5 p-2">

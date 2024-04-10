@@ -176,23 +176,23 @@ const _nav = [
     icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
   },
   
-  // {
-  //   component: CNavGroup,
-  //   name: 'Pages',
-  //   icon: <CIcon icon={cilFile} customClassName="nav-icon" />,
-  //   items: [
-  //     {
-  //       component: CNavItem,
-  //       name: 'Bank Details',
-  //       to: '/details/bankdetails',
-  //     },
-  //     {
-  //       component: CNavItem,
-  //       name: 'Address',
-  //       to: '/details/address',
-  //     },
-  //   ],
-  // },
+  {
+    component: CNavGroup,
+    name: 'Add Notifications',
+    icon: <CIcon icon={cilFile} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Customer Notification',
+        to: '/notification/customer',
+      },
+      {
+        component: CNavItem,
+        name: 'Vendor Notification',
+        to: '/notification/vendor',
+      },
+    ],
+  },
 ]
 
 export default _nav
