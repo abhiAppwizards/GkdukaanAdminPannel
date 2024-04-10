@@ -151,11 +151,11 @@ const _nav = [
     to: '/notice',
     icon: <CIcon icon={cilList} customClassName="nav-icon" />,
     items: [
-      {
-        component: CNavItem,
-        name: 'Customers Notice',
-        to: '/notice/customers',
-      },
+      // {
+      //   component: CNavItem,
+      //   name: 'Customers Notice',
+      //   to: '/notice/customers',
+      // },
       {
         component: CNavItem,
         name: 'Vendors Notice',
@@ -186,11 +186,11 @@ const _nav = [
         name: 'Customer Notification',
         to: '/notification/customer',
       },
-      {
-        component: CNavItem,
-        name: 'Vendor Notification',
-        to: '/notification/vendor',
-      },
+      // {
+      //   component: CNavItem,
+      //   name: 'Vendor Notification',
+      //   to: '/notification/vendor',
+      // },
     ],
   },
 ]

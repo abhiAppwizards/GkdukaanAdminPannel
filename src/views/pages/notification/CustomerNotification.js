@@ -6,8 +6,8 @@ import useApi from 'src/api'
 import { CSpinner } from '@coreui/react'
 
 function CustomerNotification() {
-  const [addNotice, setAddNotice] = useState(false)
-  const [getAllNotice, setGetAllNotice] = useState([])
+  const [addNotification, setAddNotification] = useState(false)
+  const [getAllNotifications, setGetAllNotifications] = useState([])
   const [isFetching, setIsFetching] = useState(true)
   const [title, setTitle] = useState()
   const [description, setDescription] = useState()
@@ -17,18 +17,19 @@ function CustomerNotification() {
 
   const { fetchData } = useApi()
 
-  const handleAddNotice = async () => {
+  const handleAddNotification = async () => {
     setLoading(true)
     try {
-      const res = await fetchData(`/notice`, 'post', {
+      const res = await fetchData(`/admin/notification`, 'post', {
         title: title,
         description: description,
         media_id: fileId,
+        url: 'url'
       })
       setLoading(false)
-      setAddNotice(false)
+      setAddNotification(false)
       toast.success('Data submitted successfully')
-      getNotices()
+      getNotification()
     } catch (error) {
       console.log(error)
       setLoading(false)
@@ -36,14 +37,14 @@ function CustomerNotification() {
   }
 
   useEffect(() => {
-    getNotices()
+    getNotification()
   }, [])
 
-  const getNotices = async () => {
+  const getNotification = async () => {
     setLoading(true)
     try {
-      const res = await fetchData(`/notice`, 'get')
-      setGetAllNotice(res.customerNotices)
+      const res = await fetchData(`/admin/notification`, 'get')
+      setGetAllNotifications(res)
       setIsFetching(false)
       setLoading(false)
     } catch (error) {
@@ -54,16 +55,16 @@ function CustomerNotification() {
 
   const handleDelete = async (id) => {
     try {
-      await fetchData(`/notice/${id}`, 'delete')
-      getNotices()
-      toast.success('Notice deleted successfully')
+      await fetchData(`/admin/notification/${id}`, 'delete')
+      getNotification()
+      toast.success('Notification deleted successfully')
     } catch (error) {
       console.log(error)
     }
   }
 
   const handleShow = () => {
-    setAddNotice(!addNotice)
+    setAddNotification(!addNotification)
   }
 
   const toggleAccordion = (id) => {
@@ -83,7 +84,7 @@ function CustomerNotification() {
           Add Notification
         </button>
       </div>
-      {addNotice && (
+      {addNotification && (
         <div className="rounded mt-3 shadow py-2 px-4 mb-8 bg-white justify-between">
           <div className="flex mt-4 lg:flex-row lg:justify-between">
             <div className="lg:mr-3">
@@ -126,7 +127,7 @@ function CustomerNotification() {
             </div>
           </div>
           <button
-            onClick={handleAddNotice}
+            onClick={handleAddNotification}
             className="border px-3 py-1 rounded mb-2 bg-gray-300 hover:bg-gray-200"
             disabled={loading}
           >
@@ -140,7 +141,7 @@ function CustomerNotification() {
         </div>
       ) : (
         <div>
-          {getAllNotice?.map((notice) => (
+          {getAllNotifications?.map((notice) => (
             <>
               <div key={notice._id} className="bg-white w-full mt-3 shadow-md  rounded px-4 py-2">
                 <div

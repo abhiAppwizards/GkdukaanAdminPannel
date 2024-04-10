@@ -30,11 +30,12 @@ function CustomerNotice() {
   const handleAddNotice = async () => {
     setLoading(true)
     try {
-      const res = await fetchData(`/vendor/notice`, 'post', {
+      const res = await fetchData(`/admin/notice`, 'post', {
         title: title,
         description: description,
         media_id: fileId,
       })
+      console.log('res...',res)
       setLoading(false)
       setAddNotice(false)
       toast.success('Data submitted successfully')
@@ -52,7 +53,7 @@ function CustomerNotice() {
   const getNotices = async () => {
     setLoading(true)
     try {
-      const res = await fetchData(`/vendor/notice`, 'get')
+      const res = await fetchData(`/admin/notice`, 'get')
       setIsFetching(false)
       setGetAllNotice(res)
       setLoading(false)
@@ -64,7 +65,7 @@ function CustomerNotice() {
 
   const handleDelete = async (id) => {
     try {
-      await fetchData(`/vendor/notice/${id}`, 'delete')
+      await fetchData(`/admin/notice/${id}`, 'delete')
       getNotices()
       toast.success('Notice deleted successfully')
     } catch (error) {
@@ -88,7 +89,7 @@ function CustomerNotice() {
     <>
       <ToastContainer />
       <div className="bg-white w-full flex  items-center justify-between  rounded p-4">
-        <h1 className="font-semibold text-lg">Vendor Notice</h1>
+        <h1 className="font-semibold text-lg">Add Vendor Notice</h1>
         <button onClick={handleShow} className="border p-2 rounded bg-gray-300 hover:bg-gray-200">
           Add Notice
         </button>
