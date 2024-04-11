@@ -22,7 +22,7 @@ function CustomerNotice() {
   const [isAccordionOpen, setIsAccordionOpen] = useState(false)
   const [isFetching, setIsFetching] = useState(true)
 
-  const { fetchData, token } = useApi()
+  const { fetchData } = useApi()
   //   const toggleShow = (value) => {
   //     setShow({ ...show, ...value })
   //   }

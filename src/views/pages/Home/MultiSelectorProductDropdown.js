@@ -6,12 +6,8 @@ import useApi from 'src/api'
 
 function MultiSelectorProductDropdown({ onSelectData, products,index }) {
   const [options, setOptions] = useState([])
-  const [selectedIds, setSelectedIds] = useState([])
-  const [topProducts, setTopProducts] = useState([])
   const [selectedProducts, setSelectedProducts] = useState([])
-
-  // console.log('products..... ', products)
-  const { loading, error, fetchData, token } = useApi()
+  const { fetchData, token } = useApi()
 
   useEffect(() => {
     if (products?.length > 0) {

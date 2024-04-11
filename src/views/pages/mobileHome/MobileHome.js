@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import ImgComponent from '../Home/ImgComponent'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import MultiSelectorProductDropdown from '../Home/MultiSelectorProductDropdown'
 import MultiSelectorDropdown from '../Home/MultiSelectorDropdown'
+import MultiSelectorProductDropdown from '../Home/MultiSelectorProductDropdown'
 import useApi from 'src/api'
 import { CSpinner } from '@coreui/react'
+import { FaTimes } from 'react-icons/fa'
 
-const MobileHome = () => {
+const Home = () => {
   const [sections, setSections] = useState([])
   const [topSlider, setTopSlider] = useState([{}])
   const [topBanner, setTopBanner] = useState([{}])
@@ -19,6 +20,7 @@ const MobileHome = () => {
   const [secondBannerUploadFileIds, setSecondBannerUploadedFileIds] = useState({})
   const [selectedProData, setSelectedProData] = useState([])
   const { loading, setLoading, error, fetchData } = useApi()
+  const [getHomeData, setHomeData] = useState([])
 
   useEffect(() => {
     getAllData()
@@ -30,7 +32,6 @@ const MobileHome = () => {
 
   const handleSelectedProductDataChange = (selectedData, index) => {
     sections[index].products = selectedData
-    // console.log('sections..... ', selectedData)
   }
 
   const handleTopSliderFileUpload = (fileId, index) => {
@@ -63,6 +64,10 @@ const MobileHome = () => {
       selectedValues: [],
     }
     setSections([...sections, newSection])
+  }
+
+  const handleRemoveSection = (indexToRemove) => {
+    setSections(sections.filter((_, index) => index !== indexToRemove))
   }
 
   const handleInputChange = (index, event) => {
@@ -139,7 +144,6 @@ const MobileHome = () => {
         second_banner: formattedSecondBanner,
         top_products: formattedTopProducts,
       })
-      getAllData()
       toast.success('Home Data Uploaded Successfully')
     } catch (error) {
       toast.error(error.message)
@@ -149,7 +153,7 @@ const MobileHome = () => {
   const getAllData = async () => {
     try {
       const res = await fetchData('/admin/home', 'get')
-      // console.log('home....', res[0])
+      setHomeData(res[0])
       if (res && res.length > 0) {
         const { top_slider, top_banner, categories_slider, second_banner, top_products } = res[0]
         setTopSlider(top_slider || [])
@@ -210,7 +214,6 @@ const MobileHome = () => {
           <div className="rounded bg-white p-4 shadow md:p-8 mb-8 ">
             <h2 className=" relative text-lg font-semibold text-heading ">Top Banner</h2>
             {topBanner.map((item, index) => {
-              // console.log('topBanner', item)
               return (
                 <div key={index} className="mt-8 flex justify-evenly items-center">
                   <h1 className="font-semibold">Image 1</h1>
@@ -244,7 +247,7 @@ const MobileHome = () => {
             <h2 className=" relative text-lg font-semibold text-heading ">
               Categories Slider Section
             </h2>
-            <MultiSelectorDropdown onSelectData={handleSelectedDataChange} />
+            <MultiSelectorDropdown onSelectData={handleSelectedDataChange} getHomeData={getHomeData} />
           </div>
           {/* Second  banner */}
           <div className="rounded bg-white p-4 shadow md:p-8 mb-8 ">
@@ -295,11 +298,13 @@ const MobileHome = () => {
             </div>
             {sections.map((section, index) => (
               <>
-                <div key={index} className=" mt-4 border rounded p-2">
+                <div className=" mt-4 border rounded p-2 relative">
+                  <button className='border rounded bg-red-500 absolute top-0 right-0 hover:bg-red-300 p-1' onClick={() => handleRemoveSection(index)}>
+                    <FaTimes />
+                  </button>
                   <MultiSelectorProductDropdown
                     products={section.products}
                     onSelectData={handleSelectedProductDataChange}
-                    key={`dropdown_${index}`}
                     index={index}
                   />
                   <div className="flex justify-start gap-5 p-2">
@@ -338,4 +343,4 @@ const MobileHome = () => {
   )
 }
 
-export default MobileHome
+export default Home

@@ -22,13 +22,34 @@ const PopupBox = ({ onClose, editingId, onCall, component }) => {
   }
 
   useEffect(() => {
-    AllCategory()
+    getAllCategories()
   }, [])
 
-  const AllCategory = async () => {
+  const getAllCategories = async () => {
     try {
       const response = await fetchData(`/admin/categories`, 'get')
       setCategories(response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const getAllAttributes = async () => {
+    try {
+      const response = await fetchData(`/admin/attributes/${editingId}`, 'get')
+      setAttributeData(response)
+      setTitle(response.name)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const fetchOneCategory = async () => {
+    try {
+      const response = await fetchData(`/admin/categories/${editingId}`, 'get')
+      setCategoryData(response)
+      setTitle(response.title)
+      setDescription(response.description)
     } catch (error) {
       console.log(error)
     }
@@ -62,32 +83,12 @@ const PopupBox = ({ onClose, editingId, onCall, component }) => {
     return options
   }
 
-  const getData = async () => {
-    try {
-      const response = await fetchData(`/admin/attributes/${editingId}`, 'get')
-      setAttributeData(response)
-      setTitle(response.name)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const fetchCategoryData = async () => {
-    try {
-      const response = await fetchData(`/admin/categories/${editingId}`, 'get')
-      setCategoryData(response)
-      setTitle(response.title)
-      setDescription(response.description)
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
   useEffect(() => {
     if (component === 'attribute') {
-      getData()
+      getAllAttributes()
     } else {
-      fetchCategoryData()
+      fetchOneCategory()
     }
   }, [])
 
@@ -131,7 +132,7 @@ const PopupBox = ({ onClose, editingId, onCall, component }) => {
       <div className="bg-white p-8 rounded shadow-md w-96">
         <h2 className="text-lg font-semibold mb-4">Edit Your Data...</h2>
         <div className="mb-4">
-          <label className="block mb-1">Title</label>
+          <label className="block mb-1">Attribute Name</label>
           <input
             type="text"
             name="name"

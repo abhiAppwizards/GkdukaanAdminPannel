@@ -20,6 +20,7 @@ const Home = () => {
   const [secondBannerUploadFileIds, setSecondBannerUploadedFileIds] = useState({})
   const [selectedProData, setSelectedProData] = useState([])
   const { loading, setLoading, error, fetchData } = useApi()
+  const [getHomeData, setHomeData] = useState([])
 
   useEffect(() => {
     getAllData()
@@ -31,7 +32,6 @@ const Home = () => {
 
   const handleSelectedProductDataChange = (selectedData, index) => {
     sections[index].products = selectedData
-    // console.log('sections..... ', selectedData)
   }
 
   const handleTopSliderFileUpload = (fileId, index) => {
@@ -137,8 +137,6 @@ const Home = () => {
         url: item.url,
       }))
 
-      // console.log('formattedTopProducts',formattedTopProducts)
-
       const response = await fetchData(`/admin/home`, 'post', {
         top_slider: formattedTopSlider,
         top_banner: formattedTopBanner,
@@ -146,7 +144,6 @@ const Home = () => {
         second_banner: formattedSecondBanner,
         top_products: formattedTopProducts,
       })
-      // console.log('res...',response)
       toast.success('Home Data Uploaded Successfully')
     } catch (error) {
       toast.error(error.message)
@@ -156,7 +153,7 @@ const Home = () => {
   const getAllData = async () => {
     try {
       const res = await fetchData('/admin/home', 'get')
-      // console.log('home....', res[0])
+      setHomeData(res[0])
       if (res && res.length > 0) {
         const { top_slider, top_banner, categories_slider, second_banner, top_products } = res[0]
         setTopSlider(top_slider || [])
@@ -217,7 +214,6 @@ const Home = () => {
           <div className="rounded bg-white p-4 shadow md:p-8 mb-8 ">
             <h2 className=" relative text-lg font-semibold text-heading ">Top Banner</h2>
             {topBanner.map((item, index) => {
-              // console.log('topBanner', item)
               return (
                 <div key={index} className="mt-8 flex justify-evenly items-center">
                   <h1 className="font-semibold">Image 1</h1>
@@ -251,7 +247,7 @@ const Home = () => {
             <h2 className=" relative text-lg font-semibold text-heading ">
               Categories Slider Section
             </h2>
-            <MultiSelectorDropdown onSelectData={handleSelectedDataChange} />
+            <MultiSelectorDropdown onSelectData={handleSelectedDataChange} getHomeData={getHomeData} />
           </div>
           {/* Second  banner */}
           <div className="rounded bg-white p-4 shadow md:p-8 mb-8 ">

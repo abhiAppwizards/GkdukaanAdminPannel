@@ -12,7 +12,6 @@ const AllAttributes = () => {
   const [attributes, setAttributes] = useState([])
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [categories, setCategories] = useState([])
-  // const [loading, setLoading] = useState(false)
   const [isFetching, setIsFetching] = useState(true)
 
   const [isPopupOpen, setIsPopupOpen] = useState(false)
@@ -233,7 +232,6 @@ const AllAttributes = () => {
                 </span>
                 <input
                   className="w-full lg:w-80 py-2 px-2 mt-2 border border-gray-300 rounded focus:outline-blue-400"
-                  // style={{ width: '550px' }}
                   type="text"
                   name="title"
                   value={formData.title}
@@ -319,7 +317,6 @@ const AllAttributes = () => {
       <div className="mb-8 rounded-lg bg-white bg-light -3 md:p-8">
         <div className="flex justify-between">
           <h1 className="font-bold text-xl mb-4 "> Your All attributes:-</h1>
-          {/* <span className='bg-red-400 px-28 h-8 flex rounded text-white items-center'>deleted</span> */}
         </div>
         {isFetching ? (
           <div className="flex justify-center my-8">
