@@ -211,7 +211,7 @@ const VendorPopup = ({ onClose, editingId, onCall, onToast, component }) => {
 VendorPopup.propTypes = {
   onClose: PropTypes.func.isRequired,
   onCall: PropTypes.func.isRequired,
-  editingId: PropTypes.number.isRequired,
+  editingId: PropTypes.string.isRequired,
   onToast: PropTypes.func.isRequired,
   component: PropTypes.string.isRequired,
 }

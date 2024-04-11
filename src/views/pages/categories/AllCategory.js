@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import config from 'src/config'
-import axios from 'axios'
 import PopupBox from '../attributes/Popup'
 import AddCategory from './AddCategory'
 import { CSpinner } from '@coreui/react'

@@ -119,30 +119,6 @@ const getAllOrders = async() =>{
               onChange={(e) => setSearchText(e.target.value)}
             />
           </form>
-          {/* <div
-            className="relative inline-block ltr:text-left rtl:text-right"
-            data-headlessui-state=""
-          >
-            <button
-              className="group p-2"
-              id="headlessui-menu-button-:rb:"
-              type="button"
-              aria-haspopup="menu"
-              aria-expanded="false"
-              data-headlessui-state=""
-            >
-              <svg
-                viewBox="-192 0 512 512"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                className="w-3.5 text-body"
-              >
-                <path d="m128 256c0 35.347656-28.652344 64-64 64s-64-28.652344-64-64 28.652344-64 64-64 64 28.652344 64 64zm0 0"></path>
-                <path d="m128 64c0 35.347656-28.652344 64-64 64s-64-28.652344-64-64 28.652344-64 64-64 64 28.652344 64 64zm0 0"></path>
-                <path d="m128 448c0 35.347656-28.652344 64-64 64s-64-28.652344-64-64 28.652344-64 64-64 64 28.652344 64 64zm0 0"></path>
-              </svg>
-            </button>
-          </div> */}
         </div>
       </div>
       <div className="mb-8 rounded-lg bg-white bg-light -3 md:p-8">

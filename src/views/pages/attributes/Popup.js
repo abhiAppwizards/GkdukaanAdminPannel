@@ -132,7 +132,7 @@ const PopupBox = ({ onClose, editingId, onCall, component }) => {
       <div className="bg-white p-8 rounded shadow-md w-96">
         <h2 className="text-lg font-semibold mb-4">Edit Your Data...</h2>
         <div className="mb-4">
-          <label className="block mb-1">Attribute Name</label>
+          <label className="block mb-1">{component === 'attribute' && `Attribute Name` || component === 'category' && `Category Name` }</label>
           <input
             type="text"
             name="name"
@@ -158,7 +158,6 @@ const PopupBox = ({ onClose, editingId, onCall, component }) => {
             )}
           </>
         )}
-        {/* )} */}
         {attributeData && attributeData.type === 'select' && (
           <>
             {attributeData && (
