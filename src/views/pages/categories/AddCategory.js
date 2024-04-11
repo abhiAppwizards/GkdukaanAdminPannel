@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
-import { ToastContainer,toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import PropTypes from 'prop-types'
 import ImgComponent from '../Home/ImgComponent'
 import useApi from 'src/api'
@@ -13,9 +13,9 @@ function AddCategory({ onCall, setShow }) {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [message, setMessage] = useState('')
-  const [uploadedId,setUploadedId] = useState({})
+  const [uploadedId, setUploadedId] = useState({})
 
-  const {fetchData} = useApi()
+  const { fetchData } = useApi()
 
   useEffect(() => {
     AllCategory()
@@ -44,7 +44,7 @@ function AddCategory({ onCall, setShow }) {
         parentId: selectedCategory ? selectedCategory.value : null,
       }
 
-      const response = await fetchData(`/admin/categories`,'post', requestData)
+      await fetchData(`/admin/categories`, 'post', requestData)
       setShow(false)
       toast.success('Form submitted successfully')
       setMessage('Form submitted successfully')
@@ -139,11 +139,11 @@ function AddCategory({ onCall, setShow }) {
                 <tr>
                   <td className="font-semibold pl-2 pr-32">Upload Image :</td>
                   <td className="pl-4">
-                    <div className='flex'>
-                    <ImgComponent
-                      onFileUpload={(fileId) => handleFileUpload(fileId)}
-                      name="image1"
-                    />
+                    <div className="flex">
+                      <ImgComponent
+                        onFileUpload={(fileId) => handleFileUpload(fileId)}
+                        name="image1"
+                      />
                     </div>
                   </td>
                 </tr>
@@ -194,7 +194,6 @@ function AddCategory({ onCall, setShow }) {
 AddCategory.propTypes = {
   onCall: PropTypes.func.isRequired,
   setShow: PropTypes.bool.isRequired,
-  
 }
 
 export default AddCategory

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { toast, ToastContainer } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Select from 'react-select'
 import useApi from 'src/api'
@@ -48,15 +48,12 @@ const VendorPopup = ({ onClose, editingId, onCall, onToast, component }) => {
 
   const handleSave = async () => {
     try {
-      const response = await fetchData(
-        `/admin/vendor/${editingId}`,'put',
-        {
-          email: email,
-          store_name: storeName,
-          phoneNumber: phoneNumber,
-          approved: approvel,
-        }
-      )
+      await fetchData(`/admin/vendor/${editingId}`, 'put', {
+        email: email,
+        store_name: storeName,
+        phoneNumber: phoneNumber,
+        approved: approvel,
+      })
       onToast('Data edited successfully')
       onCall()
       onClose()
@@ -67,8 +64,9 @@ const VendorPopup = ({ onClose, editingId, onCall, onToast, component }) => {
 
   const handlePayment = async () => {
     try {
-      const response = await fetchData(
-        `/api/saveAdditionalData`,'post',
+      await fetchData(
+        `/api/saveAdditionalData`,
+        'post',
         {
           transactionId: transactionId,
           note: note,

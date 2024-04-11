@@ -12,7 +12,6 @@ function ImgComponent({ onFileUpload, imageUrl }) {
     const file = event.target.files[0];
     const blob = new Blob([file], { type: file.type });
     const url = URL.createObjectURL(blob);
-
     setPreview(url);
 
     try {

@@ -43,7 +43,6 @@ const Reviews = React.lazy(() => import('./views/pages/reviews/Reviews'))
 const Support = React.lazy(() => import('./views/pages/support/Support'))
 const SupportMessages = React.lazy(() => import('./views/pages/support/TicketMessages'))
 //Store
-const Store = React.lazy(() => import('./views/pages/store/Store'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },

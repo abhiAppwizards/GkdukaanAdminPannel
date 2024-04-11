@@ -83,7 +83,6 @@ const PopupBox = ({ onClose, editingId, onCall, component }) => {
     return options
   }
 
-
   useEffect(() => {
     if (component === 'attribute') {
       getAllAttributes()
@@ -106,18 +105,15 @@ const PopupBox = ({ onClose, editingId, onCall, component }) => {
           payload.categories_id = selectedCategory.value
         }
 
-        const response = await fetchData(`/admin/attributes/${editingId}`, 'put', payload)
+        await fetchData(`/admin/attributes/${editingId}`, 'put', payload)
         onCall()
         onClose()
         setSelectedCategory('')
       } else {
-        const response = await fetchData(
-          `/admin/categories/${editingId}`,'put',
-          {
-            title: title,
-            description: description,
-          }
-        )
+        await fetchData(`/admin/categories/${editingId}`, 'put', {
+          title: title,
+          description: description,
+        })
         onCall()
         onClose()
         setSelectedCategory('')
@@ -132,7 +128,10 @@ const PopupBox = ({ onClose, editingId, onCall, component }) => {
       <div className="bg-white p-8 rounded shadow-md w-96">
         <h2 className="text-lg font-semibold mb-4">Edit Your Data...</h2>
         <div className="mb-4">
-          <label className="block mb-1">{component === 'attribute' && `Attribute Name` || component === 'category' && `Category Name` }</label>
+          <label className="block mb-1">
+            {(component === 'attribute' && `Attribute Name`) ||
+              (component === 'category' && `Category Name`)}
+          </label>
           <input
             type="text"
             name="name"

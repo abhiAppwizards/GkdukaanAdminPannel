@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import VendorPopup from './vendorPopup'
-import { toast, ToastContainer } from 'react-toastify'
+import {  ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { CSpinner } from '@coreui/react'
 import useApi from 'src/api'

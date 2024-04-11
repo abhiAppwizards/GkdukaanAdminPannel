@@ -94,7 +94,7 @@ function MultiSelectorDropdown({ onSelectData, getHomeData }) {
 
 MultiSelectorDropdown.propTypes = {
   onSelectData: PropTypes.func.isRequired,
-  getHomeData: PropTypes.func.isRequired,
+  getHomeData: PropTypes.object.isRequired,
 }
 
 export default MultiSelectorDropdown

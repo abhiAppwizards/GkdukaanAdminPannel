@@ -1,7 +1,6 @@
-import React, { useEffect, Suspense } from 'react'
+import React, { Suspense } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { CSpinner, useColorModes } from '@coreui/react'
+import { CSpinner } from '@coreui/react'
 import './scss/style.scss'
 
 // const loading = (

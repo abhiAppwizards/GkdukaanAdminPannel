@@ -18,8 +18,7 @@ const Home = () => {
   const [topSliderUploadFileIds, setTopSliderUploadedFileIds] = useState({})
   const [topBannerUploadFileIds, setTopBannerUploadedFileIds] = useState({})
   const [secondBannerUploadFileIds, setSecondBannerUploadedFileIds] = useState({})
-  const [selectedProData, setSelectedProData] = useState([])
-  const { loading, setLoading, error, fetchData } = useApi()
+  const { loading, setLoading, fetchData } = useApi()
   const [getHomeData, setHomeData] = useState([])
 
   useEffect(() => {

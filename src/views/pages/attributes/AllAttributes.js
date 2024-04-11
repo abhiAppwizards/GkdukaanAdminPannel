@@ -77,7 +77,7 @@ const AllAttributes = () => {
   const handleSubmit = async () => {
     setLoading(true)
     try {
-      const res = await fetchData(`/admin/attributes`, 'post', {
+      await fetchData(`/admin/attributes`, 'post', {
         name: formData.title,
         type: selectedType.value,
         values: formData.values,
