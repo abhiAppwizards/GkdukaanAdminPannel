@@ -179,6 +179,7 @@ function Reviews() {
                         value={productStatuses[product._id] || product.status}
                         onChange={(e) => handleStatusChange(e, product._id)}
                       >
+                        <option value="Pending">Pending</option>
                         <option value="Approved">Approved</option>
                         <option value="Rejected">Rejected</option>
                       </select>
