@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import VendorPopup from './vendorPopup'
-import {  ToastContainer } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { CSpinner } from '@coreui/react'
 import useApi from 'src/api'
@@ -22,7 +22,7 @@ const AllVendors = ({}) => {
 
   const AllVendors = async () => {
     try {
-      const response = await fetchData(`/admin/vendor`,'get')
+      const response = await fetchData(`/admin/vendor`, 'get')
       setVendores(response)
       setIsFetching(false)
     } catch (error) {
@@ -148,7 +148,11 @@ const AllVendors = ({}) => {
                     </th>
                     <td className="text-center">
                       <div className="flex justify-center items-center rtl:space-x-reverse">
-                        <span className="inline-block px-3 text-center py-1.5 rounded bg-red-600 text-xs whitespace-nowrap relative font-medium text-dark bg-accent bg-opacity-10 !text-accent capitalize">
+                        <span
+                          className={`inline-block px-3 text-center py-1.5 rounded text-xs whitespace-nowrap relative font-medium   ${
+                            vendor.account_status === 'active' ? 'bg-green-600' : 'bg-red-600'
+                          } text-dark bg-accent bg-opacity-10 !text-accent capitalize`}
+                        >
                           {vendor.account_status}
                         </span>
                       </div>

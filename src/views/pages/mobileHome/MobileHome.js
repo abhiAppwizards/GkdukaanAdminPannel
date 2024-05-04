@@ -137,7 +137,7 @@ const Home = () => {
         url: item.url,
       }))
 
-      const response = await fetchData(`/admin/home`, 'post', {
+      const response = await fetchData(`/admin/mobile/home`, 'post', {
         top_slider: formattedTopSlider,
         top_banner: formattedTopBanner,
         categories_slider: categorySliderId,
@@ -152,10 +152,11 @@ const Home = () => {
 
   const getAllData = async () => {
     try {
-      const res = await fetchData('/admin/home', 'get')
-      setHomeData(res[0])
-      if (res && res.length > 0) {
-        const { top_slider, top_banner, categories_slider, second_banner, top_products } = res[0]
+      const res = await fetchData('/admin/mobile/home', 'get')
+      console.log('res...',res)
+      setHomeData(res.homeMobileData[0])
+      if (res && res.homeMobileData.length > 0) {
+        const { top_slider, top_banner, categories_slider, second_banner, top_products } = res.homeMobileData[0]
         setTopSlider(top_slider || [])
         setTopBanner(top_banner || [])
         setCategorySliderId(categories_slider || [])

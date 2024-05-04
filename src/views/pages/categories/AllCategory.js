@@ -3,6 +3,8 @@ import PopupBox from '../attributes/Popup'
 import AddCategory from './AddCategory'
 import { CSpinner } from '@coreui/react'
 import useApi from 'src/api'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const AllCategory = () => {
   const [currentPage, setCurrentPage] = useState(1)
@@ -11,8 +13,21 @@ const AllCategory = () => {
   const [isFetching, setIsFetching] = useState(true)
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [editingId, setEditingId] = useState(null)
+  const [message, setMessage] = useState()
 
   const { fetchData } = useApi()
+
+  const showMessageInToast = (newMessage) => {
+    console.log('newMessage',newMessage)
+    setMessage(newMessage);
+    toast.success(newMessage); 
+  };
+  console.log('message',message)
+
+
+  // useEffect(() => {
+  //   showMessageInToast(); 
+  // }, [message]);
 
   const categoriesPerPage = 1
 
@@ -29,6 +44,13 @@ const AllCategory = () => {
       console.log(error)
     }
   }
+  const showMessage = () => {
+    toast.success({message})
+  }
+
+  useEffect(() =>{
+    showMessage()
+  },[])
 
   const handleAddCategory = () => {
     fetchCategories()
@@ -185,6 +207,8 @@ const AllCategory = () => {
 
   return (
     <div className="">
+
+      <ToastContainer />
       <div className="rounded bg-white p-4 shadow md:p-8 mb-8 flex flex-row items-center justify-between">
         <div className="md:w-1/4">
           <h2 className=" relative text-lg font-semibold text-heading ">All Categories</h2>
@@ -199,7 +223,7 @@ const AllCategory = () => {
         </div>
       </div>
 
-      {show && <AddCategory onCall={handleAddCategory} setShow={setShow}/>}
+      {show && <AddCategory onCall={handleAddCategory} setShow={setShow} setMessageInParent={showMessageInToast}/>}
 
       <div className="mb-8 rounded-lg bg-white bg-light -3 md:p-8">
         <h1 className="font-bold text-xl mb-4"> Your All categories:-</h1>

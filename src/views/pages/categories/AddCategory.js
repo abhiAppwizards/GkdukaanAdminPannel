@@ -6,13 +6,13 @@ import PropTypes from 'prop-types'
 import ImgComponent from '../Home/ImgComponent'
 import useApi from 'src/api'
 
-function AddCategory({ onCall, setShow }) {
+function AddCategory({ onCall, setShow, setMessageInParent }) {
   const [loading, setLoading] = useState(false)
   const [categories, setCategories] = useState([])
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  const [message, setMessage] = useState('')
+  // const [message, setMessage] = useState('')
   const [uploadedId, setUploadedId] = useState({})
 
   const { fetchData } = useApi()
@@ -46,22 +46,23 @@ function AddCategory({ onCall, setShow }) {
 
       await fetchData(`/admin/categories`, 'post', requestData)
       setShow(false)
-      toast.success('Form submitted successfully')
-      setMessage('Form submitted successfully')
+      const message = 'Data saved successfully'
+      setMessageInParent(message);
       onCall()
       AllCategory()
       setTitle('')
       setUploadedId('')
       setDescription('')
-      setTimeout(() => {
-        setMessage('')
-      }, 1000)
+      // setTimeout(() => {
+      //   setMessageInParent('')
+      // }, 1000)
+
     } catch (error) {
       toast.error('Failed to submit form')
-      setMessage('Failed to submit form')
-      setTimeout(() => {
-        setMessage('')
-      }, 1000)
+      // setMessage('Failed to submit form')
+      // setTimeout(() => {
+      //   setMessage('')
+      // }, 1000)
     } finally {
       setLoading(false)
     }
@@ -100,7 +101,7 @@ function AddCategory({ onCall, setShow }) {
       <ToastContainer />
       <div>
         <div className="rounded p-4 shadow md:p-8 mb-8 bg-white justify-between">
-          {message && (
+          {/* {message && (
             <div
               className={
                 message === 'Failed to submit form'
@@ -110,7 +111,7 @@ function AddCategory({ onCall, setShow }) {
             >
               {message}
             </div>
-          )}
+          )} */}
           <div className="border w-full mt-4 p-2 rounded-md">
             <table className="table-auto">
               <tbody>
@@ -194,6 +195,7 @@ function AddCategory({ onCall, setShow }) {
 AddCategory.propTypes = {
   onCall: PropTypes.func.isRequired,
   setShow: PropTypes.bool.isRequired,
+  setMessageInParent: PropTypes.func.isRequired,
 }
 
 export default AddCategory

@@ -152,6 +152,7 @@ const Home = () => {
   const getAllData = async () => {
     try {
       const res = await fetchData('/admin/home', 'get')
+      console.log('home data',res)
       setHomeData(res[0])
       if (res && res.length > 0) {
         const { top_slider, top_banner, categories_slider, second_banner, top_products } = res[0]
@@ -180,10 +181,19 @@ const Home = () => {
           <div className="rounded bg-white p-4 shadow md:p-8 mb-8 ">
             <h2 className=" relative text-lg font-semibold text-heading ">Top Slider Section</h2>
             {topSlider.map((item, index) => {
+              let imageSize;
+              if (index === 0) {
+                  imageSize = '921x691';
+              } else if (index === 1) {
+                  imageSize = '921x339';
+              } else if (index === 2) {
+                  imageSize = '921x339';
+              }
               // console.log('item....',item)
               return (
                 <div key={index} className="mt-8 flex justify-evenly items-center">
-                  <h1 className="font-semibold">Image 1</h1>
+                  <h1 className="font-semibold">Image {index +1}  </h1>
+                 
                   {item.media_id && item.media_id.url && (
                     <ImgComponent
                       imageUrl={item.media_id?.url}
@@ -205,6 +215,7 @@ const Home = () => {
                     value={item.link || ''}
                     name="link"
                   />
+                   <span className="font-semibold  text-gray-400 text-sm ">img size {imageSize}</span>
                 </div>
               )
             })}
@@ -213,9 +224,17 @@ const Home = () => {
           <div className="rounded bg-white p-4 shadow md:p-8 mb-8 ">
             <h2 className=" relative text-lg font-semibold text-heading ">Top Banner</h2>
             {topBanner.map((item, index) => {
+              let imageSize;
+              if (index === 0) {
+                  imageSize = '645x368';
+              } else if (index === 1) {
+                  imageSize = '315x368';
+              } else if (index === 2) {
+                  imageSize = '315x368';
+              }
               return (
                 <div key={index} className="mt-8 flex justify-evenly items-center">
-                  <h1 className="font-semibold">Image 1</h1>
+                  <h1 className="font-semibold">Image {index +1}</h1>
                   {item.media_id && item.media_id.url && (
                     <ImgComponent
                       imageUrl={item.media_id.url}
@@ -237,6 +256,8 @@ const Home = () => {
                     value={item.link || ''}
                     name="link"
                   />
+                  <span className="font-semibold  text-gray-400 text-sm ">img size {imageSize}</span>
+
                 </div>
               )
             })}
@@ -246,7 +267,10 @@ const Home = () => {
             <h2 className=" relative text-lg font-semibold text-heading ">
               Categories Slider Section
             </h2>
-            <MultiSelectorDropdown onSelectData={handleSelectedDataChange} getHomeData={getHomeData} />
+            <MultiSelectorDropdown
+              onSelectData={handleSelectedDataChange}
+              getHomeData={getHomeData}
+            />
           </div>
           {/* Second  banner */}
           <div className="rounded bg-white p-4 shadow md:p-8 mb-8 ">
@@ -254,7 +278,7 @@ const Home = () => {
             {secondBanner.map((item, index) => {
               return (
                 <div key={index} className="mt-8 flex justify-evenly items-center">
-                  <h1 className="font-semibold">Image 1</h1>
+                  <h1 className="font-semibold">Image {index +1}</h1>
                   {item.media_id && item.media_id.url && (
                     <ImgComponent
                       imageUrl={item.media_id.url}
@@ -298,7 +322,10 @@ const Home = () => {
             {sections.map((section, index) => (
               <>
                 <div className=" mt-4 border rounded p-2 relative">
-                  <button className='border rounded bg-red-500 absolute top-0 right-0 hover:bg-red-300 p-1' onClick={() => handleRemoveSection(index)}>
+                  <button
+                    className="border rounded bg-red-500 absolute top-0 right-0 hover:bg-red-300 p-1"
+                    onClick={() => handleRemoveSection(index)}
+                  >
                     <FaTimes />
                   </button>
                   <MultiSelectorProductDropdown

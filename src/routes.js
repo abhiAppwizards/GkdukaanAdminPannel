@@ -26,6 +26,9 @@ const AllVendors = React.lazy(()=> import('./views/pages/vendors/AllVendors'))
 //Attributes
 const AllAttributes = React.lazy(() => import('./views/pages/attributes/AllAttributes'))
 
+//All Products
+const AllProducts = React.lazy(() => import('./views/pages/products/AllProducts'))
+
 //rto
 const RtoOrders = React.lazy(() => import('./views/pages/rtoorders/RtoOrders'))
 //Payments
@@ -87,6 +90,8 @@ const routes = [
   { path: '/reviews', name: 'Reviews', element: Reviews },
   //Attributes
   { path: '/attributes', name: 'Attributes ', element: AllAttributes },
+  //Attributes
+  { path: '/allproducts', name: 'Products ', element: AllProducts },
   //Support
   { path: '/support', name: 'Support', element: Support },
   { path: '/support/messages/:id', name: 'Messages', element: SupportMessages },

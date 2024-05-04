@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
   CButton,
   CCard,
@@ -10,20 +10,20 @@ import {
   CInputGroup,
   CInputGroupText,
   CRow,
-} from '@coreui/react';
-import { cilUser } from '@coreui/icons';
-import CIcon from '@coreui/icons-react';
-import config from 'src/config';
-import { useNavigate } from 'react-router-dom';
+} from '@coreui/react'
+import { cilUser } from '@coreui/icons'
+import CIcon from '@coreui/icons-react'
+import config from 'src/config'
+import { useNavigate } from 'react-router-dom'
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const [email, setEmail] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const navigate = useNavigate()
 
   const handleForgotPassword = () => {
-    setLoading(true);
+    setLoading(true)
     fetch(`${config.baseURL}/admin/auth/forgot-password`, {
       method: 'POST',
       headers: {
@@ -34,23 +34,25 @@ const ForgotPassword = () => {
       }),
     })
       .then((response) => {
+        console.log('response', response)
         if (response.ok) {
-          return response.json();
+          return response.json()
         } else {
-          throw new Error('Failed to reset password');
+          console.log('error', error)
+          throw new Error('Please Fill Correct Email', error)
         }
       })
       .then((data) => {
-        console.log(data);
-        setLoading(false);
-        navigate('/reset-password');
+        console.log(data)
+        setLoading(false)
+        navigate('/reset-password')
       })
       .catch((error) => {
-        console.error('Forgot password error:', error);
-        setLoading(false);
-        setError(error.message);
-      });
-  };
+        console.error(error)
+        setLoading(false)
+        setError(error.message)
+      })
+  }
 
   return (
     <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
@@ -93,7 +95,7 @@ const ForgotPassword = () => {
         </CRow>
       </CContainer>
     </div>
-  );
-};
+  )
+}
 
-export default ForgotPassword;
+export default ForgotPassword

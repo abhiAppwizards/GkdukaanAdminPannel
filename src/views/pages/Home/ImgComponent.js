@@ -5,7 +5,6 @@ import useApi from 'src/api';
 
 function ImgComponent({ onFileUpload, imageUrl }) {
   const [preview, setPreview] = useState(imageUrl);
-
   const { loading, setLoading, fetchData } = useApi();
 
   const handleChange = async (event) => {
@@ -32,7 +31,7 @@ function ImgComponent({ onFileUpload, imageUrl }) {
       <div className="flex flex-col items-center justify-center w-full h-24 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer hover:bg-gray-100">
         {!loading && preview ? (
           <div className="w-full h-full overflow-hidden rounded-lg">
-            <img src={preview} alt="Preview" className="w-60 h-full object-cover" />
+            <img src={preview} alt="Preview" className="w-60 h-40 object-cover" /> {/* Fixed size: w-60 h-40 */}
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center">
@@ -72,7 +71,7 @@ function ImgComponent({ onFileUpload, imageUrl }) {
 
 ImgComponent.propTypes = {
   onFileUpload: PropTypes.func.isRequired,
-  imageUrl: PropTypes.string, 
+  imageUrl: PropTypes.string,
 };
 
 export default ImgComponent;

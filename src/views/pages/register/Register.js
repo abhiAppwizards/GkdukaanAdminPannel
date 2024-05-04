@@ -19,6 +19,8 @@ import { useNavigate } from 'react-router-dom'
 import config from 'src/config'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { FaPhone } from 'react-icons/fa'
+
 
 const Register = () => {
   const navigate = useNavigate()
@@ -161,7 +163,9 @@ const Register = () => {
                       />
                     </CInputGroup>
                     <CInputGroup className="mb-3">
-                      <CInputGroupText>#</CInputGroupText>
+                      <CInputGroupText>
+                        <FaPhone />
+                      </CInputGroupText>
                       <CFormInput
                         placeholder="Phone Number"
                         autoComplete="phoneNumber"

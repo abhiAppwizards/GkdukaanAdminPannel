@@ -23,11 +23,9 @@ const ResetPassword = () => {
   const [password, setPassword] = useState('');
   const [otp, setOtp] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  // const [loading,setLoading]= useState(false)
   const navigate = useNavigate(); 
 
   const handleResetPassword = () => {
-    // setLoading(true)
     if (password !== confirmPassword) {
       toast.error('Passwords not matched');
       return;
@@ -43,15 +41,20 @@ const ResetPassword = () => {
         otp: otp.toString(),
       }),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        navigate('/login'); 
-        // setLoading(false)
-      })
+    .then((response) => {
+      console.log('response.....msg',response)
+      if (response.ok) {
+        return response.json();
+      } else {
+        console.log(response)
+        throw new Error(response);
+      }
+    })
+    .then((data) => {
+      navigate('/login');
+    })
       .catch((error) => {
-        // console.error('Reset password error:', error);
         toast.error(error.message)
-        // setLoading(false)
       });
   };
 

@@ -193,6 +193,12 @@ const _nav = [
       // },
     ],
   },
+  {
+    component: CNavItem,
+    name: 'All Products',
+    to: '/allproducts',
+    icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
+  },
 ]
 
 export default _nav

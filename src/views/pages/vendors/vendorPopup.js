@@ -27,6 +27,7 @@ const VendorPopup = ({ onClose, editingId, onCall, onToast, component }) => {
   ]
 
   const handleApprovelChange = (selectedOption) => {
+    console.log('selectedOption',selectedOption)
     setApprovel(selectedOption.value)
   }
 
